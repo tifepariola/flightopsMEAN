@@ -1,0 +1,47 @@
+<app-header></app-header>
+<div class="container">
+  <div class="columns">
+    <div class="column is-3">
+      <app-side-nav></app-side-nav>
+    </div>
+    <div class="column is-9">
+      <h3 class="title is-pulled-left">Aircrafts Overview</h3>
+      <button class="button is-primary is-outlined is-pulled-right">Add Aircraft</button>
+      <table class="table is-fullwidth">
+        <thead>
+          <th></th>
+          <th>Upcoming Movement</th>
+          <th>Current Status</th>
+          <th>Hours until service</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <a routerLink="/admin/aircraft">
+                <img src="https://via.placeholder.com/90x90.png?text=Visit+WhoIsHostingThis.com" class="aircraft-img"
+                  alt="">
+              </a>
+            </td>
+            <td>
+                <a routerLink="/admin/aircraft">
+              EPPS -> EPPL
+                </a>
+              </td>
+            <td>
+              Live Leg
+            </td>
+            <td>4</td>
+          </tr>
+          <tr>
+            <td><img src="https://via.placeholder.com/120x90.png?text=Visit+WhoIsHostingThis.com" class="aircraft-img"
+                alt=""></td>
+            <td>Live Leg</td>
+            <td>EPPS -> EPPL</td>
+            <td>4</td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="button is-link" (click)="logout()">Logout</button>
+    </div>
+  </div>
+</div>

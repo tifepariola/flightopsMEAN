@@ -1,0 +1,40 @@
+<app-header></app-header>
+<div class="container">
+  <div class="columns">
+    <div class="column is-3">
+      <app-side-nav></app-side-nav>
+    </div>
+    <div class="column is-9">
+      <h3 class="title is-pulled-left">Movements Overview</h3>
+      <table class="table is-fullwidth">
+        <thead>
+          <th>Flight ID</th>
+          <th>Aircraft ID</th>
+          <th>PIC & FO</th>
+          <th>Origin/Destination</th>
+          <th>Off Block & On Block</th>
+          <th>Sales Link</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <a routerLink="/admin/crew">
+                3284
+              </a>
+            </td>
+            <td>
+                392442
+              </td>
+            <td>
+              PIC
+            </td>
+            <td>EPPL/EPPS</td>
+            <td>Off Block</td>
+            <td><a href="#">Link</a></td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="button is-link" (click)="logout()">Logout</button>
+    </div>
+  </div>
+</div>

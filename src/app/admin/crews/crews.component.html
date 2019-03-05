@@ -1,0 +1,37 @@
+<app-header></app-header>
+<div class="container">
+  <div class="columns">
+    <div class="column is-3">
+      <app-side-nav></app-side-nav>
+    </div>
+    <div class="column is-9">
+      <h3 class="title is-pulled-left">Crews</h3>
+      <table class="table is-fullwidth">
+        <thead>
+          <th></th>
+          <th>Upcoming Movement</th>
+          <th>Current Status</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <a routerLink="/admin/crew">
+                <img src="https://via.placeholder.com/90x90.png?text=Visit+WhoIsHostingThis.com" class="crew-img"
+                  alt="">
+              </a>
+            </td>
+            <td>
+                <a routerLink="/admin/crew">
+              EPPS -> EPPL
+                </a>
+              </td>
+            <td>
+              On-duty
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="button is-link" (click)="logout()">Logout</button>
+    </div>
+  </div>
+</div>

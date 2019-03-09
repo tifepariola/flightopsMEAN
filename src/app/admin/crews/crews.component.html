@@ -6,6 +6,7 @@
     </div>
     <div class="column is-9">
       <h3 class="title is-pulled-left">Crews</h3>
+      <button class="button is-primary is-outlined is-pulled-right" id="btn-add-crew">Add Crew</button>
       <table class="table is-fullwidth">
         <thead>
           <th></th>
@@ -21,16 +22,141 @@
               </a>
             </td>
             <td>
-                <a routerLink="/admin/crew">
-              EPPS -> EPPL
-                </a>
-              </td>
+              <a routerLink="/admin/crew">
+                EPPS -> EPPL
+              </a>
+            </td>
             <td>
               On-duty
             </td>
           </tr>
         </tbody>
       </table>
+      <div class="modal" id="add-crew">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Add Crew</p>
+            <button class="delete" aria-label="close"></button>
+          </header>
+          <section class="modal-card-body">
+            <div class="field">
+              <label class="label">Name</label>
+              <div class="control">
+                <input class="input" type="text" placeholder="">
+              </div>
+            </div>
+            <div class="columns">
+              <div class="column is-8">
+                <div class="field">
+                  <label class="label">Photo</label>
+                  <div class="control">
+                    <div class="file has-name">
+                      <label class="file-label">
+                        <input class="file-input" type="file" name="resume">
+                        <span class="file-cta">
+                          <span class="file-icon">
+                            <i class="fas fa-upload"></i>
+                          </span>
+                          <span class="file-label">
+                            Choose an image…
+                          </span>
+                        </span>
+                        <span class="file-name">
+                          .jpg, .png, .gif
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="column is-4">
+                <div class="field">
+                  <label class="label">Occupation</label>
+                  <div class="control">
+                    <div class="select">
+                      <select>
+                        <option></option>
+                        <option>Options</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="columns">
+              <div class="column is-6">
+                <div class="field">
+                  <label class="label">Primary Email</label>
+                  <div class="control">
+                    <input class="input" type="text" placeholder="">
+                  </div>
+                </div>
+              </div>
+              <div class="column is-6">
+                <div class="field">
+                  <label class="label">Secondary Email</label>
+                  <div class="control">
+                    <input class="input" type="text" placeholder="">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="columns">
+              <div class="column is-6">
+                <div class="field">
+                  <label class="label">Primary Phone Number</label>
+                  <div class="control">
+                    <input class="input" type="text" placeholder="">
+                  </div>
+                </div>
+              </div>
+              <div class="column is-6">
+                <div class="field">
+                  <label class="label">Secondary Phone Number</label>
+                  <div class="control">
+                    <input class="input" type="text" placeholder="">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="columns">
+              <div class="column is-5">
+                <div class="field">
+                  <label class="label">Licence</label>
+                  <div class="control">
+                    <input class="input" type="text" placeholder="">
+                  </div>
+                </div>
+              </div>
+              <div class="column is-5">
+                <div class="field">
+                  <label class="label">Expiry Date</label>
+                  <div class="control">
+                    <input class="input" type="text" placeholder="">
+                  </div>
+                </div>
+              </div>
+              <div class="column is-2">
+                <div class="field">
+                  <label class="label">&nbsp;</label>
+                  <div class="control">
+                    <button class="button is-success">+</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+          </section>
+          <footer class="modal-card-foot">
+            <button class="button is-success">Add</button>
+            <button class="button">Cancel</button>
+          </footer>
+        </div>
+      </div>
       <button class="button is-link" (click)="logout()">Logout</button>
     </div>
   </div>

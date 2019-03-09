@@ -1,3 +1,104 @@
-<p>
-  movement works!
-</p>
+<app-header></app-header>
+<div class="container">
+  <div class="columns">
+    <div class="column is-3">
+      <app-side-nav></app-side-nav>
+    </div>
+    <div class="column is-9">
+      <div class="notification is-primary has-text-centered">
+        <h4 class="title is-size-5">On Duty</h4>
+      </div>
+      <div class="columns is-mobile is-multiline">
+        <div class="column is-5">
+          <span class="header-icon user-profile-image">
+            <img src="http://placehold.it/300x225" alt="">
+          </span>
+          <div class="columns">
+            <div class="column is-6">
+
+              <span class="header-icon user-profile-image">
+                <img src="http://placehold.it/300x225" alt="">
+              </span>
+            </div>
+            <div class="column is-6">
+
+              <span class="header-icon user-profile-image">
+                <img src="http://placehold.it/300x225" alt="">
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="column is-7">
+
+        </div>
+        <div class="column is-5">
+          <div class="field has-addons">
+            <div class="control">
+              <input class="input" type="text" placeholder="Off-Block">
+            </div>
+            <div class="control">
+              <a class="button is-info">
+                Save
+              </a>
+            </div>
+          </div>
+          <div class="field has-addons">
+            <div class="control">
+              <input class="input" type="text" placeholder="Take off">
+            </div>
+            <div class="control">
+              <a class="button is-info">
+                Save
+              </a>
+            </div>
+          </div>
+          <div class="field has-addons">
+            <div class="control">
+              <input class="input" type="text" placeholder="Landing">
+            </div>
+            <div class="control">
+              <a class="button is-info">
+                Save
+              </a>
+            </div>
+          </div>
+          <div class="field has-addons">
+            <div class="control">
+              <input class="input" type="text" placeholder="On-Block">
+            </div>
+            <div class="control">
+              <a class="button is-info">
+                Save
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="column is-7">
+          <div class="columns">
+            <div class="column is-6">
+              <h3 class="title is-size-6">Notes (Operations):</h3>
+              <div class="field">
+                <div class="control">
+                  <textarea name="operation-note" class="textarea" id="operation-note"></textarea>
+                </div>
+              </div>
+              <button class="button is-link">Save</button>
+
+            </div>
+            <div class="column is-6">
+              <h3 class="title is-size-6">Notes (Flight Crew)</h3>
+              <div class="field">
+                <div class="control">
+                  <textarea name="crew-note" class="textarea" id="crew-note"></textarea>
+                </div>
+              </div>
+              <button class="button is-link">Save</button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="button is-link" (click)="logout()">Logout</button>
+    </div>
+  </div>
+</div>

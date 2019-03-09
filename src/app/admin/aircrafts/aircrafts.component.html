@@ -6,7 +6,7 @@
     </div>
     <div class="column is-9">
       <h3 class="title is-pulled-left">Aircrafts Overview</h3>
-      <button class="button is-primary is-outlined is-pulled-right">Add Aircraft</button>
+      <button class="button is-primary is-outlined is-pulled-right" id="btn-add-aircraft">Add Aircraft</button>
       <table class="table is-fullwidth">
         <thead>
           <th></th>
@@ -23,10 +23,10 @@
               </a>
             </td>
             <td>
-                <a routerLink="/admin/aircraft">
-              EPPS -> EPPL
-                </a>
-              </td>
+              <a routerLink="/admin/aircraft">
+                EPPS -> EPPL
+              </a>
+            </td>
             <td>
               Live Leg
             </td>
@@ -41,6 +41,74 @@
           </tr>
         </tbody>
       </table>
+      <div class="modal" id="add-aircraft">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Add Aircraft</p>
+            <button class="delete" aria-label="close"></button>
+          </header>
+          <section class="modal-card-body">
+            <div class="field">
+              <label class="label">Registration</label>
+              <div class="control">
+                <input class="input" type="text" placeholder="">
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Photo</label>
+              <div class="control">
+                <div class="file has-name">
+                  <label class="file-label">
+                    <input class="file-input" type="file" name="resume">
+                    <span class="file-cta">
+                      <span class="file-icon">
+                        <i class="fas fa-upload"></i>
+                      </span>
+                      <span class="file-label">
+                        Choose an image…
+                      </span>
+                    </span>
+                    <span class="file-name">
+                      .jpg, .png, .gif
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Max Take Off Weight</label>
+              <div class="control">
+                <input class="input" type="text" placeholder="">
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Max Fuel Capacity</label>
+              <div class="control">
+                <input class="input" type="text" placeholder="">
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Max PAX</label>
+              <div class="control">
+                <input class="input" type="text" placeholder="">
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Max Cargo</label>
+              <div class="control">
+                <input class="input" type="text" placeholder="">
+              </div>
+            </div>
+
+
+          </section>
+          <footer class="modal-card-foot">
+            <button class="button is-success">Add</button>
+            <button class="button">Cancel</button>
+          </footer>
+        </div>
+      </div>
       <button class="button is-link" (click)="logout()">Logout</button>
     </div>
   </div>

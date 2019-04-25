@@ -1,25 +1,22 @@
 const mongoose = require('mongoose');
 
 const DbSchema = new mongoose.Schema({
-  image_url: {
-    type: String,
-    required: true
-  },
+
   registration: {
     type: String,
     required: true
     // unique: true
   },
-  mtow: {
+  tow: {
     type: Number
   },
-  max_fuel: {
+  fuel: {
     type: Number
   },
-  max_pax: {
+  pax: {
     type: Number
   },
-  max_cargo: {
+  cargo: {
     type: Number
   }
 }, {
@@ -27,4 +24,4 @@ const DbSchema = new mongoose.Schema({
 });
 
 
-module.exports = mongoose.model('aircrafts', DbSchema);
+module.exports = mongoose.model('db', DbSchema);

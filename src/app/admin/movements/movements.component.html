@@ -8,33 +8,45 @@
       <h3 class="title is-pulled-left">Movements Overview</h3>
       <table class="table is-fullwidth">
         <thead>
-          <th>Flight ID</th>
+          <th>Movement ID</th>
           <th>Aircraft ID</th>
           <th>PIC & FO</th>
           <th>Origin/Destination</th>
-          <th>Off Block & On Block</th>
-          <th>Sales Link</th>
+          <th>Departure</th>
+          <th>Arrival</th>
+          <th>Briefing Pack</th>
         </thead>
         <tbody>
-          <tr>
+          <tr *ngFor="let movement of movements">
             <td>
-              <a routerLink="/admin/movement">
-                3284
+              <a routerLink="/admin/movement/{{movement._id}}">
+                {{movement._id}}
               </a>
             </td>
             <td>
-                392442
-              </td>
-            <td>
-              PIC
+              {{movement.aircraft}}
             </td>
-            <td>EPPL/EPPS</td>
-            <td>Off Block</td>
-            <td><a href="#">Link</a></td>
+            <td>
+              {{movement.pic_crew_name}} & {{movement.fo_crew_name}}
+            </td>
+            <td>
+              {{movement.departure_airport}} / {{movement.arrival_airport}}
+            </td>
+            <td>
+              {{ movement.departuretime*1000 | date :  "short" }}
+            </td>
+            <td>
+              {{movement.arrivaltime*1000 | date : "short"}}
+            </td>
+            <td>
+              <a (click)="download(movement.route)">Download</a> / 
+              <a routerLink="/admin/message-board">Crew Message Board</a> / 
+              <a routerLink="/admin/message-board">Handler Message Board</a>
+            </td>
           </tr>
         </tbody>
       </table>
-      <button class="button is-link" (click)="logout()">Logout</button>
     </div>
   </div>
 </div>
+<app-chat></app-chat>

@@ -4,130 +4,112 @@
     <div class="column is-3">
       <app-side-nav></app-side-nav>
     </div>
-    <div class="column is-9">
+    <div class="column is-9" *ngIf="crew">
       <div class="notification is-primary has-text-centered">
-        <h4 class="title is-size-5">On Duty</h4>
+          <h4 class="title is-size-5">{{status}}</h4>
+        
       </div>
       <div class="columns is-mobile is-multiline">
-        <div class="column is-5">
+        <div class="column is-3">
           <span class="header-icon user-profile-image">
-            <img src="http://placehold.it/300x225" alt="">
+            <img src="{{crew.img_url}}" alt="">
           </span>
         </div>
-        <div class="column is-7">
+        <div class="column is-9">
 
         </div>
         <div class="column is-5">
-          <span class="title is-bold is-pulled-left">Mr. John Pilot</span>
-          <a href="#" class="button is-primary is-outlined is-pulled-right">Manage Credentials</a>
+          <span class="title is-bold is-pulled-left">{{crew.name}}</span>
+          <button class="button is-primary is-outlined is-pulled-right" (click)="showAddLicence()"
+            id="btn-add-licence">Add Licence</button>
+          <table class="table is-fullwidth">
+            <thead>
+              <th>Licence</th>
+              <th>Expiry</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let licence of licences">
+                <td>{{licence.licence}}</td>
+                <td>{{licence.expiry}}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="modal" id="add-licence">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+              <form>
+                <header class="modal-card-head">
+                  <p class="modal-card-title">Add Licence</p>
+                  <button class="delete" aria-label="close" (click)="hideAddLicence()"></button>
+                </header>
+                <section class="modal-card-body">
+
+                  <div class="columns">
+                    <div class="column is-6">
+                      <div class="field">
+                        <label class="label">Licence</label>
+                        <div class="control">
+                          <input class="input" type="text" name="licence" [(ngModel)]="licence">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="column is-6">
+                      <div class="field">
+                        <label class="label">Expiry Date</label>
+                        <div class="control">
+                          <input class="input" type="text" name="expiry" [(ngModel)]="expiry">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+                </section>
+                <footer class="modal-card-foot">
+                  <button class="button is-success" id="addBtn" (click)="addLicence()">Add</button>
+                  <button class="button">Cancel</button>
+                </footer>
+              </form>
+            </div>
+          </div>
         </div>
         <div class="column is-7">
           <div class="columns">
             <div class="column is-6">
               <h3 class="title is-size-6">Upcoming Movements</h3>
-              <div class="box">
+              <div *ngFor="let schedule of schedule;  let i=index">
+                <div class="box" *ngIf="i<4 && schedule.departuretime*1000 > currentTime">
                 <article class="media">
                   <div class="media-content">
                     <div class="content has-text-centered	">
-                      <h5 class="is-marginless">EDDS -> EPPS</h5>
-                      <time datetime="2016-1-1">25-03-2015, 07:15z</time>
+                      <a routerLink="/admin/movement/{{schedule._id}}">
+                        <h5 class="is-marginless">{{schedule.departure_airport}} -> {{schedule.arrival_airport}}</h5>
+                      </a>
+                      <time datetime="2016-1-1">{{schedule.departuretime*1000 | date : "short"}}</time>
                     </div>
                   </div>
                 </article>
               </div>
-              <div class="box">
-                <article class="media">
-                  <div class="media-content">
-                    <div class="content has-text-centered	">
-                      <h5 class="is-marginless">EDDS -> EPPS</h5>
-                      <time datetime="2016-1-1">25-03-2015, 07:15z</time>
-                    </div>
-                  </div>
-                </article>
-              </div>
-              <div class="box">
-                <article class="media">
-                  <div class="media-content">
-                    <div class="content has-text-centered	">
-                      <h5 class="is-marginless">EDDS -> EPPS</h5>
-                      <time datetime="2016-1-1">25-03-2015, 07:15z</time>
-                    </div>
-                  </div>
-                </article>
-              </div>
-              <div class="box">
-                <article class="media">
-                  <div class="media-content">
-                    <div class="content has-text-centered	">
-                      <h5 class="is-marginless">EDDS -> EPPS</h5>
-                      <time datetime="2016-1-1">25-03-2015, 07:15z</time>
-                    </div>
-                  </div>
-                </article>
-              </div>
-              <div class="box">
-                <article class="media">
-                  <div class="media-content">
-                    <div class="content has-text-centered	">
-                      <h5 class="is-marginless">EDDS -> EPPS</h5>
-                      <time datetime="2016-1-1">25-03-2015, 07:15z</time>
-                    </div>
-                  </div>
-                </article>
-              </div>
+            </div>
 
             </div>
             <div class="column is-6">
               <h3 class="title is-size-6">Past Movements</h3>
-              <div class="box">
-                <article class="media">
-                  <div class="media-content">
-                    <div class="content has-text-centered	">
-                      <h5 class="is-marginless">EDDS -> EPPS</h5>
-                      <time datetime="2016-1-1">25-03-2015, 07:15z</time>
+              <div *ngFor="let schedule of schedule;  let i=index">
+                <div class="box" *ngIf="i<4 && schedule.departuretime*1000 < currentTime">
+                  <article class="media">
+                    <div class="media-content">
+                      <div class="content has-text-centered	">
+                        <a routerLink="/admin/movement/{{schedule._id}}">
+                          <h5 class="is-marginless">{{schedule.departure_airport}} -> {{schedule.arrival_airport}}</h5>
+                        </a>
+                        <time datetime="2016-1-1">{{schedule.departuretime*1000 | date : "short"}}</time>
+                      </div>
                     </div>
-                  </div>
-                </article>
-              </div>
-              <div class="box">
-                <article class="media">
-                  <div class="media-content">
-                    <div class="content has-text-centered	">
-                      <h5 class="is-marginless">EDDS -> EPPS</h5>
-                      <time datetime="2016-1-1">25-03-2015, 07:15z</time>
-                    </div>
-                  </div>
-                </article>
-              </div>
-              <div class="box">
-                <article class="media">
-                  <div class="media-content">
-                    <div class="content has-text-centered	">
-                      <h5 class="is-marginless">EDDS -> EPPS</h5>
-                      <time datetime="2016-1-1">25-03-2015, 07:15z</time>
-                    </div>
-                  </div>
-                </article>
-              </div>
-              <div class="box">
-                <article class="media">
-                  <div class="media-content">
-                    <div class="content has-text-centered	">
-                      <h5 class="is-marginless">EDDS -> EPPS</h5>
-                      <time datetime="2016-1-1">25-03-2015, 07:15z</time>
-                    </div>
-                  </div>
-                </article>
-              </div>
-              <div class="box">
-                <article class="media">
-                  <div class="media-content">
-                    <div class="content has-text-centered	">
-                      <h5 class="is-marginless">EDDS -> EPPS</h5>
-                      <time datetime="2016-1-1">25-03-2015, 07:15z</time>
-                    </div>
-                  </div>
-                </article>
+                  </article>
+                </div>
               </div>
 
             </div>
@@ -201,7 +183,7 @@
           </div>
         </div>
       </div>
-      <div [ngSwitch]="view">
+      <div [ngSwitch]="view" *ngIf="crew">
         <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events"
           [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)"
           (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
@@ -216,7 +198,7 @@
         </mwl-calendar-day-view>
       </div>
 
-      <button class="button is-link" (click)="logout()">Logout</button>
     </div>
   </div>
 </div>
+<app-chat></app-chat>

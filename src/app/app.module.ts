@@ -6,6 +6,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { SharedModule } from './shared/shared.module';
 import { AuthModule } from './auth/auth.module';
+import { FileUploadModule } from "ng2-file-upload";
 
 import { AppComponent } from './app.component';
 import { AdminModule } from './admin/admin.module';
@@ -26,6 +27,7 @@ import { ShellComponent } from './shell/shell.component';
     HttpClientModule,
     RouterModule,
     SharedModule,
+    FileUploadModule,
     AuthModule,
     AdminModule,
     AppRoutingModule,

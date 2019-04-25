@@ -10,6 +10,15 @@ import { CrewsComponent } from './crews/crews.component';
 import { CrewComponent } from './crew/crew.component';
 import { MovementsComponent } from './movements/movements.component';
 import { MovementComponent } from './movement/movement.component';
+import { SalesComponent } from './sales/sales.component';
+import { AddSalesComponent } from './add-sales/add-sales.component';
+import { NewFlightComponent } from './new-flight/new-flight.component';
+import { AirportsComponent } from './airports/airports.component';
+import { NewAirportComponent } from './new-airport/new-airport.component';
+import { HandlersComponent } from './handlers/handlers.component';
+import { NewHandlerComponent } from './new-handler/new-handler.component';
+import { SettingsComponent } from './settings/settings.component';
+import { MessageBoardComponent } from './message-board/message-board.component';
 
 const routes: Routes = [{
   path: 'admin',
@@ -27,15 +36,31 @@ const routes: Routes = [{
     component: AircraftsComponent
   },
   {
-    path: 'aircraft',
+    path: 'aircraft/:id',
     component: AircraftComponent
+  },
+  {
+    path: 'airports',
+    component: AirportsComponent
+  },
+  {
+    path: 'new-airport',
+    component: NewAirportComponent
+  },
+  {
+    path: 'handlers',
+    component: HandlersComponent
+  },
+  {
+    path: 'new-handler',
+    component: NewHandlerComponent
   },
   {
     path: 'crews',
     component: CrewsComponent
   },
   {
-    path: 'crew',
+    path: 'crew/:id',
     component: CrewComponent
   },
   {
@@ -43,8 +68,28 @@ const routes: Routes = [{
     component: MovementsComponent
   },
   {
-    path: 'movement',
+    path: 'movement/:id',
     component: MovementComponent
+  },
+  {
+    path: 'sales',
+    component: SalesComponent
+  },
+  {
+    path: 'add-sales',
+    component: AddSalesComponent
+  },
+  {
+    path: 'new-flight/:id',
+    component: NewFlightComponent
+  },
+  {
+    path: 'settings',
+    component: SettingsComponent
+  },
+  {
+    path: 'message-board',
+    component: MessageBoardComponent
   }]
 }];
 

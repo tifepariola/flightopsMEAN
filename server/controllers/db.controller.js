@@ -3,12 +3,11 @@ const Joi = require('joi');
 const Db = require('../models/db.model');
 
 const dbSchema = Joi.object({
-  image_url: Joi.string().required(),
   registration: Joi.string().required(),
-  mtow: Joi.number().allow('').optional(),
-  max_fuel: Joi.number().allow('').optional(),
-  max_pax: Joi.number().allow('').optional(),
-  max_cargo: Joi.number().allow('').optional()
+  tow: Joi.number().allow('').optional(),
+  fuel: Joi.number().allow('').optional(),
+  pax: Joi.number().allow('').optional(),
+  cargo: Joi.number().allow('').optional()
 })
 
 
@@ -16,7 +15,7 @@ module.exports = {
   insert
 }
 
-async function insert(user) {
-  user = await Joi.validate(user, dbSchema, { abortEarly: false, convert: true });
-  return await new Db(user).save();
+async function insert(aircraft) {
+  aircraft = await Joi.validate(aircraft, dbSchema, { abortEarly: false, convert: true });
+  return await new Db(aircraft).save();
 }

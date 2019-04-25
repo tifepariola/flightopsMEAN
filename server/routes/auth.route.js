@@ -3,6 +3,7 @@ const asyncHandler = require('express-async-handler')
 const passport = require('passport');
 const userCtrl = require('../controllers/user.controller');
 const authCtrl = require('../controllers/auth.controller');
+const User = require('../models/user.model');
 const config = require('../config/config');
 
 const router = express.Router();
@@ -11,6 +12,15 @@ module.exports = router;
 router.post('/register', asyncHandler(register), login);
 router.post('/login', passport.authenticate('local', { session: false }), login);
 router.get('/me', passport.authenticate('jwt', { session: false }), login);
+router.get('/fetch', function (req, res) {
+    User.find({}, function (err, users) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(users);
+        }
+    })
+});
 
 
 async function register(req, res, next) {

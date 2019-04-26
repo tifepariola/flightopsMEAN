@@ -51,17 +51,16 @@ export class MovementComponent implements OnInit {
   }
   getDepartAirport(): void {
     this.adminService.getAirport(this.movement.departure_airport).subscribe(data => {
-      console.log('paaic ', data.data)
+      console.log('depart airport ', data.data)
       this.departLat = data.data[0].latitude
       this.departLon = data.data[0].longitude
     })
   }
   getArriveAirport(): void {
     this.adminService.getAirport(this.movement.arrival_airport).subscribe(data => {
-      console.log('paaic ', data.data)
+      console.log('arrival airport ', data.data)
       this.arriveLat = data.data[0].latitude
       this.arriveLon = data.data[0].longitude
-      console.log('paaic ', this.arriveLat)
       if (this.arriveLat && this.departLat) {
         this.viewLat = (this.departLat + this.arriveLat) / 2
         this.viewLon = (this.departLon + this.arriveLon) / 2

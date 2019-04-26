@@ -21,7 +21,7 @@
                 <img src="{{airport.logo}}" class="aircraft-img" alt="">
             </td>
             <td>
-                {{airport.name}}
+                <a routerLink="/admin/airport/{{airport.iata_code}}">{{airport.name}}</a>
             </td>
             <td>{{airport.iata_code}}</td>
             <td>{{airport.phone_primary}}</td>

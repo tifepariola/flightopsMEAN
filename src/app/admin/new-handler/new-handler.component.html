@@ -9,7 +9,7 @@
 
       <form>
         <div class="columns">
-          <div class="column is-4">
+          <div class="column is-6">
             <div class="field">
               <label class="label">Name</label>
               <div class="control">
@@ -17,24 +17,11 @@
               </div>
             </div>
           </div>
-          <div class="column is-4">
+          <div class="column is-6">
             <div class="field">
               <label class="label">Logo URL</label>
               <div class="control">
                 <input class="input" type="text" name="logo" [(ngModel)]="logo">
-              </div>
-            </div>
-          </div>
-          <div class="column is-4">
-            <div class="field">
-              <label class="label">IATA Code</label>
-              <div class="control">
-                <div class="select">
-                  <select [(ngModel)]="iata_code" name="iata_code">
-                    <option>Airport</option>
-                    <option *ngFor="let airport of airports" [value]="airport.iata_code">{{airport.iata_code}}</option>
-                  </select>
-                </div>
               </div>
             </div>
           </div>

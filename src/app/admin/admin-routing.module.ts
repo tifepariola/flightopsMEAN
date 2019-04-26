@@ -18,7 +18,7 @@ import { NewAirportComponent } from './new-airport/new-airport.component';
 import { HandlersComponent } from './handlers/handlers.component';
 import { NewHandlerComponent } from './new-handler/new-handler.component';
 import { SettingsComponent } from './settings/settings.component';
-import { MessageBoardComponent } from './message-board/message-board.component';
+import { AirportComponent } from './airport/airport.component';
 
 const routes: Routes = [{
   path: 'admin',
@@ -52,7 +52,7 @@ const routes: Routes = [{
     component: HandlersComponent
   },
   {
-    path: 'new-handler',
+    path: 'new-handler/:id',
     component: NewHandlerComponent
   },
   {
@@ -88,8 +88,8 @@ const routes: Routes = [{
     component: SettingsComponent
   },
   {
-    path: 'message-board',
-    component: MessageBoardComponent
+    path: 'airport/:id',
+    component: AirportComponent
   }]
 }];
 

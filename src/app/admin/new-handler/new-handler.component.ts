@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as $ from 'jquery';
 import { AdminService } from '../admin.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-new-handler',
@@ -9,12 +10,12 @@ import { AdminService } from '../admin.service';
 })
 export class NewHandlerComponent implements OnInit {
   doRun: boolean;
+  id: any;
 
-  constructor(private adminService: AdminService) {}
+  constructor(private adminService: AdminService, private route: ActivatedRoute) {}
 
   airports: any;
   name: string;
-  iata_code: string;
   logo: string;
   phone_primary: string;
   phone_secondary: string;
@@ -36,13 +37,14 @@ export class NewHandlerComponent implements OnInit {
   sunday_close: string;
   ngOnInit() {
     this.doRun = true;
+    this.id = this.route.snapshot.paramMap.get("id")
     this.getAirports();
   }
   addHandler(): void {
     console.log('add start')
     $('#addBtn').addClass('is-loading');
     if (this.doRun === true) {
-      this.adminService.addHandler(this.name, this.iata_code, this.logo, this.phone_primary, this.phone_secondary, this.email_primary, this.email_secondary, this.monday_open, this.monday_close, this.tuesday_open, this.tuesday_close, this.wednesday_open, this.wednesday_close, this.thursday_open, this.thursday_close, this.friday_open, this.friday_close, this.saturday_open, this.saturday_close, this.sunday_open, this.sunday_close)
+      this.adminService.addHandler(this.name, this.id, this.logo, this.phone_primary, this.phone_secondary, this.email_primary, this.email_secondary, this.monday_open, this.monday_close, this.tuesday_open, this.tuesday_close, this.wednesday_open, this.wednesday_close, this.thursday_open, this.thursday_close, this.friday_open, this.friday_close, this.saturday_open, this.saturday_close, this.sunday_open, this.sunday_close)
       .subscribe(data => {
         console.log('Aircraft Added ', data)
         $('form').trigger("reset");

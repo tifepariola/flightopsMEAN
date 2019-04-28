@@ -54,6 +54,31 @@ router.post('/createRoute', function (req, res) {
             console.log(error);
         });
 });
+router.get('/fileFPL/:route', function (req, res) {
+    axios.post('https://api.autorouter.aero/v1.0/flightplan/file/' + req.params.route, {
+        "addresses": [],
+        "gfs": true,
+        "force": false,
+        "briefing": {}
+    })
+        .then(response => {
+            res.json(response.data);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+});
+router.get('/cancelFPL/:id', function (req, res) {
+    axios.post('https://api.autorouter.aero/v1.0/flightplan/file/' + req.params.id + '/cancel', {
+        "reason": ""
+    })
+        .then(response => {
+            res.json(response.data);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+});
 router.get('/longpoll/:route', function (req, res) {
     axios.put('https://api.autorouter.aero/v1.0/router/' + req.params.route + '/longpoll', {
         aircraftid: 0,

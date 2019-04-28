@@ -108,18 +108,18 @@ export class MovementComponent implements OnInit {
   addMessage(type): void {
     if (type === 'crew') {
       var message = this.crew_message
-      this.adminService.sendMail(this.pic.p_email, 'Message Board ' + this.id, message).subscribe(data => {
+      this.adminService.sendMail(this.pic.p_email, 'Message Board - Crew ' + this.id, message).subscribe(data => {
         console.log('pic mail ', data)
       })
-      this.adminService.sendMail(this.ops.p_email, 'Message Board ' + this.id, message).subscribe(data => {
+      this.adminService.sendMail(this.ops.p_email, 'Message Board - Crew ' + this.id, message).subscribe(data => {
         console.log('ops mail ', data)
       })
-      this.adminService.sendMail(this.fo.p_email, 'Message Board ' + this.id, message).subscribe(data => {
+      this.adminService.sendMail(this.fo.p_email, 'Message Board - Crew ' + this.id, message).subscribe(data => {
         console.log('fo mail ', data)
       })
     } else {
       var message = this.handler_message
-      this.adminService.sendMail(this.handler.email_primary, 'Message Board ' + this.id, message).subscribe(data => {
+      this.adminService.sendMail(this.handler.email_primary, 'Message Board - Handler ' + this.id, message).subscribe(data => {
         console.log('handler mail ', data)
       })
     }

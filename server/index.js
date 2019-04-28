@@ -46,20 +46,24 @@ if (!module.parent) {
   mailListener.on("mail", function (mail, seqno, attributes) {
     // do something with mail object including attachments
     console.log("emailParsed", mail.from[0].address);
-
-    User.find({ email: mail.from[0].address }, function (err, user) {
-      if (err) {
-        console.log(err);
-      } else {
-        body = {
-          route_id: mail.subject.replace('Re: Message Board ', ''),
-          message: mail.text,
-          usergroup: user[0].role
-        }
-        console.log(new Db(body).save())
-        console.log(user[0].role);
+    var subject = mail.subject.split(" ");
+    var role = subject[subject.length - 2];
+    if (role === 'Crew') {
+      body = {
+        route_id: subject[subject.length - 1],
+        message: mail.text,
+        usergroup: 'crew'
       }
-    })
+      console.log(new Db(body).save())
+    } else {
+
+      body = {
+        route_id: subject[subject.length - 1],
+        message: mail.text,
+        usergroup: 'handler'
+      }
+      console.log(new Db(body).save())
+    }
     // asyncHandler(insert)
     // async function insert() {
 

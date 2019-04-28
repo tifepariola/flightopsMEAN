@@ -66,6 +66,18 @@ router.get('/fetchFO/:fo', function (req, res) {
         }
     })
 });
+router.put('/updateFiled/:id', function (req, res) {
+    Route.findOne({ _id: req.params.id }, function (err, doc) {
+        doc.filed = req.body.filed;
+        // // doc.visits.$inc();
+        doc.save();
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(doc);
+        }
+    });
+});
 
 
 

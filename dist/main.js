@@ -1191,6 +1191,35 @@ var AdminService = /** @class */ (function () {
             });
         });
     };
+    AdminService.prototype.updateFiled = function (id, filed) {
+        var _this = this;
+        return rxjs_Observable__WEBPACK_IMPORTED_MODULE_2__["Observable"].create(function (observer) {
+            _this.http.put('/api/route/updateFiled/' + id, {
+                filed: filed
+            }).subscribe(function (data) {
+                observer.next({ data: data });
+                observer.complete();
+            });
+        });
+    };
+    AdminService.prototype.fileFPL = function (route) {
+        var _this = this;
+        return rxjs_Observable__WEBPACK_IMPORTED_MODULE_2__["Observable"].create(function (observer) {
+            _this.http.get('/api/aircraft/fileFPL/' + route).subscribe(function (data) {
+                observer.next({ data: data });
+                observer.complete();
+            });
+        });
+    };
+    AdminService.prototype.cancelFPL = function (flightid) {
+        var _this = this;
+        return rxjs_Observable__WEBPACK_IMPORTED_MODULE_2__["Observable"].create(function (observer) {
+            _this.http.get('/api/aircraft/cancelFPL/' + flightid).subscribe(function (data) {
+                observer.next({ data: data });
+                observer.complete();
+            });
+        });
+    };
     AdminService.prototype.saveChat = function (data) {
         var _this = this;
         return rxjs_Observable__WEBPACK_IMPORTED_MODULE_2__["Observable"].create(function (observer) {
@@ -2840,19 +2869,19 @@ var MovementComponent = /** @class */ (function () {
         var _this = this;
         if (type === 'crew') {
             var message = this.crew_message;
-            this.adminService.sendMail(this.pic.p_email, 'Message Board ' + this.id, message).subscribe(function (data) {
+            this.adminService.sendMail(this.pic.p_email, 'Message Board - Crew ' + this.id, message).subscribe(function (data) {
                 console.log('pic mail ', data);
             });
-            this.adminService.sendMail(this.ops.p_email, 'Message Board ' + this.id, message).subscribe(function (data) {
+            this.adminService.sendMail(this.ops.p_email, 'Message Board - Crew ' + this.id, message).subscribe(function (data) {
                 console.log('ops mail ', data);
             });
-            this.adminService.sendMail(this.fo.p_email, 'Message Board ' + this.id, message).subscribe(function (data) {
+            this.adminService.sendMail(this.fo.p_email, 'Message Board - Crew ' + this.id, message).subscribe(function (data) {
                 console.log('fo mail ', data);
             });
         }
         else {
             var message = this.handler_message;
-            this.adminService.sendMail(this.handler.email_primary, 'Message Board ' + this.id, message).subscribe(function (data) {
+            this.adminService.sendMail(this.handler.email_primary, 'Message Board - Handler ' + this.id, message).subscribe(function (data) {
                 console.log('handler mail ', data);
             });
         }
@@ -2892,7 +2921,7 @@ var MovementComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-header></app-header>\r\n<div class=\"container\">\r\n  <div class=\"columns\">\r\n    <div class=\"column is-3\">\r\n      <app-side-nav></app-side-nav>\r\n    </div>\r\n    <div class=\"column is-9\">\r\n      <h3 class=\"title is-pulled-left\">Movements Overview</h3>\r\n      <table class=\"table is-fullwidth\">\r\n        <thead>\r\n          <th>Movement ID</th>\r\n          <th>Aircraft ID</th>\r\n          <th>PIC & FO</th>\r\n          <th>Origin/Destination</th>\r\n          <th>Departure</th>\r\n          <th>Arrival</th>\r\n          <th>Briefing Pack</th>\r\n        </thead>\r\n        <tbody>\r\n          <tr *ngFor=\"let movement of movements\">\r\n            <td>\r\n              <a routerLink=\"/admin/movement/{{movement._id}}\">\r\n                {{movement._id}}\r\n              </a>\r\n            </td>\r\n            <td>\r\n              {{movement.aircraft}}\r\n            </td>\r\n            <td>\r\n              {{movement.pic_crew_name}} & {{movement.fo_crew_name}}\r\n            </td>\r\n            <td>\r\n              {{movement.departure_airport}} / {{movement.arrival_airport}}\r\n            </td>\r\n            <td>\r\n              {{ movement.departuretime*1000 | date :  \"short\" }}\r\n            </td>\r\n            <td>\r\n              {{movement.arrivaltime*1000 | date : \"short\"}}\r\n            </td>\r\n            <td>\r\n              <a (click)=\"download(movement.route)\">Download</a>\r\n            </td>\r\n          </tr>\r\n        </tbody>\r\n      </table>\r\n    </div>\r\n  </div>\r\n</div>\r\n<app-chat></app-chat>\r\n"
+module.exports = "<app-header></app-header>\r\n<div class=\"container\">\r\n  <div class=\"columns\">\r\n    <div class=\"column is-3\">\r\n      <app-side-nav></app-side-nav>\r\n    </div>\r\n    <div class=\"column is-9\">\r\n      <h3 class=\"title is-pulled-left\">Movements Overview</h3>\r\n      <table class=\"table is-fullwidth\">\r\n        <thead>\r\n          <th>Movement ID</th>\r\n          <th>Aircraft ID</th>\r\n          <th>PIC & FO</th>\r\n          <th>Origin/Destination</th>\r\n          <th>Departure</th>\r\n          <th>Arrival</th>\r\n          <th>Briefing Pack</th>\r\n        </thead>\r\n        <tbody>\r\n          <tr *ngFor=\"let movement of movements\">\r\n            <td>\r\n              <a routerLink=\"/admin/movement/{{movement._id}}\">\r\n                {{movement._id}}\r\n              </a>\r\n            </td>\r\n            <td>\r\n              {{movement.aircraft}}\r\n            </td>\r\n            <td>\r\n              {{movement.pic_crew_name}} & {{movement.fo_crew_name}}\r\n            </td>\r\n            <td>\r\n              {{movement.departure_airport}} / {{movement.arrival_airport}}\r\n            </td>\r\n            <td>\r\n              {{ movement.departuretime*1000 | date :  \"short\" }}\r\n            </td>\r\n            <td>\r\n              {{movement.arrivaltime*1000 | date : \"short\"}}\r\n            </td>\r\n            <td>\r\n              <a (click)=\"download(movement.route)\">Download</a> <span *ngIf=\"movement.filed !== true && next3Days > movement.departuretime*1000 && today < movement.departuretime*1000\"> / \r\n              <a (click)=\"fileFPL(movement)\">File Flight Plan</a></span>\r\n            </td>\r\n          </tr>\r\n        </tbody>\r\n      </table>\r\n    </div>\r\n  </div>\r\n</div>\r\n<app-chat></app-chat>\r\n"
 
 /***/ }),
 
@@ -2936,12 +2965,39 @@ var MovementsComponent = /** @class */ (function () {
     }
     MovementsComponent.prototype.ngOnInit = function () {
         this.getFlight();
+        this.today = new Date();
+        this.addDays(this.today, 3);
+    };
+    MovementsComponent.prototype.addDays = function (date, days) {
+        var result = new Date(date);
+        result.setDate(result.getDate() + days);
+        this.next3Days = result;
+        console.log(this.next3Days);
     };
     MovementsComponent.prototype.getFlight = function () {
         var _this = this;
         this.adminService.getMovements().subscribe(function (data) {
             _this.movements = data.data;
             console.log('movements ', _this.movements);
+        });
+    };
+    MovementsComponent.prototype.fileFPL = function (movement) {
+        var _this = this;
+        this.adminService.fileFPL(movement.route).subscribe(function (data) {
+            _this.flightID = data.data.flightid;
+            console.log('fileFPL ', data);
+            if (_this.flightID) {
+                _this.adminService.updateFiled(movement._id, true).subscribe(function (data) {
+                    _this.getFlight();
+                    console.log('update filed ', data);
+                });
+                _this.cancelFPL();
+            }
+        });
+    };
+    MovementsComponent.prototype.cancelFPL = function () {
+        this.adminService.cancelFPL(this.flightID).subscribe(function (data) {
+            console.log('cancelFPL ', data);
         });
     };
     MovementsComponent.prototype.download = function (id) {

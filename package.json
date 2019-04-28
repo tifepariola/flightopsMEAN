@@ -42,6 +42,7 @@
     "bcrypt": "^3.0.2",
     "body-parser": "^1.18.2",
     "bulma": "^0.7.4",
+    "bulma-toast": "^1.5.1",
     "cloudinary-core": "^2.6.2",
     "codelyzer": "4.3.0",
     "compression": "^1.7.2",

@@ -64,6 +64,9 @@ const DbSchema = new mongoose.Schema({
   distance: {
     type: Number
   },
+  filed: {
+    type: Boolean
+  },
   fplan: {
     type: Object
   }

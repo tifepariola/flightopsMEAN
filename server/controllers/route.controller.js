@@ -24,6 +24,7 @@ const dbSchema = Joi.object({
     departuretime: Joi.number().required(),
     fuel: Joi.number().required(),
     distance: Joi.number().required(),
+    filed: Joi.boolean().allow('').optional(),
     fplan: Joi.object().allow('').optional(),
 })
 

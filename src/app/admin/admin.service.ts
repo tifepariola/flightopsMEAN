@@ -731,6 +731,32 @@ export class AdminService {
       })
     });
   }
+  updateFiled(id, filed) {
+    return Observable.create(observer => {
+      this.http.put('/api/route/updateFiled/' + id, {
+        filed
+      }).subscribe((data: any) => {
+        observer.next({ data: data });
+        observer.complete();
+      })
+    });
+  }
+  fileFPL(route) {
+    return Observable.create(observer => {
+      this.http.get('/api/aircraft/fileFPL/' + route).subscribe((data: any) => {
+        observer.next({ data: data });
+        observer.complete();
+      })
+    });
+  }
+  cancelFPL(flightid) {
+    return Observable.create(observer => {
+      this.http.get('/api/aircraft/cancelFPL/' + flightid).subscribe((data: any) => {
+        observer.next({ data: data });
+        observer.complete();
+      })
+    });
+  }
 
   saveChat(data) {
     return Observable.create(observer => {

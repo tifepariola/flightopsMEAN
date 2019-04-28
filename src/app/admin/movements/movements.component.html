@@ -39,7 +39,8 @@
               {{movement.arrivaltime*1000 | date : "short"}}
             </td>
             <td>
-              <a (click)="download(movement.route)">Download</a>
+              <a (click)="download(movement.route)">Download</a> <span *ngIf="movement.filed !== true && next3Days > movement.departuretime*1000 && today < movement.departuretime*1000"> / 
+              <a (click)="fileFPL(movement)">File Flight Plan</a></span>
             </td>
           </tr>
         </tbody>

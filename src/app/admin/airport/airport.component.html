@@ -14,6 +14,8 @@
           <th>ICAO</th>
           <th>Local Phone</th>
           <th>Local Email</th>
+          <th>Type</th>
+          <th>Items</th>
         </thead>
         <tbody>
           <tr *ngFor="let handler of handlers">
@@ -26,6 +28,8 @@
             <td>{{handler.icao}}</td>
             <td>{{handler.local_telephone}}</td>
             <td>{{handler.local_email}}</td>
+            <td>{{handler.type}}</td>
+            <td>{{handler.items}}</td>
           </tr>
         </tbody>
       </table>

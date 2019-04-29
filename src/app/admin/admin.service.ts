@@ -418,6 +418,14 @@ export class AdminService {
       })
     });
   }
+  findAirports(keyword): Observable<any> {
+    return Observable.create(observer => {
+      this.http.get('/api/airport/find/' + keyword).subscribe((data: any) => {
+        observer.next({ data: data });
+        observer.complete();
+      })
+    });
+  }
   getHandlers(): Observable<any> {
     return Observable.create(observer => {
       this.http.get('/api/handler/fetch').subscribe((data: any) => {

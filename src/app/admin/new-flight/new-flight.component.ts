@@ -77,14 +77,20 @@ export class NewFlightComponent implements OnInit {
   poll: any;
   airportss: any;
   airport: never[];
+  dptAirportSearch: any;
+  search: any;
 
   constructor(private adminService: AdminService, private route: ActivatedRoute, private renderer: Renderer2,
     @Inject(DOCUMENT) private document: any, ) { }
   aircrafts: {};
-  airports: never[];
+  airports: [];
   sale: {};
   id: string;
   ngOnInit() {
+    this.departure_airport = {}
+    this.departure_airport.name = ''
+    this.arrival_airport = {}
+    this.arrival_airport.name = ''
     this.id = this.route.snapshot.paramMap.get("id")
     console.log(this.id);
     $('.delete').on('click', function () {
@@ -92,7 +98,6 @@ export class NewFlightComponent implements OnInit {
     })
 
     this.getAircrafts();
-    this.getAirports(1);
     // this.sendMail();
     if (this.id !== 'new') {
       this.getSale();
@@ -118,19 +123,32 @@ export class NewFlightComponent implements OnInit {
       console.log('aircrafts ', this.aircrafts)
     })
   }
-  getAirports(pageNo): void {
-    this.adminService.getAirports(pageNo, 100).subscribe(data => {
-      if (pageNo === 1) {
+  getAirports(keyword, type): void {
+    // this.adminService.getAirports(pageNo, 100).subscribe(data => {
+    //   if (pageNo === 1) {
+    //     this.airports = data.data
+    //     console.log('first airports ', this.airports)
+    //   }
+    //   this.airportss = data.data;
+    //   this.airports = this.airports.concat(this.airportss)
+    //   console.log('airports ', this.airports)
+    //   console.log('airportss ', this.airportss)
+    //   if (this.airportss !== []) {
+    //     this.getAirports(pageNo + 1);
+    //   }
+    // })
+    if (keyword.length > 2) {
+      this.airports = []
+      $('#' + type).addClass('is-active')
+      this.adminService.findAirports(keyword).subscribe(data => {
+        console.log('search ', data.data)
         this.airports = data.data
-        console.log('first airports ', this.airports)
-      }
-      this.airportss = data.data;
-      this.airports = this.airports.concat(this.airportss)
-      console.log('airports ', this.airports)
-      if (this.airportss !== []) {
-        this.getAirports(pageNo + 1);
-      }
-    })
+      })
+    }
+  }
+  hideSearch(): void {
+    $('.dropdown').removeClass('is-active');
+
   }
   getSale(): void {
     this.adminService.getSale(this.id).subscribe(data => {

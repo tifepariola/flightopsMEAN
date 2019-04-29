@@ -62,12 +62,18 @@
               <div class="field">
                 <label class="label">Departure Airport</label>
                 <div class="control">
-                  <div class="select">
-                    <select [(ngModel)]="departure_airport" name="departure_airport">
-                      <option>Suggested Departure Airport</option>
-                      <option *ngFor="let airport of airports" [ngValue]="airport">{{airport.name}}
-                      </option>
-                    </select>
+                  <div class="dropdown" id="dptAir">
+                    <div class="dropdown-trigger">
+                      <input class="input" name="departure_airport" autocomplete="off" [(ngModel)]="departure_airport.name" (input)="getAirports($event.target.value, 'dptAir')" type="text" placeholder="Enter Departure Airport" aria-haspopup="true">
+                    </div>
+                    <div class="dropdown-menu" role="menu">
+                      <div class="dropdown-content">
+                        <a (click)="departure_airport = airport;hideSearch()" class="dropdown-item" *ngFor="let airport of airports">
+                          {{airport.name}} ({{airport.icao}})
+                        </a>
+                        <span *ngIf="!airports">Loading...</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -76,12 +82,17 @@
               <div class="field">
                 <label class="label">Arrival Airport</label>
                 <div class="control">
-                  <div class="select">
-                    <select (ngModelChange)="getHandler($event)" [(ngModel)]="arrival_airport" name="arrival_airport">
-                      <option>Suggested Arrival Aiport</option>
-                      <option *ngFor="let airport of airports" [ngValue]="airport">{{airport.name}}
-                      </option>
-                    </select>
+                  <div class="dropdown" id="arrAir">
+                    <div class="dropdown-trigger">
+                      <input class="input" name="arrival_airport" autocomplete="off" [(ngModel)]="arrival_airport.name" (input)="getAirports($event.target.value, 'arrAir')" type="text" placeholder="Enter Arrival Airport" aria-haspopup="true">
+                    </div>
+                    <div class="dropdown-menu" role="menu">
+                      <div class="dropdown-content">
+                        <a (click)="arrival_airport = airport;hideSearch()" class="dropdown-item" *ngFor="let airport of airports">
+                          {{airport.name}} ({{airport.icao}})
+                        </a>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

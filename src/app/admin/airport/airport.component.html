@@ -12,8 +12,8 @@
           <th></th>
           <th>Name</th>
           <th>ICAO</th>
-          <th>Primary Phone</th>
-          <th>Primary Email</th>
+          <th>Local Phone</th>
+          <th>Local Email</th>
         </thead>
         <tbody>
           <tr *ngFor="let handler of handlers">
@@ -24,8 +24,8 @@
                 {{handler.name}}
             </td>
             <td>{{handler.icao}}</td>
-            <td>{{handler.phone_primary}}</td>
-            <td>{{handler.email_primary}}</td>
+            <td>{{handler.local_telephone}}</td>
+            <td>{{handler.local_email}}</td>
           </tr>
         </tbody>
       </table>

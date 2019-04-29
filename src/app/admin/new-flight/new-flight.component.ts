@@ -75,11 +75,13 @@ export class NewFlightComponent implements OnInit {
   LiveDepT: number;
   flightRoute: any
   poll: any;
+  airportss: any;
+  airport: never[];
 
   constructor(private adminService: AdminService, private route: ActivatedRoute, private renderer: Renderer2,
     @Inject(DOCUMENT) private document: any, ) { }
   aircrafts: {};
-  airports: {};
+  airports: never[];
   sale: {};
   id: string;
   ngOnInit() {
@@ -90,7 +92,7 @@ export class NewFlightComponent implements OnInit {
     })
 
     this.getAircrafts();
-    this.getAirports();
+    this.getAirports(1);
     // this.sendMail();
     if (this.id !== 'new') {
       this.getSale();
@@ -116,10 +118,18 @@ export class NewFlightComponent implements OnInit {
       console.log('aircrafts ', this.aircrafts)
     })
   }
-  getAirports(): void {
-    this.adminService.getAirports(1, 20).subscribe(data => {
-      this.airports = data.data;
+  getAirports(pageNo): void {
+    this.adminService.getAirports(pageNo, 100).subscribe(data => {
+      if (pageNo === 1) {
+        this.airports = data.data
+        console.log('first airports ', this.airports)
+      }
+      this.airportss = data.data;
+      this.airports = this.airports.concat(this.airportss)
       console.log('airports ', this.airports)
+      if (this.airportss !== []) {
+        this.getAirports(pageNo + 1);
+      }
     })
   }
   getSale(): void {

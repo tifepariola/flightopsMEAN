@@ -1566,7 +1566,7 @@ var AircraftsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-header></app-header>\n<div class=\"container\">\n  <div class=\"columns\">\n    <div class=\"column is-3\">\n      <app-side-nav></app-side-nav>\n    </div>\n    <div class=\"column is-9\">\n      <h3 class=\"title is-pulled-left\">Airport Handlers</h3>\n      <button class=\"button is-primary is-outlined is-pulled-right\" routerLink=\"/admin/new-handler/{{id}}\">Add Handler</button>\n      <table class=\"table is-fullwidth\">\n        <thead>\n          <th></th>\n          <th>Name</th>\n          <th>ICAO</th>\n          <th>Primary Phone</th>\n          <th>Primary Email</th>\n        </thead>\n        <tbody>\n          <tr *ngFor=\"let handler of handlers\">\n            <td>\n                <img src=\"{{handler.logo}}\" class=\"aircraft-img\" alt=\"\">\n            </td>\n            <td>\n                {{handler.name}}\n            </td>\n            <td>{{handler.icao}}</td>\n            <td>{{handler.phone_primary}}</td>\n            <td>{{handler.email_primary}}</td>\n          </tr>\n        </tbody>\n      </table>\n      <app-chat></app-chat>\n\n    </div>\n  </div>\n</div>"
+module.exports = "<app-header></app-header>\n<div class=\"container\">\n  <div class=\"columns\">\n    <div class=\"column is-3\">\n      <app-side-nav></app-side-nav>\n    </div>\n    <div class=\"column is-9\">\n      <h3 class=\"title is-pulled-left\">Airport Handlers</h3>\n      <button class=\"button is-primary is-outlined is-pulled-right\" routerLink=\"/admin/new-handler/{{id}}\">Add Handler</button>\n      <table class=\"table is-fullwidth\">\n        <thead>\n          <th></th>\n          <th>Name</th>\n          <th>ICAO</th>\n          <th>Local Phone</th>\n          <th>Local Email</th>\n        </thead>\n        <tbody>\n          <tr *ngFor=\"let handler of handlers\">\n            <td>\n                <img src=\"{{handler.logo}}\" class=\"aircraft-img\" alt=\"\">\n            </td>\n            <td>\n                {{handler.name}}\n            </td>\n            <td>{{handler.icao}}</td>\n            <td>{{handler.local_telephone}}</td>\n            <td>{{handler.local_email}}</td>\n          </tr>\n        </tbody>\n      </table>\n      <app-chat></app-chat>\n\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -3239,7 +3239,7 @@ var NewFlightComponent = /** @class */ (function () {
             jquery__WEBPACK_IMPORTED_MODULE_1__('#suggested').removeClass('is-active');
         });
         this.getAircrafts();
-        this.getAirports();
+        this.getAirports(1);
         // this.sendMail();
         if (this.id !== 'new') {
             this.getSale();
@@ -3264,11 +3264,19 @@ var NewFlightComponent = /** @class */ (function () {
             console.log('aircrafts ', _this.aircrafts);
         });
     };
-    NewFlightComponent.prototype.getAirports = function () {
+    NewFlightComponent.prototype.getAirports = function (pageNo) {
         var _this = this;
-        this.adminService.getAirports(1, 20).subscribe(function (data) {
-            _this.airports = data.data;
+        this.adminService.getAirports(pageNo, 100).subscribe(function (data) {
+            if (pageNo === 1) {
+                _this.airports = data.data;
+                console.log('first airports ', _this.airports);
+            }
+            _this.airportss = data.data;
+            _this.airports = _this.airports.concat(_this.airportss);
             console.log('airports ', _this.airports);
+            if (_this.airportss !== []) {
+                _this.getAirports(pageNo + 1);
+            }
         });
     };
     NewFlightComponent.prototype.getSale = function () {

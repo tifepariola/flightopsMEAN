@@ -7,7 +7,7 @@ const DbSchema = new mongoose.Schema({
         required: true
         // unique: true
     },
-    iata_code: {
+    icao: {
         type: String,
         // unique: true
     },

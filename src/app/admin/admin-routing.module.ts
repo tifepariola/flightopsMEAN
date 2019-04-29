@@ -40,7 +40,7 @@ const routes: Routes = [{
     component: AircraftComponent
   },
   {
-    path: 'airports',
+    path: 'airports/:pageNo',
     component: AirportsComponent
   },
   {

@@ -11,9 +11,7 @@
         <thead>
           <th></th>
           <th>Name</th>
-          <th>IATA Code</th>
-          <th>Primary Phone</th>
-          <th>Primary Email</th>
+          <th>ICAO</th>
         </thead>
         <tbody>
           <tr *ngFor="let airport of airports">
@@ -21,14 +19,14 @@
                 <img src="{{airport.logo}}" class="aircraft-img" alt="">
             </td>
             <td>
-                <a routerLink="/admin/airport/{{airport.iata_code}}">{{airport.name}}</a>
+                <a routerLink="/admin/airport/{{airport.icao}}">{{airport.name}}</a>
             </td>
-            <td>{{airport.iata_code}}</td>
-            <td>{{airport.phone_primary}}</td>
-            <td>{{airport.email_primary}}</td>
+            <td>{{airport.icao}}</td>
           </tr>
         </tbody>
       </table>
+      <a (click)="prev()" class="is-link" *ngIf="pageNo > 1">&lt;&lt;&lt; Previous</a> - 
+      <a (click)="next()" class="is-link">Next &gt;&gt;&gt;</a>
       <app-chat></app-chat>
 
     </div>

@@ -44,7 +44,7 @@ module.exports = webpackAsyncContext;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-header></app-header>\n<div class=\"container\">\n  <div class=\"columns\">\n    <div class=\"column is-3\">\n      <app-side-nav></app-side-nav>\n    </div>\n    <div class=\"column is-9\">\n      <h3 class=\"title\">Add Sale</h3>\n      <section class=\"section\">\n        <form action=\"#\">\n          <div class=\"columns\">\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Company Name</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" name=\"company_name\" [(ngModel)]=\"company_name\">\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Contact Name</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" name=\"contact_name\" [(ngModel)]=\"contact_name\">\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"columns\">\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Contact Phone</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" name=\"contact_phone\" [(ngModel)]=\"contact_phone\">\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Contact Email</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" name=\"contact_email\" [(ngModel)]=\"contact_email\">\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"columns\">\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Weight</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" name=\"weight\" [(ngModel)]=\"weight\">\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Dangerous Good?</label>\n                <div class=\"control\">\n                  <label class=\"radio\">\n                    <input type=\"radio\" name=\"dangerous\" value=\"Yes\" [(ngModel)]=\"dangerous\">\n                    Yes\n                  </label>\n                  <label class=\"radio\">\n                    <input type=\"radio\" name=\"dangerous\" value=\"No\" [(ngModel)]=\"dangerous\">\n                    No\n                  </label>\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"columns\">\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Description</label>\n                <div class=\"control\">\n                  <textarea class=\"textarea\" name=\"description\" [(ngModel)]=\"description\"></textarea>\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Special Instructions</label>\n                <div class=\"control\">\n                  <textarea class=\"textarea\" name=\"instructions\" [(ngModel)]=\"instructions\"></textarea>\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"columns\">\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Origin Airport</label>\n                <div class=\"control\">\n                  <div class=\"select\">\n                    <select [(ngModel)]=\"origin_airport\" name=\"origin_airport\">\n                      <option *ngFor=\"let airport of airports\" [value]=\"airport.iata_code\">{{airport.iata_code}}\n                      </option>\n                    </select>\n                  </div>\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Destination Airport</label>\n                <div class=\"control\">\n                  <div class=\"select\">\n                    <select [(ngModel)]=\"destination_airport\" name=\"destination_airport\">\n                      <option *ngFor=\"let airport of airports\" [value]=\"airport.iata_code\">{{airport.iata_code}}\n                      </option>\n                    </select>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"columns\">\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Departure</label>\n                <div class=\"control\">\n                    <ng2-flatpickr [config]=\"exampleOptions\" [(ngModel)]=\"departure\" name=\"departure\">\n                    </ng2-flatpickr>\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-6\">\n                <div class=\"field\">\n                    <label class=\"label\">Reference ID</label>\n                    <div class=\"control\">\n                  <input type=\"text\" class=\"input\" name=\"reference_id\" [(ngModel)]=\"reference_id\">\n                    </div>\n                  </div>\n            </div>\n          </div>\n\n          <div class=\"columns\">\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Estimated Cost</label>\n                <div class=\"control\">\n                  <input type=\"text\" class=\"input\" name=\"estimated_cost\" [(ngModel)]=\"estimated_cost\">\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Price Charged</label>\n                <div class=\"control\">\n                  <input type=\"text\" class=\"input\" name=\"price_charged\" [(ngModel)]=\"price_charged\">\n                </div>\n              </div>\n            </div>\n          </div>\n          <div class=\"field is-grouped\">\n            <div class=\"control\">\n              <button class=\"button is-link\" (click)=\"addSale()\">Submit</button>\n            </div>\n            <div class=\"control\">\n              <button class=\"button is-text\" type=\"reset\">Reset</button>\n            </div>\n          </div>\n        </form>\n      </section>\n    </div>\n  </div>\n</div>\n<app-chat></app-chat>\n"
+module.exports = "<app-header></app-header>\n<div class=\"container\">\n  <div class=\"columns\">\n    <div class=\"column is-3\">\n      <app-side-nav></app-side-nav>\n    </div>\n    <div class=\"column is-9\">\n      <h3 class=\"title\">Add Sale</h3>\n      <section class=\"section\">\n        <form action=\"#\">\n          <div class=\"columns\">\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Company Name</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" name=\"company_name\" [(ngModel)]=\"company_name\">\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Contact Name</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" name=\"contact_name\" [(ngModel)]=\"contact_name\">\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"columns\">\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Contact Phone</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" name=\"contact_phone\" [(ngModel)]=\"contact_phone\">\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Contact Email</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" name=\"contact_email\" [(ngModel)]=\"contact_email\">\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"columns\">\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Weight</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" name=\"weight\" [(ngModel)]=\"weight\">\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Dangerous Good?</label>\n                <div class=\"control\">\n                  <label class=\"radio\">\n                    <input type=\"radio\" name=\"dangerous\" value=\"Yes\" [(ngModel)]=\"dangerous\">\n                    Yes\n                  </label>\n                  <label class=\"radio\">\n                    <input type=\"radio\" name=\"dangerous\" value=\"No\" [(ngModel)]=\"dangerous\">\n                    No\n                  </label>\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"columns\">\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Description</label>\n                <div class=\"control\">\n                  <textarea class=\"textarea\" name=\"description\" [(ngModel)]=\"description\"></textarea>\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Special Instructions</label>\n                <div class=\"control\">\n                  <textarea class=\"textarea\" name=\"instructions\" [(ngModel)]=\"instructions\"></textarea>\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"columns\">\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Origin Airport</label>\n                <div class=\"control\">\n                  <div class=\"select\">\n                    <select [(ngModel)]=\"origin_airport\" name=\"origin_airport\">\n                      <option *ngFor=\"let airport of airports\" [value]=\"airport.icao\">{{airport.icao}}\n                      </option>\n                    </select>\n                  </div>\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Destination Airport</label>\n                <div class=\"control\">\n                  <div class=\"select\">\n                    <select [(ngModel)]=\"destination_airport\" name=\"destination_airport\">\n                      <option *ngFor=\"let airport of airports\" [value]=\"airport.icao\">{{airport.icao}}\n                      </option>\n                    </select>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"columns\">\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Departure</label>\n                <div class=\"control\">\n                    <ng2-flatpickr [config]=\"exampleOptions\" [(ngModel)]=\"departure\" name=\"departure\">\n                    </ng2-flatpickr>\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-6\">\n                <div class=\"field\">\n                    <label class=\"label\">Reference ID</label>\n                    <div class=\"control\">\n                  <input type=\"text\" class=\"input\" name=\"reference_id\" [(ngModel)]=\"reference_id\">\n                    </div>\n                  </div>\n            </div>\n          </div>\n\n          <div class=\"columns\">\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Estimated Cost</label>\n                <div class=\"control\">\n                  <input type=\"text\" class=\"input\" name=\"estimated_cost\" [(ngModel)]=\"estimated_cost\">\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Price Charged</label>\n                <div class=\"control\">\n                  <input type=\"text\" class=\"input\" name=\"price_charged\" [(ngModel)]=\"price_charged\">\n                </div>\n              </div>\n            </div>\n          </div>\n          <div class=\"field is-grouped\">\n            <div class=\"control\">\n              <button class=\"button is-link\" (click)=\"addSale()\">Submit</button>\n            </div>\n            <div class=\"control\">\n              <button class=\"button is-text\" type=\"reset\">Reset</button>\n            </div>\n          </div>\n        </form>\n      </section>\n    </div>\n  </div>\n</div>\n<app-chat></app-chat>\n"
 
 /***/ }),
 
@@ -110,7 +110,7 @@ var AddSalesComponent = /** @class */ (function () {
     };
     AddSalesComponent.prototype.getAirports = function () {
         var _this = this;
-        this.adminService.getAirports().subscribe(function (data) {
+        this.adminService.getAirports(1, 20).subscribe(function (data) {
             _this.airports = data.data;
             console.log('airports ', _this.airports);
         });
@@ -225,7 +225,7 @@ var routes = [{
                 component: _aircraft_aircraft_component__WEBPACK_IMPORTED_MODULE_6__["AircraftComponent"]
             },
             {
-                path: 'airports',
+                path: 'airports/:pageNo',
                 component: _airports_airports_component__WEBPACK_IMPORTED_MODULE_14__["AirportsComponent"]
             },
             {
@@ -801,51 +801,36 @@ var AdminService = /** @class */ (function () {
             });
         });
     };
-    AdminService.prototype.addAirport = function (name, iata_code, logo, longitude, latitude, phone_primary, phone_secondary, email_primary, email_secondary, monday_open, monday_close, tuesday_open, tuesday_close, wednesday_open, wednesday_close, thursday_open, thursday_close, friday_open, friday_close, saturday_open, saturday_close, sunday_open, sunday_close, runway_1, runway_1_diagram, runway_2, runway_2_diagram, runway_3, runway_3_diagram) {
+    AdminService.prototype.addAirport = function (name, country, icao, latitude, longitude, elevation, longest_runway, magnetic_variation, airport_type, beacon, fuel_types, landing_fee, oxygen, repairs) {
         var _this = this;
         return rxjs_Observable__WEBPACK_IMPORTED_MODULE_2__["Observable"].create(function (observer) {
             _this.http.post('/api/airport', {
                 name: name,
-                iata_code: iata_code,
-                logo: logo,
-                longitude: longitude,
+                country: country,
+                icao: icao,
                 latitude: latitude,
-                phone_primary: phone_primary,
-                phone_secondary: phone_secondary,
-                email_primary: email_primary,
-                email_secondary: email_secondary,
-                monday_open: monday_open,
-                monday_close: monday_close,
-                tuesday_open: tuesday_open,
-                tuesday_close: tuesday_close,
-                wednesday_open: wednesday_open,
-                wednesday_close: wednesday_close,
-                thursday_open: thursday_open,
-                thursday_close: thursday_close,
-                friday_open: friday_open,
-                friday_close: friday_close,
-                saturday_open: saturday_open,
-                saturday_close: saturday_close,
-                sunday_open: sunday_open,
-                sunday_close: sunday_close,
-                runway_1: runway_1,
-                runway_1_diagram: runway_1_diagram,
-                runway_2: runway_2,
-                runway_2_diagram: runway_2_diagram,
-                runway_3: runway_3,
-                runway_3_diagram: runway_3_diagram,
+                longitude: longitude,
+                elevation: elevation,
+                longest_runway: longest_runway,
+                magnetic_variation: magnetic_variation,
+                airport_type: airport_type,
+                beacon: beacon,
+                fuel_types: fuel_types,
+                landing_fee: landing_fee,
+                oxygen: oxygen,
+                repairs: repairs
             }).subscribe(function (data) {
                 observer.next({ data: data });
                 observer.complete();
             });
         });
     };
-    AdminService.prototype.addHandler = function (name, iata_code, logo, phone_primary, phone_secondary, email_primary, email_secondary, monday_open, monday_close, tuesday_open, tuesday_close, wednesday_open, wednesday_close, thursday_open, thursday_close, friday_open, friday_close, saturday_open, saturday_close, sunday_open, sunday_close) {
+    AdminService.prototype.addHandler = function (name, icao, logo, phone_primary, phone_secondary, email_primary, email_secondary, monday_open, monday_close, tuesday_open, tuesday_close, wednesday_open, wednesday_close, thursday_open, thursday_close, friday_open, friday_close, saturday_open, saturday_close, sunday_open, sunday_close) {
         var _this = this;
         return rxjs_Observable__WEBPACK_IMPORTED_MODULE_2__["Observable"].create(function (observer) {
             _this.http.post('/api/handler', {
                 name: name,
-                iata_code: iata_code,
+                icao: icao,
                 logo: logo,
                 phone_primary: phone_primary,
                 phone_secondary: phone_secondary,
@@ -880,10 +865,10 @@ var AdminService = /** @class */ (function () {
             });
         });
     };
-    AdminService.prototype.getAirports = function () {
+    AdminService.prototype.getAirports = function (pageNo, size) {
         var _this = this;
         return rxjs_Observable__WEBPACK_IMPORTED_MODULE_2__["Observable"].create(function (observer) {
-            _this.http.get('/api/airport/fetch').subscribe(function (data) {
+            _this.http.get('/api/airport/fetch/' + pageNo + '/' + size).subscribe(function (data) {
                 observer.next({ data: data });
                 observer.complete();
             });
@@ -970,10 +955,10 @@ var AdminService = /** @class */ (function () {
             });
         });
     };
-    AdminService.prototype.getAirport = function (iata_code) {
+    AdminService.prototype.getAirport = function (icao) {
         var _this = this;
         return rxjs_Observable__WEBPACK_IMPORTED_MODULE_2__["Observable"].create(function (observer) {
-            _this.http.get('/api/airport/fetch/' + iata_code).subscribe(function (data) {
+            _this.http.get('/api/airport/fetch/' + icao).subscribe(function (data) {
                 observer.next({ data: data });
                 observer.complete();
             });
@@ -1449,7 +1434,7 @@ var AircraftComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-header></app-header>\n<div class=\"container\">\n  <div class=\"columns\">\n    <div class=\"column is-3\">\n      <app-side-nav></app-side-nav>\n    </div>\n    <div class=\"column is-9\">\n      <h3 class=\"title is-pulled-left\">Aircrafts Overview</h3>\n      <button class=\"button is-primary is-outlined is-pulled-right\" id=\"btn-add-aircraft\">Add Aircraft</button>\n      <table class=\"table is-fullwidth\">\n        <thead>\n          <th></th>\n          <th>Registration</th>\n          <th>Upcoming Movement</th>\n          <th>Current Status</th>\n        </thead>\n        <tbody>\n          <tr *ngFor=\"let aircraft of aircrafts\">\n            <td>\n              <a routerLink=\"/admin/aircraft/{{aircraft._id}}\">\n                <img src=\"{{aircraft.img_url}}\" class=\"aircraft-img\" alt=\"\">\n              </a>\n            </td>\n            <td>\n              <a routerLink=\"/admin/aircraft/{{aircraft._id}}\">\n                {{aircraft.registration}}\n              </a>\n            </td>\n            <td>\n            </td>\n            <td></td>\n          </tr>\n        </tbody>\n      </table>\n      <app-chat></app-chat>\n\n      <div class=\"modal\" id=\"add-aircraft\">\n        <div class=\"modal-background\"></div>\n        <div class=\"modal-card\">\n          <form>\n            <header class=\"modal-card-head\">\n              <p class=\"modal-card-title\">Add Aircraft</p>\n              <button class=\"delete\" aria-label=\"close\"></button>\n            </header>\n            <section class=\"modal-card-body\">\n              <div class=\"field\">\n                <label class=\"label\">Registration</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" name=\"registration\" [(ngModel)]=\"registration\">\n                </div>\n              </div>\n              <div class=\"field\">\n                <label class=\"label\">Aircraft ID</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" name=\"aircraftId\" [(ngModel)]=\"aircraftId\">\n                </div>\n              </div>\n\n              <div class=\"field\">\n                <label class=\"label\">Photo</label>\n                <div class=\"control\">\n                  <progress *ngIf=\"currentFileUpload\" class=\"progress is-primary\" value=\"{{progress.percentage}}\"\n                    max=\"100\"></progress>\n                  <div class=\"file has-name\">\n                    <label class=\"file-label\"> <input type=\"file\" class=\"file-input\" (change)=\"selectFile($event)\">\n                      <span class=\"file-cta\">\n                        <span class=\"file-icon\">\n                          <i class=\"fas fa-upload\"></i>\n                        </span>\n                        <span class=\"file-label\">\n                          Choose an image…\n                        </span>\n                      </span>\n                      <span class=\"file-name\">\n                        .jpg, .png, .gif\n                      </span>\n                    </label>\n                  </div>\n\n                  <button class=\"button is-success\" [disabled]=\"!selectedFiles\" (click)=\"upload()\">Upload</button>\n                </div>\n              </div>\n\n              <div class=\"field\">\n                <label class=\"label\">Max Take Off Weight</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" [(ngModel)]=\"tow\" name=\"tow\">\n                </div>\n              </div>\n              <div class=\"field\">\n                <label class=\"label\">Max Fuel Capacity</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" [(ngModel)]=\"fuel\" name=\"fuel\">\n                </div>\n              </div>\n              <div class=\"field\">\n                <label class=\"label\">Max PAX</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" [(ngModel)]=\"pax\" name=\"pax\">\n                </div>\n              </div>\n              <div class=\"field\">\n                <label class=\"label\">Max Cargo</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" [(ngModel)]=\"cargo\" name=\"cargo\">\n                </div>\n              </div>\n              <div class=\"field\">\n                <label class=\"label\">ICAO 24</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" [(ngModel)]=\"icao24\" name=\"icao24\">\n                </div>\n              </div>\n              <div class=\"field\">\n                <label class=\"label\">Base Location</label>\n                <div class=\"control\">\n                  <div class=\"select\">\n                    <select [(ngModel)]=\"base\" name=\"base\">\n                      <option *ngFor=\"let airport of airports\" [value]=\"airport.iata_code\">{{airport.iata_code}}\n                      </option>\n                    </select>\n                  </div>\n                </div>\n              </div>\n\n\n            </section>\n            <footer class=\"modal-card-foot\">\n              <button class=\"button is-success\" id=\"addBtn\" (click)=\"addAircraft()\">Add</button>\n              <button class=\"button\">Cancel</button>\n            </footer>\n          </form>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>"
+module.exports = "<app-header></app-header>\n<div class=\"container\">\n  <div class=\"columns\">\n    <div class=\"column is-3\">\n      <app-side-nav></app-side-nav>\n    </div>\n    <div class=\"column is-9\">\n      <h3 class=\"title is-pulled-left\">Aircrafts Overview</h3>\n      <button class=\"button is-primary is-outlined is-pulled-right\" id=\"btn-add-aircraft\">Add Aircraft</button>\n      <table class=\"table is-fullwidth\">\n        <thead>\n          <th></th>\n          <th>Registration</th>\n          <th>Upcoming Movement</th>\n          <th>Current Status</th>\n        </thead>\n        <tbody>\n          <tr *ngFor=\"let aircraft of aircrafts\">\n            <td>\n              <a routerLink=\"/admin/aircraft/{{aircraft._id}}\">\n                <img src=\"{{aircraft.img_url}}\" class=\"aircraft-img\" alt=\"\">\n              </a>\n            </td>\n            <td>\n              <a routerLink=\"/admin/aircraft/{{aircraft._id}}\">\n                {{aircraft.registration}}\n              </a>\n            </td>\n            <td>\n            </td>\n            <td></td>\n          </tr>\n        </tbody>\n      </table>\n      <app-chat></app-chat>\n\n      <div class=\"modal\" id=\"add-aircraft\">\n        <div class=\"modal-background\"></div>\n        <div class=\"modal-card\">\n          <form>\n            <header class=\"modal-card-head\">\n              <p class=\"modal-card-title\">Add Aircraft</p>\n              <button class=\"delete\" aria-label=\"close\"></button>\n            </header>\n            <section class=\"modal-card-body\">\n              <div class=\"field\">\n                <label class=\"label\">Registration</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" name=\"registration\" [(ngModel)]=\"registration\">\n                </div>\n              </div>\n              <div class=\"field\">\n                <label class=\"label\">Aircraft ID</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" name=\"aircraftId\" [(ngModel)]=\"aircraftId\">\n                </div>\n              </div>\n\n              <div class=\"field\">\n                <label class=\"label\">Photo</label>\n                <div class=\"control\">\n                  <progress *ngIf=\"currentFileUpload\" class=\"progress is-primary\" value=\"{{progress.percentage}}\"\n                    max=\"100\"></progress>\n                  <div class=\"file has-name\">\n                    <label class=\"file-label\"> <input type=\"file\" class=\"file-input\" (change)=\"selectFile($event)\">\n                      <span class=\"file-cta\">\n                        <span class=\"file-icon\">\n                          <i class=\"fas fa-upload\"></i>\n                        </span>\n                        <span class=\"file-label\">\n                          Choose an image…\n                        </span>\n                      </span>\n                      <span class=\"file-name\">\n                        .jpg, .png, .gif\n                      </span>\n                    </label>\n                  </div>\n\n                  <button class=\"button is-success\" [disabled]=\"!selectedFiles\" (click)=\"upload()\">Upload</button>\n                </div>\n              </div>\n\n              <div class=\"field\">\n                <label class=\"label\">Max Take Off Weight</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" [(ngModel)]=\"tow\" name=\"tow\">\n                </div>\n              </div>\n              <div class=\"field\">\n                <label class=\"label\">Max Fuel Capacity</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" [(ngModel)]=\"fuel\" name=\"fuel\">\n                </div>\n              </div>\n              <div class=\"field\">\n                <label class=\"label\">Max PAX</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" [(ngModel)]=\"pax\" name=\"pax\">\n                </div>\n              </div>\n              <div class=\"field\">\n                <label class=\"label\">Max Cargo</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" [(ngModel)]=\"cargo\" name=\"cargo\">\n                </div>\n              </div>\n              <div class=\"field\">\n                <label class=\"label\">ICAO 24</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" [(ngModel)]=\"icao24\" name=\"icao24\">\n                </div>\n              </div>\n              <div class=\"field\">\n                <label class=\"label\">Base Location</label>\n                <div class=\"control\">\n                  <div class=\"select\">\n                    <select [(ngModel)]=\"base\" name=\"base\">\n                      <option *ngFor=\"let airport of airports\" [value]=\"airport.icao\">{{airport.icao}}\n                      </option>\n                    </select>\n                  </div>\n                </div>\n              </div>\n\n\n            </section>\n            <footer class=\"modal-card-foot\">\n              <button class=\"button is-success\" id=\"addBtn\" (click)=\"addAircraft()\">Add</button>\n              <button class=\"button\">Cancel</button>\n            </footer>\n          </form>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -1531,7 +1516,7 @@ var AircraftsComponent = /** @class */ (function () {
     };
     AircraftsComponent.prototype.getAirports = function () {
         var _this = this;
-        this.adminService.getAirports().subscribe(function (data) {
+        this.adminService.getAirports(1, 20).subscribe(function (data) {
             _this.airports = data.data;
             console.log('airports ', _this.airports);
         });
@@ -1581,7 +1566,7 @@ var AircraftsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-header></app-header>\n<div class=\"container\">\n  <div class=\"columns\">\n    <div class=\"column is-3\">\n      <app-side-nav></app-side-nav>\n    </div>\n    <div class=\"column is-9\">\n      <h3 class=\"title is-pulled-left\">Airport Handlers</h3>\n      <button class=\"button is-primary is-outlined is-pulled-right\" routerLink=\"/admin/new-handler/{{id}}\">Add Handler</button>\n      <table class=\"table is-fullwidth\">\n        <thead>\n          <th></th>\n          <th>Name</th>\n          <th>IATA Code</th>\n          <th>Primary Phone</th>\n          <th>Primary Email</th>\n        </thead>\n        <tbody>\n          <tr *ngFor=\"let handler of handlers\">\n            <td>\n                <img src=\"{{handler.logo}}\" class=\"aircraft-img\" alt=\"\">\n            </td>\n            <td>\n                {{handler.name}}\n            </td>\n            <td>{{handler.iata_code}}</td>\n            <td>{{handler.phone_primary}}</td>\n            <td>{{handler.email_primary}}</td>\n          </tr>\n        </tbody>\n      </table>\n      <app-chat></app-chat>\n\n    </div>\n  </div>\n</div>"
+module.exports = "<app-header></app-header>\n<div class=\"container\">\n  <div class=\"columns\">\n    <div class=\"column is-3\">\n      <app-side-nav></app-side-nav>\n    </div>\n    <div class=\"column is-9\">\n      <h3 class=\"title is-pulled-left\">Airport Handlers</h3>\n      <button class=\"button is-primary is-outlined is-pulled-right\" routerLink=\"/admin/new-handler/{{id}}\">Add Handler</button>\n      <table class=\"table is-fullwidth\">\n        <thead>\n          <th></th>\n          <th>Name</th>\n          <th>ICAO</th>\n          <th>Primary Phone</th>\n          <th>Primary Email</th>\n        </thead>\n        <tbody>\n          <tr *ngFor=\"let handler of handlers\">\n            <td>\n                <img src=\"{{handler.logo}}\" class=\"aircraft-img\" alt=\"\">\n            </td>\n            <td>\n                {{handler.name}}\n            </td>\n            <td>{{handler.icao}}</td>\n            <td>{{handler.phone_primary}}</td>\n            <td>{{handler.email_primary}}</td>\n          </tr>\n        </tbody>\n      </table>\n      <app-chat></app-chat>\n\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -1659,7 +1644,7 @@ var AirportComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-header></app-header>\n<div class=\"container\">\n  <div class=\"columns\">\n    <div class=\"column is-3\">\n      <app-side-nav></app-side-nav>\n    </div>\n    <div class=\"column is-9\">\n      <h3 class=\"title is-pulled-left\">Airport Overview</h3>\n      <button class=\"button is-primary is-outlined is-pulled-right\" routerLink=\"/admin/new-airport\">Add Airport</button>\n      <table class=\"table is-fullwidth\">\n        <thead>\n          <th></th>\n          <th>Name</th>\n          <th>IATA Code</th>\n          <th>Primary Phone</th>\n          <th>Primary Email</th>\n        </thead>\n        <tbody>\n          <tr *ngFor=\"let airport of airports\">\n            <td>\n                <img src=\"{{airport.logo}}\" class=\"aircraft-img\" alt=\"\">\n            </td>\n            <td>\n                <a routerLink=\"/admin/airport/{{airport.iata_code}}\">{{airport.name}}</a>\n            </td>\n            <td>{{airport.iata_code}}</td>\n            <td>{{airport.phone_primary}}</td>\n            <td>{{airport.email_primary}}</td>\n          </tr>\n        </tbody>\n      </table>\n      <app-chat></app-chat>\n\n    </div>\n  </div>\n</div>"
+module.exports = "<app-header></app-header>\n<div class=\"container\">\n  <div class=\"columns\">\n    <div class=\"column is-3\">\n      <app-side-nav></app-side-nav>\n    </div>\n    <div class=\"column is-9\">\n      <h3 class=\"title is-pulled-left\">Airport Overview</h3>\n      <button class=\"button is-primary is-outlined is-pulled-right\" routerLink=\"/admin/new-airport\">Add Airport</button>\n      <table class=\"table is-fullwidth\">\n        <thead>\n          <th></th>\n          <th>Name</th>\n          <th>ICAO</th>\n        </thead>\n        <tbody>\n          <tr *ngFor=\"let airport of airports\">\n            <td>\n                <img src=\"{{airport.logo}}\" class=\"aircraft-img\" alt=\"\">\n            </td>\n            <td>\n                <a routerLink=\"/admin/airport/{{airport.icao}}\">{{airport.name}}</a>\n            </td>\n            <td>{{airport.icao}}</td>\n          </tr>\n        </tbody>\n      </table>\n      <a (click)=\"prev()\" class=\"is-link\" *ngIf=\"pageNo > 1\">&lt;&lt;&lt; Previous</a> - \n      <a (click)=\"next()\" class=\"is-link\">Next &gt;&gt;&gt;</a>\n      <app-chat></app-chat>\n\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -1703,13 +1688,15 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 var AirportsComponent = /** @class */ (function () {
-    function AirportsComponent(adminService, router) {
+    function AirportsComponent(adminService, router, route) {
         this.adminService = adminService;
         this.router = router;
+        this.route = route;
         this.responses = [];
     }
     AirportsComponent.prototype.ngOnInit = function () {
         this.doRun = true;
+        this.pageNo = this.route.snapshot.paramMap.get("pageNo");
         jquery__WEBPACK_IMPORTED_MODULE_1__('#btn-add-aircraft').on('click', function () {
             jquery__WEBPACK_IMPORTED_MODULE_1__('#add-aircraft').addClass('is-active');
         });
@@ -1720,10 +1707,20 @@ var AirportsComponent = /** @class */ (function () {
     };
     AirportsComponent.prototype.getAirports = function () {
         var _this = this;
-        this.adminService.getAirports().subscribe(function (data) {
+        this.adminService.getAirports(this.pageNo, 20).subscribe(function (data) {
             _this.airports = data.data;
             console.log('airports ', _this.airports);
         });
+    };
+    AirportsComponent.prototype.next = function () {
+        this.pageNo = parseInt(this.pageNo) + 1;
+        console.log(this.pageNo);
+        this.getAirports();
+    };
+    AirportsComponent.prototype.prev = function () {
+        this.pageNo = parseInt(this.pageNo) - 1;
+        console.log(this.pageNo);
+        this.getAirports();
     };
     AirportsComponent.prototype.navigate = function (link) {
         this.router.navigate([link]);
@@ -1738,7 +1735,7 @@ var AirportsComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./airports.component.html */ "./src/app/admin/airports/airports.component.html"),
             styles: [__webpack_require__(/*! ./airports.component.scss */ "./src/app/admin/airports/airports.component.scss")]
         }),
-        __metadata("design:paramtypes", [_admin_service__WEBPACK_IMPORTED_MODULE_2__["AdminService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]])
+        __metadata("design:paramtypes", [_admin_service__WEBPACK_IMPORTED_MODULE_2__["AdminService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"]])
     ], AirportsComponent);
     return AirportsComponent;
 }());
@@ -2570,7 +2567,7 @@ var FileUpload = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-header></app-header>\n<div class=\"container\">\n  <div class=\"columns\">\n    <div class=\"column is-3\">\n      <app-side-nav></app-side-nav>\n    </div>\n    <div class=\"column is-9\">\n      <h3 class=\"title is-pulled-left\">Handler Overview</h3>\n      <button class=\"button is-primary is-outlined is-pulled-right\" routerLink=\"/admin/new-handler\">Add Handler</button>\n      <table class=\"table is-fullwidth\">\n        <thead>\n          <th></th>\n          <th>Name</th>\n          <th>IATA Code</th>\n          <th>Primary Phone</th>\n          <th>Primary Email</th>\n        </thead>\n        <tbody>\n          <tr *ngFor=\"let handler of handlers\">\n            <td>\n              <a routerLink=\"/admin/aircraft\">\n                <img src=\"{{handler.logo}}\" class=\"aircraft-img\" alt=\"\">\n              </a>\n            </td>\n            <td>\n              <a routerLink=\"/admin/aircraft\">\n                {{handler.name}}\n              </a>\n            </td>\n            <td>{{handler.iata_code}}</td>\n            <td>{{handler.phone_primary}}</td>\n            <td>{{handler.email_primary}}</td>\n          </tr>\n        </tbody>\n      </table>\n      <app-chat></app-chat>\n\n    </div>\n  </div>\n</div>"
+module.exports = "<app-header></app-header>\n<div class=\"container\">\n  <div class=\"columns\">\n    <div class=\"column is-3\">\n      <app-side-nav></app-side-nav>\n    </div>\n    <div class=\"column is-9\">\n      <h3 class=\"title is-pulled-left\">Handler Overview</h3>\n      <button class=\"button is-primary is-outlined is-pulled-right\" routerLink=\"/admin/new-handler\">Add Handler</button>\n      <table class=\"table is-fullwidth\">\n        <thead>\n          <th></th>\n          <th>Name</th>\n          <th>ICAO</th>\n          <th>Primary Phone</th>\n          <th>Primary Email</th>\n        </thead>\n        <tbody>\n          <tr *ngFor=\"let handler of handlers\">\n            <td>\n              <a routerLink=\"/admin/aircraft\">\n                <img src=\"{{handler.logo}}\" class=\"aircraft-img\" alt=\"\">\n              </a>\n            </td>\n            <td>\n              <a routerLink=\"/admin/aircraft\">\n                {{handler.name}}\n              </a>\n            </td>\n            <td>{{handler.icao}}</td>\n            <td>{{handler.phone_primary}}</td>\n            <td>{{handler.email_primary}}</td>\n          </tr>\n        </tbody>\n      </table>\n      <app-chat></app-chat>\n\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -2948,6 +2945,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MovementsComponent", function() { return MovementsComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _admin_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../admin.service */ "./src/app/admin/admin.service.ts");
+/* harmony import */ var bulma_toast__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! bulma-toast */ "./node_modules/bulma-toast/dist/bulma-toast.min.js");
+/* harmony import */ var bulma_toast__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(bulma_toast__WEBPACK_IMPORTED_MODULE_2__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2959,6 +2958,7 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
 var MovementsComponent = /** @class */ (function () {
     function MovementsComponent(adminService) {
         this.adminService = adminService;
@@ -2967,6 +2967,12 @@ var MovementsComponent = /** @class */ (function () {
         this.getFlight();
         this.today = new Date();
         this.addDays(this.today, 3);
+        Object(bulma_toast__WEBPACK_IMPORTED_MODULE_2__["toast"])({
+            message: "Hello There",
+            type: "is-success",
+            dismissible: true,
+            pauseOnHover: true
+        });
     };
     MovementsComponent.prototype.addDays = function (date, days) {
         var result = new Date(date);
@@ -2983,21 +2989,43 @@ var MovementsComponent = /** @class */ (function () {
     };
     MovementsComponent.prototype.fileFPL = function (movement) {
         var _this = this;
-        this.adminService.fileFPL(movement.route).subscribe(function (data) {
-            _this.flightID = data.data.flightid;
+        this.subFileFPL = this.adminService.fileFPL(movement.route).subscribe(function (data) {
             console.log('fileFPL ', data);
-            if (_this.flightID) {
-                _this.adminService.updateFiled(movement._id, true).subscribe(function (data) {
-                    _this.getFlight();
-                    console.log('update filed ', data);
+            if (data.data.error) {
+                Object(bulma_toast__WEBPACK_IMPORTED_MODULE_2__["toast"])({
+                    message: data.data.error,
+                    type: "is-danger",
+                    dismissible: true,
+                    pauseOnHover: true
                 });
-                _this.cancelFPL();
+            }
+            else {
+                _this.flightID = data.data.flightid;
+                if (_this.flightID) {
+                    _this.adminService.updateFiled(movement._id, true).subscribe(function (data) {
+                        _this.getFlight();
+                        console.log('update filed ', data);
+                        Object(bulma_toast__WEBPACK_IMPORTED_MODULE_2__["toast"])({
+                            message: "Flight Plan Filed Successfully",
+                            type: "is-success",
+                            dismissible: true,
+                            pauseOnHover: true
+                        });
+                    });
+                    _this.cancelFPL();
+                }
             }
         });
     };
     MovementsComponent.prototype.cancelFPL = function () {
         this.adminService.cancelFPL(this.flightID).subscribe(function (data) {
             console.log('cancelFPL ', data);
+            Object(bulma_toast__WEBPACK_IMPORTED_MODULE_2__["toast"])({
+                message: "Flight Plan Cancelled Successfully",
+                type: "is-success",
+                dismissible: true,
+                pauseOnHover: true
+            });
         });
     };
     MovementsComponent.prototype.download = function (id) {
@@ -3026,7 +3054,7 @@ var MovementsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-header></app-header>\n<div class=\"container\">\n  <div class=\"columns\">\n    <div class=\"column is-3\">\n      <app-side-nav></app-side-nav>\n    </div>\n    <div class=\"column is-9\">\n      <h3 class=\"title\">Add Airport</h3>\n\n      <form>\n        <div class=\"columns\">\n          <div class=\"column is-4\">\n            <div class=\"field\">\n              <label class=\"label\">Name</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"name\" [(ngModel)]=\"name\">\n              </div>\n            </div>\n          </div>\n          <div class=\"column is-4\">\n            <div class=\"field\">\n              <label class=\"label\">Logo URL</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"logo\" [(ngModel)]=\"logo\">\n              </div>\n            </div>\n          </div>\n          <div class=\"column is-4\">\n            <div class=\"field\">\n              <label class=\"label\">IATA Code</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"iata_code\" [(ngModel)]=\"iata_code\">\n              </div>\n            </div>\n          </div>\n        </div>\n\n        <div class=\"columns\">\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Longitude</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" name=\"longitude\" [(ngModel)]=\"longitude\">\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Latitude</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" name=\"latitude\" [(ngModel)]=\"latitude\">\n                </div>\n              </div>\n            </div>\n          </div>\n          <div class=\"columns\">\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Primary Phone</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" name=\"phone_primary\" [(ngModel)]=\"phone_primary\">\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Secondary Phone</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" name=\"phone_secondary\" [(ngModel)]=\"phone_secondary\">\n                </div>\n              </div>\n            </div>\n          </div>\n        <div class=\"columns\">\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Primary Email</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"email_primary\" [(ngModel)]=\"email_primary\">\n              </div>\n            </div>\n          </div>\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Secondary Email</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"email_secondary\" [(ngModel)]=\"email_secondary\">\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"columns\">\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Monday Open Hours</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"monday_open\" [(ngModel)]=\"monday_open\">\n              </div>\n            </div>\n          </div>\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Monday Close Hours</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"monday_close\" [(ngModel)]=\"monday_close\">\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"columns\">\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Tuesday Open Hours</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"tuesday_open\" [(ngModel)]=\"tuesday_open\">\n              </div>\n            </div>\n          </div>\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Tuesday Close Hours</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"tuesday_close\" [(ngModel)]=\"tuesday_close\">\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"columns\">\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Wednesday Open Hours</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"wednesday_open\" [(ngModel)]=\"wednesday_open\">\n              </div>\n            </div>\n          </div>\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Wednesday Close Hours</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"wednesday_close\" [(ngModel)]=\"wednesday_close\">\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"columns\">\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Thursday Open Hours</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"thursday_open\" [(ngModel)]=\"thursday_open\">\n              </div>\n            </div>\n          </div>\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Thursday Close Hours</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"thursday_close\" [(ngModel)]=\"thursday_close\">\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"columns\">\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Friday Open Hours</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"friday_open\" [(ngModel)]=\"friday_open\">\n              </div>\n            </div>\n          </div>\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Friday Close Hours</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"friday_close\" [(ngModel)]=\"friday_close\">\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"columns\">\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Saturday Open Hours</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"saturday_open\" [(ngModel)]=\"saturday_open\">\n              </div>\n            </div>\n          </div>\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Saturday Close Hours</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"saturday_close\" [(ngModel)]=\"saturday_close\">\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"columns\">\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Sunday Open Hours</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"sunday_open\" [(ngModel)]=\"sunday_open\">\n              </div>\n            </div>\n          </div>\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Sunday Close Hours</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"sunday_close\" [(ngModel)]=\"sunday_close\">\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"columns\">\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Runway 1</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"runway_1\" [(ngModel)]=\"runway_1\">\n              </div>\n            </div>\n          </div>\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Diagram</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"runway_1_diagram\" [(ngModel)]=\"runway_1_diagram\">\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"columns\">\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Runway 2</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"runway_2\" [(ngModel)]=\"runway_2\">\n              </div>\n            </div>\n          </div>\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Diagram</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"runway_2_diagram\" [(ngModel)]=\"runway_2_diagram\">\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"columns\">\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Runway 3</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"runway_3\" [(ngModel)]=\"runway_3\">\n              </div>\n            </div>\n          </div>\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Diagram</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"runway_3_diagram\" [(ngModel)]=\"runway_3_diagram\">\n              </div>\n            </div>\n          </div>\n        </div>\n\n        <div class=\"columns\">\n          <div class=\"column is-6\">\n            <div class=\"field is-grouped\">\n              <div class=\"control\">\n                <button class=\"button is-link\" id=\"addBtn\" (click)=\"addAirport()\">Submit</button>\n              </div>\n              <div class=\"control\">\n                <button class=\"button is-text\" type=\"reset\">Reset</button>\n              </div>\n            </div>\n          </div>\n        </div>\n      </form>\n    </div>\n  </div>\n</div>\n<app-chat></app-chat>\n"
+module.exports = "<app-header></app-header>\n<div class=\"container\">\n  <div class=\"columns\">\n    <div class=\"column is-3\">\n      <app-side-nav></app-side-nav>\n    </div>\n    <div class=\"column is-9\">\n      <h3 class=\"title\">Add Airport</h3>\n\n      <form>\n        <div class=\"columns\">\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Name</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"name\" [(ngModel)]=\"name\">\n              </div>\n            </div>\n          </div>\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">ICAO Code</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"icao\" [(ngModel)]=\"icao\">\n              </div>\n            </div>\n          </div>\n        </div>\n\n        <div class=\"columns\">\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Longitude</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"longitude\" [(ngModel)]=\"longitude\">\n              </div>\n            </div>\n          </div>\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Latitude</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"latitude\" [(ngModel)]=\"latitude\">\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"columns\">\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Elevation</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"elevation\" [(ngModel)]=\"elevation\">\n              </div>\n            </div>\n          </div>\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Longest Runway</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"longest_runway\" [(ngModel)]=\"longest_runway\">\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"columns\">\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Magnetic Variation</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"magnetic_variation\" [(ngModel)]=\"magnetic_variation\">\n              </div>\n            </div>\n          </div>\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Airport Type</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"airport_type\" [(ngModel)]=\"airport_type\">\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"columns\">\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Beacon</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"beacon\" [(ngModel)]=\"beacon\">\n              </div>\n            </div>\n          </div>\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Fuel Types</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"fuel_types\" [(ngModel)]=\"fuel_types\">\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"columns\">\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Landing Fee</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"landing_fee\" [(ngModel)]=\"landing_fee\">\n              </div>\n            </div>\n          </div>\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Oxygen</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"oxygen\" [(ngModel)]=\"oxygen\">\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"columns\">\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Repairs</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"repairs\" [(ngModel)]=\"repairs\">\n              </div>\n            </div>\n          </div>\n          \n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Country</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"country\" [(ngModel)]=\"country\">\n              </div>\n            </div>\n          </div>\n        </div>\n\n        <div class=\"columns\">\n          <div class=\"column is-6\">\n            <div class=\"field is-grouped\">\n              <div class=\"control\">\n                <button class=\"button is-link\" id=\"addBtn\" (click)=\"addAirport()\">Submit</button>\n              </div>\n              <div class=\"control\">\n                <button class=\"button is-text\" type=\"reset\">Reset</button>\n              </div>\n            </div>\n          </div>\n        </div>\n      </form>\n    </div>\n  </div>\n</div>\n<app-chat></app-chat>"
 
 /***/ }),
 
@@ -3079,7 +3107,7 @@ var NewAirportComponent = /** @class */ (function () {
         console.log('add start');
         jquery__WEBPACK_IMPORTED_MODULE_1__('#addBtn').addClass('is-loading');
         if (this.doRun === true) {
-            this.adminService.addAirport(this.name, this.iata_code, this.logo, this.longitude, this.latitude, this.phone_primary, this.phone_secondary, this.email_primary, this.email_secondary, this.monday_open, this.monday_close, this.tuesday_open, this.tuesday_close, this.wednesday_open, this.wednesday_close, this.thursday_open, this.thursday_close, this.friday_open, this.friday_close, this.saturday_open, this.saturday_close, this.sunday_open, this.sunday_close, this.runway_1, this.runway_1_diagram, this.runway_2, this.runway_2_diagram, this.runway_3, this.runway_3_diagram)
+            this.adminService.addAirport(this.name, this.country, this.icao, this.latitude, this.longitude, this.elevation, this.longest_runway, this.magnetic_variation, this.airport_type, this.beacon, this.fuel_types, this.landing_fee, this.oxygen, this.repairs)
                 .subscribe(function (data) {
                 console.log('Aircraft Added ', data);
                 jquery__WEBPACK_IMPORTED_MODULE_1__('form').trigger("reset");
@@ -3238,7 +3266,7 @@ var NewFlightComponent = /** @class */ (function () {
     };
     NewFlightComponent.prototype.getAirports = function () {
         var _this = this;
-        this.adminService.getAirports().subscribe(function (data) {
+        this.adminService.getAirports(1, 20).subscribe(function (data) {
             _this.airports = data.data;
             console.log('airports ', _this.airports);
         });
@@ -3302,7 +3330,7 @@ var NewFlightComponent = /** @class */ (function () {
     };
     NewFlightComponent.prototype.getHandler = function (airport) {
         var _this = this;
-        this.adminService.getHandler(airport.iata_code).subscribe(function (data) {
+        this.adminService.getHandler(airport.icao).subscribe(function (data) {
             _this.handlers = data.data;
             console.log('handlers ', _this.handlers);
         });
@@ -3354,7 +3382,7 @@ var NewFlightComponent = /** @class */ (function () {
                         _this.ops_crew_email = data.data.p_email;
                         console.log('checkOPS', _this.ops_crew_name);
                         console.log('checkFO', _this.fo_crew);
-                        _this.adminService.addFlight(_this.reference_id, _this.ops_crew, _this.pic_crew, _this.fo_crew, _this.ops_crew_name, _this.pic_crew_name, _this.fo_crew_name, _this.aircraft.aircraftId, _this.departure_airport.iata_code, _this.arrival_airport, _this.departure_time, _this.handler, _this.dangerous, _this.type, _this.pax, _this.cargo, _this.liveLeg, _this.positionFrom, _this.positionTo).subscribe(function (data) {
+                        _this.adminService.addFlight(_this.reference_id, _this.ops_crew, _this.pic_crew, _this.fo_crew, _this.ops_crew_name, _this.pic_crew_name, _this.fo_crew_name, _this.aircraft.aircraftId, _this.departure_airport.icao, _this.arrival_airport, _this.departure_time, _this.handler, _this.dangerous, _this.type, _this.pax, _this.cargo, _this.liveLeg, _this.positionFrom, _this.positionTo).subscribe(function (data) {
                             console.log('resp ', data.data);
                             _this.flight_id = data.data._id;
                             console.log('flight id ', _this.flight_id);
@@ -3378,8 +3406,8 @@ var NewFlightComponent = /** @class */ (function () {
         jquery__WEBPACK_IMPORTED_MODULE_1__('#cancel').removeClass('is-hidden');
         var data = {
             aircraftid: this.aircraft.aircraftId,
-            departure: this.departure_airport.iata_code,
-            destination: this.arrival_airport.iata_code,
+            departure: this.departure_airport.icao,
+            destination: this.arrival_airport.icao,
             departuretime: Date.parse(this.departure_time) / 1000
         };
         this.adminService.route(data).subscribe(function (data) {
@@ -3420,11 +3448,11 @@ var NewFlightComponent = /** @class */ (function () {
                                     _this.fo_crew = element;
                                     return subtract >= 0;
                                 });
-                                _this.adminService.addRoute(_this.reference_id, _this.routeId, _this.ops_crew._id, _this.pic_crew._id, _this.fo_crew._id, _this.ops_crew.name, _this.pic_crew.name, _this.fo_crew.name, _this.aircraft.aircraftId, _this.departure_airport.iata_code, _this.arrival_airport.iata_code, _this.handler._id, _this.dangerous, _this.type, _this.pax, _this.cargo, 'live', _this.routeDet.arrivaltime, _this.routeDet.departuretime, _this.routeDet.fuel, _this.routeDet.distance, _this.routeDet.fplan).subscribe(function (data) {
+                                _this.adminService.addRoute(_this.reference_id, _this.routeId, _this.ops_crew._id, _this.pic_crew._id, _this.fo_crew._id, _this.ops_crew.name, _this.pic_crew.name, _this.fo_crew.name, _this.aircraft.aircraftId, _this.departure_airport.icao, _this.arrival_airport.icao, _this.handler._id, _this.dangerous, _this.type, _this.pax, _this.cargo, 'live', _this.routeDet.arrivaltime, _this.routeDet.departuretime, _this.routeDet.fuel, _this.routeDet.distance, _this.routeDet.fplan).subscribe(function (data) {
                                     jquery__WEBPACK_IMPORTED_MODULE_1__('#position-from').addClass('is-active');
                                     console.log('ROUTE ADDED ', data);
-                                    _this.LiveDep = _this.departure_airport.iata_code;
-                                    _this.LiveArr = _this.arrival_airport.iata_code;
+                                    _this.LiveDep = _this.departure_airport.icao;
+                                    _this.LiveArr = _this.arrival_airport.icao;
                                     _this.LiveDepT = _this.routeDet.departuretime;
                                     _this.LiveArr = _this.routeDet.arrivaltime;
                                     _this.liveLeg = data.data._id;
@@ -3450,8 +3478,8 @@ var NewFlightComponent = /** @class */ (function () {
         console.log(arrivalTime);
         var data = {
             aircraftid: this.aircraft.aircraftId,
-            departure: this.currentLoc.iata_code,
-            destination: this.departure_airport.iata_code,
+            departure: this.currentLoc.icao,
+            destination: this.departure_airport.icao,
             arrivaltime: arrivalTime
         };
         this.adminService.route(data).subscribe(function (data) {
@@ -3474,10 +3502,10 @@ var NewFlightComponent = /** @class */ (function () {
                         _this.routeDet.fplan = __assign({}, data.data.fplan);
                         console.log(_this.routeDet);
                         _this.result = JSON.stringify(_this.routeDet, undefined, 2);
-                        _this.adminService.addRoute(_this.reference_id, _this.routeId, _this.ops_crew._id, _this.pic_crew._id, _this.fo_crew._id, _this.ops_crew.name, _this.pic_crew.name, _this.fo_crew.name, _this.aircraft.aircraftId, _this.currentLoc.iata_code, _this.departure_airport.iata_code, _this.fromHandler._id, _this.dangerous, _this.type, _this.pax, _this.cargo, 'positionFrom', _this.routeDet.arrivaltime, _this.routeDet.departuretime, _this.routeDet.fuel, _this.routeDet.distance, _this.routeDet.fplan).subscribe(function (data) {
+                        _this.adminService.addRoute(_this.reference_id, _this.routeId, _this.ops_crew._id, _this.pic_crew._id, _this.fo_crew._id, _this.ops_crew.name, _this.pic_crew.name, _this.fo_crew.name, _this.aircraft.aircraftId, _this.currentLoc.icao, _this.departure_airport.icao, _this.fromHandler._id, _this.dangerous, _this.type, _this.pax, _this.cargo, 'positionFrom', _this.routeDet.arrivaltime, _this.routeDet.departuretime, _this.routeDet.fuel, _this.routeDet.distance, _this.routeDet.fplan).subscribe(function (data) {
                             console.log('ROUTE ADDED ', data);
-                            _this.positionFromDep = _this.currentLoc.iata_code;
-                            _this.positionFromArr = _this.departure_airport.iata_code;
+                            _this.positionFromDep = _this.currentLoc.icao;
+                            _this.positionFromArr = _this.departure_airport.icao;
                             _this.positionFromDepT = _this.routeDet.departuretime;
                             _this.positionFromArrT = _this.routeDet.arrivaltime;
                             _this.adminService.getBriefing(_this.routeId).subscribe(function (data) {
@@ -3510,8 +3538,8 @@ var NewFlightComponent = /** @class */ (function () {
         console.log(departTime);
         var data = {
             aircraftid: this.aircraft.aircraftId,
-            departure: this.arrival_airport.iata_code,
-            destination: this.baseLoc.iata_code,
+            departure: this.arrival_airport.icao,
+            destination: this.baseLoc.icao,
             departuretime: departTime
         };
         this.adminService.route(data).subscribe(function (data) {
@@ -3533,11 +3561,11 @@ var NewFlightComponent = /** @class */ (function () {
                         _this.routeDet.fplan = __assign({}, data.data.fplan);
                         console.log(_this.routeDet);
                         _this.result = JSON.stringify(_this.routeDet, undefined, 2);
-                        _this.adminService.addRoute(_this.reference_id, _this.routeId, _this.ops_crew._id, _this.pic_crew._id, _this.fo_crew._id, _this.ops_crew.name, _this.pic_crew.name, _this.fo_crew.name, _this.aircraft.aircraftId, _this.arrival_airport.iata_code, _this.baseLoc.iata_code, _this.toHandler._id, _this.dangerous, _this.type, _this.pax, _this.cargo, 'positionTo', _this.routeDet.arrivaltime, _this.routeDet.departuretime, _this.routeDet.fuel, _this.routeDet.distance, _this.routeDet.fplan).subscribe(function (data) {
+                        _this.adminService.addRoute(_this.reference_id, _this.routeId, _this.ops_crew._id, _this.pic_crew._id, _this.fo_crew._id, _this.ops_crew.name, _this.pic_crew.name, _this.fo_crew.name, _this.aircraft.aircraftId, _this.arrival_airport.icao, _this.baseLoc.icao, _this.toHandler._id, _this.dangerous, _this.type, _this.pax, _this.cargo, 'positionTo', _this.routeDet.arrivaltime, _this.routeDet.departuretime, _this.routeDet.fuel, _this.routeDet.distance, _this.routeDet.fplan).subscribe(function (data) {
                             console.log('ROUTE ADDED ', data);
                             console.log('DEPARTURE ROUTE ADDED ', _this.departure_time);
-                            _this.positionToDep = _this.arrival_airport.iata_code;
-                            _this.positionToArr = _this.baseLoc.iata_code;
+                            _this.positionToDep = _this.arrival_airport.icao;
+                            _this.positionToArr = _this.baseLoc.icao;
                             _this.positionToDepT = _this.routeDet.departuretime;
                             _this.positionToArrT = _this.routeDet.arrivaltime;
                             _this.adminService.getBriefing(_this.routeId).subscribe(function (data) {
@@ -3677,7 +3705,7 @@ var NewHandlerComponent = /** @class */ (function () {
     };
     NewHandlerComponent.prototype.getAirports = function () {
         var _this = this;
-        this.adminService.getAirports().subscribe(function (data) {
+        this.adminService.getAirports(1, 20).subscribe(function (data) {
             _this.airports = data.data;
             console.log('airports ', _this.airports);
         });
@@ -3931,7 +3959,7 @@ var SettingsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<aside class=\"menu is-hidden-mobile\">\n  <p class=\"menu-label\">\n    General\n  </p>\n  <ul class=\"menu-list\">\n    <li><a routerLink=\"/admin/dashboard\" routerLinkActive=\"is-active\">Dashboard</a></li>\n    <li><a routerLink=\"/admin/aircrafts\" routerLinkActive=\"is-active\">Aircrafts</a></li>\n    <li><a routerLink=\"/admin/airports\" routerLinkActive=\"is-active\">Airports</a></li>\n    <li><a routerLink=\"/admin/crews\" routerLinkActive=\"is-active\">Crews</a></li>\n    <li><a routerLink=\"/admin/movements\" routerLinkActive=\"is-active\">Movements</a></li>\n    <li><a routerLink=\"/admin/sales\" routerLinkActive=\"is-active\">Sales</a></li>\n    <li><a routerLink=\"/admin/new-flight/new\" routerLinkActive=\"is-active\">New Flight</a></li>\n    <li><a routerLink=\"/admin/settings\" routerLinkActive=\"is-active\">Settings</a></li>\n  </ul>\n  <div class=\"box\">\n    <article class=\"media\">\n      <div class=\"media-content\">\n        <div class=\"content has-text-centered\t\">\n          <h5 class=\"is-marginless\">Zulu Time</h5>\n          <time datetime=\"2016-1-1\">{{zuluTime}}</time>\n        </div>\n      </div>\n    </article>\n  </div>\n  <div class=\"box\">\n    <article class=\"media\">\n      <div class=\"media-content\">\n        <div class=\"content has-text-centered\t\">\n          <h5 class=\"is-marginless\">Local Time</h5>\n          <time datetime=\"2016-1-1\">{{localTime}}</time>\n        </div>\n      </div>\n    </article>\n  </div>\n</aside>"
+module.exports = "<aside class=\"menu is-hidden-mobile\">\n  <p class=\"menu-label\">\n    General\n  </p>\n  <ul class=\"menu-list\">\n    <li><a routerLink=\"/admin/dashboard\" routerLinkActive=\"is-active\">Dashboard</a></li>\n    <li><a routerLink=\"/admin/aircrafts\" routerLinkActive=\"is-active\">Aircrafts</a></li>\n    <li><a routerLink=\"/admin/airports/1\" routerLinkActive=\"is-active\">Airports</a></li>\n    <li><a routerLink=\"/admin/crews\" routerLinkActive=\"is-active\">Crews</a></li>\n    <li><a routerLink=\"/admin/movements\" routerLinkActive=\"is-active\">Movements</a></li>\n    <li><a routerLink=\"/admin/sales\" routerLinkActive=\"is-active\">Sales</a></li>\n    <li><a routerLink=\"/admin/new-flight/new\" routerLinkActive=\"is-active\">New Flight</a></li>\n    <li><a routerLink=\"/admin/settings\" routerLinkActive=\"is-active\">Settings</a></li>\n  </ul>\n  <div class=\"box\">\n    <article class=\"media\">\n      <div class=\"media-content\">\n        <div class=\"content has-text-centered\t\">\n          <h5 class=\"is-marginless\">Zulu Time</h5>\n          <time datetime=\"2016-1-1\">{{zuluTime}}</time>\n        </div>\n      </div>\n    </article>\n  </div>\n  <div class=\"box\">\n    <article class=\"media\">\n      <div class=\"media-content\">\n        <div class=\"content has-text-centered\t\">\n          <h5 class=\"is-marginless\">Local Time</h5>\n          <time datetime=\"2016-1-1\">{{localTime}}</time>\n        </div>\n      </div>\n    </article>\n  </div>\n</aside>"
 
 /***/ }),
 

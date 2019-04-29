@@ -65,7 +65,7 @@ export class AircraftsComponent implements OnInit {
     })
   }
   getAirports(): void {
-    this.adminService.getAirports().subscribe(data => {
+    this.adminService.getAirports(1, 20).subscribe(data => {
       this.airports = data.data;
       console.log('airports ', this.airports)
     })

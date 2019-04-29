@@ -4,7 +4,7 @@ const Db = require('../models/handler.model');
 
 const dbSchema = Joi.object({
   name: Joi.string().required(),
-  iata_code: Joi.string().required(),
+  icao: Joi.string().required(),
   logo: Joi.string().allow('').optional(),
   phone_primary: Joi.string().allow('').optional(),
   phone_secondary: Joi.string().allow('').optional(),

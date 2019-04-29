@@ -44,7 +44,7 @@ export class AddSalesComponent implements OnInit {
     this.renderer.addClass(this.document.getElementsByClassName('ng2-flatpickr-input flatpickr-input')[0], 'input');
   }
   getAirports(): void {
-    this.adminService.getAirports().subscribe(data => {
+    this.adminService.getAirports(1, 20).subscribe(data => {
       this.airports = data.data;
       console.log('airports ', this.airports)
     })

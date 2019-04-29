@@ -22,7 +22,7 @@ router.get('/fetch', function (req, res) {
     })
 });
 router.get('/fetch/:airport', function (req, res) {
-    Handler.find({ iata_code: req.params.airport }, function (err, handlers) {
+    Handler.find({ icao: req.params.airport }, function (err, handlers) {
         if (err) {
             console.log(err);
         } else {

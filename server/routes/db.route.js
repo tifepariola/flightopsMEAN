@@ -15,7 +15,7 @@ router.get('/db', asyncHandler(db));
 
 
 async function db(req, res) {
-    const csvFilePath = 'convertcsv.csv'
+    const csvFilePath = 'convertcsv1.csv'
     const csv = require('csvtojson')
     csv()
         .fromFile(csvFilePath)

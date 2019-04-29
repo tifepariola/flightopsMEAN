@@ -117,7 +117,7 @@ export class NewFlightComponent implements OnInit {
     })
   }
   getAirports(): void {
-    this.adminService.getAirports().subscribe(data => {
+    this.adminService.getAirports(1, 20).subscribe(data => {
       this.airports = data.data;
       console.log('airports ', this.airports)
     })
@@ -186,7 +186,7 @@ export class NewFlightComponent implements OnInit {
     return replaceString;
   };
   getHandler(airport): void {
-    this.adminService.getHandler(airport.iata_code).subscribe(data => {
+    this.adminService.getHandler(airport.icao).subscribe(data => {
       this.handlers = data.data;
       console.log('handlers ', this.handlers)
     })
@@ -246,7 +246,7 @@ export class NewFlightComponent implements OnInit {
               this.pic_crew_name,
               this.fo_crew_name,
               this.aircraft.aircraftId,
-              this.departure_airport.iata_code,
+              this.departure_airport.icao,
               this.arrival_airport,
               this.departure_time,
               this.handler,
@@ -282,8 +282,8 @@ export class NewFlightComponent implements OnInit {
     $('#cancel').removeClass('is-hidden');
     let data = {
       aircraftid: this.aircraft.aircraftId,
-      departure: this.departure_airport.iata_code,
-      destination: this.arrival_airport.iata_code,
+      departure: this.departure_airport.icao,
+      destination: this.arrival_airport.icao,
       departuretime: Date.parse(this.departure_time) / 1000
     }
     this.adminService.route(data).subscribe(data => {
@@ -338,8 +338,8 @@ export class NewFlightComponent implements OnInit {
                     this.pic_crew.name,
                     this.fo_crew.name,
                     this.aircraft.aircraftId,
-                    this.departure_airport.iata_code,
-                    this.arrival_airport.iata_code,
+                    this.departure_airport.icao,
+                    this.arrival_airport.icao,
                     this.handler._id,
                     this.dangerous,
                     this.type,
@@ -347,8 +347,8 @@ export class NewFlightComponent implements OnInit {
                     this.cargo, 'live', this.routeDet.arrivaltime, this.routeDet.departuretime, this.routeDet.fuel, this.routeDet.distance, this.routeDet.fplan).subscribe(data => {
                       $('#position-from').addClass('is-active');
                       console.log('ROUTE ADDED ', data)
-                      this.LiveDep = this.departure_airport.iata_code
-                      this.LiveArr = this.arrival_airport.iata_code
+                      this.LiveDep = this.departure_airport.icao
+                      this.LiveArr = this.arrival_airport.icao
                       this.LiveDepT = this.routeDet.departuretime
                       this.LiveArr = this.routeDet.arrivaltime
                       this.liveLeg = data.data._id
@@ -375,8 +375,8 @@ export class NewFlightComponent implements OnInit {
     console.log(arrivalTime)
     let data = {
       aircraftid: this.aircraft.aircraftId,
-      departure: this.currentLoc.iata_code,
-      destination: this.departure_airport.iata_code,
+      departure: this.currentLoc.icao,
+      destination: this.departure_airport.icao,
       arrivaltime: arrivalTime
     }
     this.adminService.route(data).subscribe(data => {
@@ -411,16 +411,16 @@ export class NewFlightComponent implements OnInit {
                 this.pic_crew.name,
                 this.fo_crew.name,
                 this.aircraft.aircraftId,
-                this.currentLoc.iata_code,
-                this.departure_airport.iata_code,
+                this.currentLoc.icao,
+                this.departure_airport.icao,
                 this.fromHandler._id,
                 this.dangerous,
                 this.type,
                 this.pax,
                 this.cargo, 'positionFrom', this.routeDet.arrivaltime, this.routeDet.departuretime, this.routeDet.fuel, this.routeDet.distance, this.routeDet.fplan).subscribe(data => {
                   console.log('ROUTE ADDED ', data)
-                  this.positionFromDep = this.currentLoc.iata_code
-                  this.positionFromArr = this.departure_airport.iata_code
+                  this.positionFromDep = this.currentLoc.icao
+                  this.positionFromArr = this.departure_airport.icao
                   this.positionFromDepT = this.routeDet.departuretime
                   this.positionFromArrT = this.routeDet.arrivaltime
                   this.adminService.getBriefing(this.routeId).subscribe(data => {
@@ -453,8 +453,8 @@ export class NewFlightComponent implements OnInit {
     console.log(departTime)
     let data = {
       aircraftid: this.aircraft.aircraftId,
-      departure: this.arrival_airport.iata_code,
-      destination: this.baseLoc.iata_code,
+      departure: this.arrival_airport.icao,
+      destination: this.baseLoc.icao,
       departuretime: departTime
     }
     this.adminService.route(data).subscribe(data => {
@@ -488,8 +488,8 @@ export class NewFlightComponent implements OnInit {
                 this.pic_crew.name,
                 this.fo_crew.name,
                 this.aircraft.aircraftId,
-                this.arrival_airport.iata_code,
-                this.baseLoc.iata_code,
+                this.arrival_airport.icao,
+                this.baseLoc.icao,
                 this.toHandler._id,
                 this.dangerous,
                 this.type,
@@ -497,8 +497,8 @@ export class NewFlightComponent implements OnInit {
                 this.cargo, 'positionTo', this.routeDet.arrivaltime, this.routeDet.departuretime, this.routeDet.fuel, this.routeDet.distance, this.routeDet.fplan).subscribe(data => {
                   console.log('ROUTE ADDED ', data)
                   console.log('DEPARTURE ROUTE ADDED ', this.departure_time)
-                  this.positionToDep = this.arrival_airport.iata_code
-                  this.positionToArr = this.baseLoc.iata_code
+                  this.positionToDep = this.arrival_airport.icao
+                  this.positionToArr = this.baseLoc.icao
                   this.positionToDepT = this.routeDet.departuretime
                   this.positionToArrT = this.routeDet.arrivaltime
                   this.adminService.getBriefing(this.routeId).subscribe(data => {

@@ -3,95 +3,47 @@ const mongoose = require('mongoose');
 const DbSchema = new mongoose.Schema({
 
     name: {
-        type: String,
-        required: true
-        // unique: true
-    },
-    iata_code: {
-        type: String,
-        // unique: true
-    },
-    logo: {
         type: String
     },
-    longitude: {
-        type: Number
+    country: {
+        type: String
+    },
+    icao: {
+        type: String
     },
     latitude: {
         type: Number
     },
-    phone_primary: {
+    longitude: {
+        type: Number
+    },
+    elevation: {
+        type: Number
+    },
+    longest_runway: {
+        type: Number
+    },
+    magnetic_variation: {
+        type: Number
+    },
+    airport_type: {
         type: String
     },
-    phone_secondary: {
+    beacon: {
         type: String
     },
-    email_primary: {
+    fuel_types: {
         type: String
     },
-    email_secondary: {
+    landing_fee: {
+        type: Boolean
+    },
+    oxygen: {
         type: String
     },
-    monday_open: {
+    repairs: {
         type: String
-    },
-    monday_close: {
-        type: String
-    },
-    tuesday_open: {
-        type: String
-    },
-    tuesday_close: {
-        type: String
-    },
-    wednesday_open: {
-        type: String
-    },
-    wednesday_close: {
-        type: String
-    },
-    thursday_open: {
-        type: String
-    },
-    thursday_close: {
-        type: String
-    },
-    friday_open: {
-        type: String
-    },
-    friday_close: {
-        type: String
-    },
-    saturday_open: {
-        type: String
-    },
-    saturday_close: {
-        type: String
-    },
-    sunday_open: {
-        type: String
-    },
-    sunday_close: {
-        type: String
-    },
-    runway_1: {
-        type: String
-    },
-    runway_1_diagram: {
-        type: String
-    },
-    runway_2: {
-        type: String
-    },
-    runway_2_diagram: {
-        type: String
-    },
-    runway_3: {
-        type: String
-    },
-    runway_3_diagram: {
-        type: String
-    },
+    }
 }, {
         versionKey: false
     });

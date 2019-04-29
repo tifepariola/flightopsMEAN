@@ -6,7 +6,7 @@ const Aircraft = require('../models/aircraft.model');
 const axios = require('axios');
 var fs = require('fs');
 var path = require('path');
-axios.post('https://api.autorouter.aero/v1.0/oauth2/token', {
+axios.post('https://dev-api.autorouter.aero/v1.0/oauth2/token', {
     grant_type: 'client_credentials',
     client_id: 'kininteractivesolutions@gmail.com',
     client_secret: 'Test123'
@@ -46,7 +46,7 @@ router.get('/fetch/:id', function (req, res) {
     })
 });
 router.post('/createRoute', function (req, res) {
-    axios.post('https://api.autorouter.aero/v1.0/router', req.body)
+    axios.post('https://dev-api.autorouter.aero/v1.0/router', req.body)
         .then(response => {
             res.json(response.data);
         })
@@ -55,7 +55,7 @@ router.post('/createRoute', function (req, res) {
         });
 });
 router.get('/fileFPL/:route', function (req, res) {
-    axios.post('https://api.autorouter.aero/v1.0/flightplan/file/' + req.params.route, {
+    axios.post('https://dev-api.autorouter.aero/v1.0/flightplan/file/' + req.params.route, {
         "addresses": [],
         "gfs": true,
         "force": false,
@@ -65,11 +65,12 @@ router.get('/fileFPL/:route', function (req, res) {
             res.json(response.data);
         })
         .catch(error => {
-            console.log(error);
+            console.log(error)
+            res.json(error.response.data);
         });
 });
 router.get('/cancelFPL/:id', function (req, res) {
-    axios.post('https://api.autorouter.aero/v1.0/flightplan/file/' + req.params.id + '/cancel', {
+    axios.post('https://dev-api.autorouter.aero/v1.0/flightplan/file/' + req.params.id + '/cancel', {
         "reason": ""
     })
         .then(response => {
@@ -80,7 +81,7 @@ router.get('/cancelFPL/:id', function (req, res) {
         });
 });
 router.get('/longpoll/:route', function (req, res) {
-    axios.put('https://api.autorouter.aero/v1.0/router/' + req.params.route + '/longpoll', {
+    axios.put('https://dev-api.autorouter.aero/v1.0/router/' + req.params.route + '/longpoll', {
         aircraftid: 0,
         departuretime: "2019-04-21T08:05:31.770Z",
         departure: "EDDS",
@@ -94,7 +95,7 @@ router.get('/longpoll/:route', function (req, res) {
         });
 });
 router.get('/getFplan/:route', function (req, res) {
-    axios.get('https://api.autorouter.aero/v1.0/flightplan/' + req.params.route)
+    axios.get('https://dev-api.autorouter.aero/v1.0/flightplan/' + req.params.route)
         .then(response => {
             res.json(response.data);
         })
@@ -103,7 +104,7 @@ router.get('/getFplan/:route', function (req, res) {
         });
 });
 router.get('/getBriefing/:route', function (req, res) {
-    axios.get('https://api.autorouter.aero/v1.0/flightplan/' + req.params.route + '/briefing?navlog&mb&distances&climb&metartaf&gramet&isobraic&skewt&raobs&sigwx&mslp&temsi&atcbriefing&notam&icaofpl&atcharges', {
+    axios.get('https://dev-api.autorouter.aero/v1.0/flightplan/' + req.params.route + '/briefing?navlog&mb&distances&climb&metartaf&gramet&isobraic&skewt&raobs&sigwx&mslp&temsi&atcbriefing&notam&icaofpl&atcharges', {
         headers: {
             'Content-Type': 'application/pdf'
         },
@@ -134,7 +135,7 @@ router.get('/downloadBriefing/:route', function (req, res) {
 
 });
 router.get('/getNOTAM/:airport', function (req, res) {
-    axios.get('https://api.autorouter.aero/v1.0/notam?itemas=["' + req.params.airport + '"]&offset=0&limit=10')
+    axios.get('https://dev-api.autorouter.aero/v1.0/notam?itemas=["' + req.params.airport + '"]&offset=0&limit=10')
         .then(response => {
             res.json(response.data);
         })
@@ -144,7 +145,7 @@ router.get('/getNOTAM/:airport', function (req, res) {
 });
 
 function getToken() {
-    axios.post('https://api.autorouter.aero/v1.0/oauth2/token', {
+    axios.post('https://dev-api.autorouter.aero/v1.0/oauth2/token', {
         grant_type: 'client_credentials',
         client_id: 'kininteractivesolutions@gmail.com',
         client_secret: 'Test123'

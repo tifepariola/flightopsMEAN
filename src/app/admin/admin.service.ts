@@ -98,7 +98,7 @@ export class AdminService {
       })
     });
   }
-  
+
   addMboard(route_id: string,
     message: string,
     usergroup: string): Observable<any> {
@@ -316,65 +316,35 @@ export class AdminService {
   }
   addAirport(
     name: string,
-    iata_code: string,
-    logo: string,
-    longitude: number,
+    country: string,
+    icao: string,
     latitude: number,
-    phone_primary: string,
-    phone_secondary: string,
-    email_primary: string,
-    email_secondary: string,
-    monday_open: string,
-    monday_close: string,
-    tuesday_open: string,
-    tuesday_close: string,
-    wednesday_open: string,
-    wednesday_close: string,
-    thursday_open: string,
-    thursday_close: string,
-    friday_open: string,
-    friday_close: string,
-    saturday_open: string,
-    saturday_close: string,
-    sunday_open: string,
-    sunday_close: string,
-    runway_1: string,
-    runway_1_diagram: string,
-    runway_2: string,
-    runway_2_diagram: string,
-    runway_3: string,
-    runway_3_diagram: string): Observable<any> {
+    longitude: number,
+    elevation: number,
+    longest_runway: number,
+    magnetic_variation: number,
+    airport_type: string,
+    beacon: string,
+    fuel_types: string,
+    landing_fee: boolean,
+    oxygen: string,
+    repairs: string): Observable<any> {
     return Observable.create(observer => {
       this.http.post('/api/airport', {
         name,
-        iata_code,
-        logo,
-        longitude,
+        country,
+        icao,
         latitude,
-        phone_primary,
-        phone_secondary,
-        email_primary,
-        email_secondary,
-        monday_open,
-        monday_close,
-        tuesday_open,
-        tuesday_close,
-        wednesday_open,
-        wednesday_close,
-        thursday_open,
-        thursday_close,
-        friday_open,
-        friday_close,
-        saturday_open,
-        saturday_close,
-        sunday_open,
-        sunday_close,
-        runway_1,
-        runway_1_diagram,
-        runway_2,
-        runway_2_diagram,
-        runway_3,
-        runway_3_diagram,
+        longitude,
+        elevation,
+        longest_runway,
+        magnetic_variation,
+        airport_type,
+        beacon,
+        fuel_types,
+        landing_fee,
+        oxygen,
+        repairs
       }).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
@@ -383,7 +353,7 @@ export class AdminService {
   }
   addHandler(
     name: string,
-    iata_code: string,
+    icao: string,
     logo: string,
     phone_primary: string,
     phone_secondary: string,
@@ -406,7 +376,7 @@ export class AdminService {
     return Observable.create(observer => {
       this.http.post('/api/handler', {
         name,
-        iata_code,
+        icao,
         logo,
         phone_primary,
         phone_secondary,
@@ -440,9 +410,9 @@ export class AdminService {
       })
     });
   }
-  getAirports(): Observable<any> {
+  getAirports(pageNo, size): Observable<any> {
     return Observable.create(observer => {
-      this.http.get('/api/airport/fetch').subscribe((data: any) => {
+      this.http.get('/api/airport/fetch/' + pageNo + '/' + size).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
       })
@@ -520,9 +490,9 @@ export class AdminService {
       })
     });
   }
-  getAirport(iata_code): Observable<any> {
+  getAirport(icao): Observable<any> {
     return Observable.create(observer => {
-      this.http.get('/api/airport/fetch/' + iata_code).subscribe((data: any) => {
+      this.http.get('/api/airport/fetch/' + icao).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
       })

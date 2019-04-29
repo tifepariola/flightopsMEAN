@@ -12,8 +12,17 @@ module.exports = router;
 router.route('/')
     .post(asyncHandler(insert));
 router.get('/fetchs', asyncHandler(fetch));
-router.get('/fetch', function (req, res) {
-    Airport.find({}, function (err, airports) {
+router.get('/fetch/:pageNo/:size', function (req, res) {
+    var pageNo = parseInt(req.params.pageNo)
+  var size = parseInt(req.params.size)
+  var query = {}
+  if(pageNo < 0 || pageNo === 0) {
+        response = {"error" : true,"message" : "invalid page number, should start with 1"};
+        return res.json(response)
+  }
+  query.skip = size * (pageNo - 1)
+  query.limit = size
+    Airport.find({}, {}, query, function (err, airports) {
         if (err) {
             console.log(err);
         } else {
@@ -21,8 +30,8 @@ router.get('/fetch', function (req, res) {
         }
     })
 });
-router.get('/fetch/:iata_code', function (req, res) {
-    Airport.find({ iata_code: req.params.iata_code }, function (err, airport) {
+router.get('/fetch/:icao', function (req, res) {
+    Airport.find({ icao: req.params.icao }, function (err, airport) {
         if (err) {
             console.log(err);
         } else {

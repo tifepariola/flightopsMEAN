@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../admin.service';
+import { toast } from "bulma-toast";
+
 import { saveAs } from 'file-saver';
 
 @Component({
@@ -12,6 +14,7 @@ export class MovementsComponent implements OnInit {
   flightID: any;
   next3Days: Date;
   today: Date;
+  subFileFPL: any;
 
   constructor(private adminService: AdminService) { }
 
@@ -19,6 +22,12 @@ export class MovementsComponent implements OnInit {
     this.getFlight()
     this.today = new Date()
     this.addDays(this.today, 3)
+    toast({
+      message: "Hello There",
+      type: "is-success",
+      dismissible: true,
+      pauseOnHover: true
+    });
   }
   addDays(date, days): void {
     var result = new Date(date);
@@ -33,21 +42,43 @@ export class MovementsComponent implements OnInit {
     })
   }
   fileFPL(movement): void {
-    this.adminService.fileFPL(movement.route).subscribe(data => {
-      this.flightID = data.data.flightid;
+    this.subFileFPL = this.adminService.fileFPL(movement.route).subscribe(data => {
       console.log('fileFPL ', data)
-      if (this.flightID) {
-        this.adminService.updateFiled(movement._id, true).subscribe(data => {
-          this.getFlight()
-          console.log('update filed ', data)
-        })
-        this.cancelFPL();
+      if (data.data.error) {
+        toast({
+          message: data.data.error,
+          type: "is-danger",
+          dismissible: true,
+          pauseOnHover: true
+        });
+      } else {
+        this.flightID = data.data.flightid;
+        if (this.flightID) {
+          this.adminService.updateFiled(movement._id, true).subscribe(data => {
+            this.getFlight()
+            console.log('update filed ', data)
+            toast({
+              message: "Flight Plan Filed Successfully",
+              type: "is-success",
+              dismissible: true,
+              pauseOnHover: true
+            });
+          })
+          this.cancelFPL();
+        }
       }
     })
+
   }
   cancelFPL(): void {
     this.adminService.cancelFPL(this.flightID).subscribe(data => {
       console.log('cancelFPL ', data)
+      toast({
+        message: "Flight Plan Cancelled Successfully",
+        type: "is-success",
+        dismissible: true,
+        pauseOnHover: true
+      });
     })
   }
   download(id): void {

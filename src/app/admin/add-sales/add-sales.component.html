@@ -98,7 +98,7 @@
                 <div class="control">
                   <div class="select">
                     <select [(ngModel)]="origin_airport" name="origin_airport">
-                      <option *ngFor="let airport of airports" [value]="airport.iata_code">{{airport.iata_code}}
+                      <option *ngFor="let airport of airports" [value]="airport.icao">{{airport.icao}}
                       </option>
                     </select>
                   </div>
@@ -111,7 +111,7 @@
                 <div class="control">
                   <div class="select">
                     <select [(ngModel)]="destination_airport" name="destination_airport">
-                      <option *ngFor="let airport of airports" [value]="airport.iata_code">{{airport.iata_code}}
+                      <option *ngFor="let airport of airports" [value]="airport.icao">{{airport.icao}}
                       </option>
                     </select>
                   </div>

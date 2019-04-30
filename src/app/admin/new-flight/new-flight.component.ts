@@ -79,6 +79,7 @@ export class NewFlightComponent implements OnInit {
   airport: never[];
   dptAirportSearch: any;
   search: any;
+  lastFlight: any;
 
   constructor(private adminService: AdminService, private route: ActivatedRoute, private renderer: Renderer2,
     @Inject(DOCUMENT) private document: any, ) { }
@@ -160,6 +161,28 @@ export class NewFlightComponent implements OnInit {
       console.log('sale ', this.departure_time)
       $('ng2-flatpickr').addClass('input')
     })
+  }
+  lastLiveFlight(): void {
+    this.adminService.lastLiveFlight(this.aircraft.aircraftId).subscribe(data => {
+      this.lastFlight = data.data[0]
+      console.log('last flight', this.lastFlight)
+      this.handleChange('arrival')
+    })
+  }
+  handleChange(val) {
+    if (val === 'arrival') {
+      this.currentLoc = {}
+      this.currentLoc.icao = this.lastFlight.arrival_airport
+      this.currentLoc.name = this.lastFlight.arrival_airport
+      this.fromHandler = {}
+      this.fromHandler._id = this.lastFlight.handler
+      $('#currentLoc').prop("disabled", true);
+      $('#fromHandler').prop("disabled", true);
+
+    } else {
+      $('#currentLoc').prop("disabled", false);
+      $('#fromHandler').prop("disabled", false);
+    }
   }
   createMail(): void {
     console.log('sending mail')
@@ -374,6 +397,10 @@ export class NewFlightComponent implements OnInit {
                     this.pax,
                     this.cargo, 'live', this.routeDet.arrivaltime, this.routeDet.departuretime, this.routeDet.fuel, this.routeDet.distance, this.routeDet.fplan).subscribe(data => {
                       $('#position-from').addClass('is-active');
+
+                      this.lastLiveFlight();
+                      this.currentLoc = {}
+                      this.currentLoc.name = ''
                       console.log('ROUTE ADDED ', data)
                       this.LiveDep = this.departure_airport.icao
                       this.LiveArr = this.arrival_airport.icao

@@ -450,6 +450,14 @@ export class AdminService {
       })
     });
   }
+  lastLiveFlight(aircraft): Observable<any> {
+    return Observable.create(observer => {
+      this.http.get('/api/route/lastLiveFlight/' + aircraft).subscribe((data: any) => {
+        observer.next({ data: data });
+        observer.complete();
+      })
+    });
+  }
   getBriefing(route): Observable<any> {
     return Observable.create(observer => {
       this.http.get('/api/aircraft/getBriefing/' + route).subscribe((data: any) => {

@@ -64,11 +64,14 @@
                 <div class="control">
                   <div class="dropdown" id="dptAir">
                     <div class="dropdown-trigger">
-                      <input class="input" name="departure_airport" autocomplete="off" [(ngModel)]="departure_airport.name" (input)="getAirports($event.target.value, 'dptAir')" type="text" placeholder="Enter Departure Airport" aria-haspopup="true">
+                      <input class="input" name="departure_airport" autocomplete="off"
+                        [(ngModel)]="departure_airport.name" (input)="getAirports($event.target.value, 'dptAir')"
+                        type="text" placeholder="Enter Departure Airport" aria-haspopup="true">
                     </div>
                     <div class="dropdown-menu" role="menu">
                       <div class="dropdown-content">
-                        <a (click)="departure_airport = airport;hideSearch()" class="dropdown-item" *ngFor="let airport of airports">
+                        <a (click)="departure_airport = airport;hideSearch()" class="dropdown-item"
+                          *ngFor="let airport of airports">
                           {{airport.name}} ({{airport.icao}})
                         </a>
                         <span *ngIf="!airports">Loading...</span>
@@ -84,11 +87,14 @@
                 <div class="control">
                   <div class="dropdown" id="arrAir">
                     <div class="dropdown-trigger">
-                      <input class="input" name="arrival_airport" autocomplete="off" [(ngModel)]="arrival_airport.name" (input)="getAirports($event.target.value, 'arrAir')" type="text" placeholder="Enter Arrival Airport" aria-haspopup="true">
+                      <input class="input" name="arrival_airport" autocomplete="off" [(ngModel)]="arrival_airport.name"
+                        (input)="getAirports($event.target.value, 'arrAir')" type="text"
+                        placeholder="Enter Arrival Airport" aria-haspopup="true">
                     </div>
                     <div class="dropdown-menu" role="menu">
                       <div class="dropdown-content">
-                        <a (click)="arrival_airport = airport;hideSearch()" class="dropdown-item" *ngFor="let airport of airports">
+                        <a (click)="arrival_airport = airport;hideSearch()" class="dropdown-item"
+                          *ngFor="let airport of airports">
                           {{airport.name}} ({{airport.icao}})
                         </a>
                       </div>
@@ -189,20 +195,42 @@
           <p class="modal-card-title">Position From</p>
         </header>
         <section class="modal-card-body">
-          <div class="columns">
+          <h4 *ngIf="lastFlight">Flight {{lastFlight.reference_id}} arrives at {{lastFlight.arrivaltime*1000 | date :  "short"}} at
+            {{lastFlight.arrival_airport}}. Where would you like to plan the positioning flight from?</h4>
+          <div class="field">
+            <div class="control">
+              <label class="radio">
+                <input type="radio" name="question" checked (change)="handleChange('arrival')">
+                Arrival Location
+              </label>
+              <label class="radio">
+                <input type="radio" name="question" (change)="handleChange('choose')">
+                Choose
+              </label>
+            </div>
+          </div>
+          <div class="columns" id="choose" *ngIf="currentLoc">
             <div class="column is-5">
               <div class="field">
-                <label class="label">Current Location</label>
+                <label class="label">Position From</label>
                 <div class="control">
-                  <div class="select">
-
-                    <select (ngModelChange)="getHandler($event)" [(ngModel)]="currentLoc" name="currentLoc">
-                      <option>Suggested Current Aiport</option>
-                      <option *ngFor="let airport of airports" [ngValue]="airport">{{airport.name}}
-                      </option>
-                    </select>
+                    <div class="dropdown" id="dptFromAir">
+                      <div class="dropdown-trigger">
+                        <input class="input" name="currentLoc" id="currentLoc" autocomplete="off"
+                          [(ngModel)]="currentLoc.name" (input)="getAirports($event.target.value, 'dptFromAir')"
+                          type="text" placeholder="Enter Departure Airport" aria-haspopup="true">
+                      </div>
+                      <div class="dropdown-menu" role="menu">
+                        <div class="dropdown-content">
+                          <a (click)="currentLoc = airport;getHandler(airport);hideSearch()" class="dropdown-item"
+                            *ngFor="let airport of airports">
+                            {{airport.name}} ({{airport.icao}})
+                          </a>
+                          <span *ngIf="!airports">Loading...</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
               </div>
             </div>
             <div class="column is-5">
@@ -210,7 +238,7 @@
                 <label class="label">Handler</label>
                 <div class="control">
                   <div class="select">
-                    <select [(ngModel)]="fromHandler" name="fromHandler">
+                    <select [(ngModel)]="fromHandler" name="fromHandler" id="fromHandler">
                       <option>Handler Values</option>
                       <option *ngFor="let handler of handlers" [ngValue]="handler">{{handler.name}}</option>
                     </select>

@@ -39,6 +39,17 @@ router.get('/fetchAircraft/:aircraftid', function (req, res) {
         }
     })
 });
+router.get('/lastLiveFlight/:aircraftid', function (req, res) {
+    var cutoff = new Date();
+    Route.find({ aircraft: req.params.aircraftid, type: 'live', arrivaltime: {$lte: cutoff/1000} }, {}, { limit: 1, sort: {'arrivaltime': -1} }, function (err, route) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(cutoff)
+            res.json(route);
+        }
+    })
+});
 router.get('/fetchOPS/:ops', function (req, res) {
     Route.find({ ops_crew: req.params.ops }, function (err, route) {
         if (err) {

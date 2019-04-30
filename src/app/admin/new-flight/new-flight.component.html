@@ -93,7 +93,7 @@
                     </div>
                     <div class="dropdown-menu" role="menu">
                       <div class="dropdown-content">
-                        <a (click)="arrival_airport = airport;getHandler(airport);hideSearch()" class="dropdown-item"
+                        <a (click)="arrival_airport = airport;getHandler(airport);hideSearch();" class="dropdown-item"
                           *ngFor="let airport of airports">
                           {{airport.name}} ({{airport.icao}})
                         </a>

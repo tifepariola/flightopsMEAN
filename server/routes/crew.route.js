@@ -79,6 +79,16 @@ router.put('/updateCrew/:id', function (req, res) {
         }
     });
 });
+router.delete('/delete/:id', function (req, res) {
+    Crew.findOne({ _id: req.params.id }, function (err, doc) {
+        doc.remove();
+        if (err) {
+            console.log(err);
+        } else {
+            res.json("deleted");
+        }
+    });
+});
 
 
 

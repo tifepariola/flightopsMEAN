@@ -433,6 +433,14 @@ export class AdminService {
       })
     });
   }
+  deleteCrew(id): Observable<any> {
+    return Observable.create(observer => {
+      this.http.delete('/api/crew/delete/' + id).subscribe((data: any) => {
+        observer.next({ data: data });
+        observer.complete();
+      })
+    });
+  }
   getAirports(pageNo, size): Observable<any> {
     return Observable.create(observer => {
       this.http.get('/api/airport/fetch/' + pageNo + '/' + size).subscribe((data: any) => {

@@ -2,6 +2,7 @@ import { Component, OnInit, NgZone, Input } from '@angular/core';
 import * as $ from 'jquery';
 import { AdminService } from '../admin.service';
 import { FileUpload } from '../fileupload';
+import { toast } from "bulma-toast";
 
 @Component({
   selector: 'app-crews',
@@ -122,6 +123,22 @@ export class CrewsComponent implements OnInit {
           $('#addBtn').removeClass('is-loading');
           console.log(error)
         })
+  }
+  deleteCrew(crewid): void {
+    console.log('update start')
+    this.adminService.deleteCrew(crewid)
+      .subscribe(data => {
+        if (data.data === "deleted") {
+          console.log('Crew Deleted ', data)
+          this.getCrews();
+          toast({
+            message: "Crew Member Deleted",
+            type: "is-success",
+            dismissible: true,
+            pauseOnHover: true
+          });
+        }
+      })
   }
 
   register() {

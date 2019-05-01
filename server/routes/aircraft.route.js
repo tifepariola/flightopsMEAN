@@ -81,12 +81,7 @@ router.get('/cancelFPL/:id', function (req, res) {
         });
 });
 router.get('/longpoll/:route', function (req, res) {
-    axios.put('https://dev-api.autorouter.aero/v1.0/router/' + req.params.route + '/longpoll', {
-        aircraftid: 0,
-        departuretime: "2019-04-21T08:05:31.770Z",
-        departure: "EDDS",
-        destination: "EDWI"
-    })
+    axios.put('https://dev-api.autorouter.aero/v1.0/router/' + req.params.route + '/longpoll')
         .then(response => {
             res.json(response.data);
         })

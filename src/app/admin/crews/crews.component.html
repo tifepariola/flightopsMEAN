@@ -13,6 +13,7 @@
           <th>Name</th>
           <th>Upcoming Movement</th>
           <th>Current Status</th>
+          <th>Action</th>
         </thead>
         <tbody>
           <tr *ngFor="let crew of crews">
@@ -32,6 +33,10 @@
             <td>
               On-duty
             </td>
+            <td>
+              <a class="is-link" (click)="edit(crew._id);update=true">Edit</a> / 
+              <a class="is-danger" (click)="edit(crew._id)">Delete</a>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -40,8 +45,9 @@
         <div class="modal-card">
           <form>
             <header class="modal-card-head">
-              <p class="modal-card-title">Add Crew</p>
-              <button class="delete" aria-label="close"></button>
+              <p class="modal-card-title" *ngIf="!update">Add Crew Member</p>
+              <p class="modal-card-title" *ngIf="update">Update Crew Member</p>
+              <button class="delete" aria-label="close" (click)="close()"></button>
             </header>
             <section class="modal-card-body">
               <div class="field">
@@ -93,7 +99,7 @@
                 </div>
               </div>
               <div class="columns">
-                <div class="column is-6">
+                <div class="column is-6" *ngIf="!update">
                   <div class="field">
                     <label class="label">Primary Email</label>
                     <div class="control">
@@ -110,7 +116,7 @@
                   </div>
                 </div>
               </div>
-              <div class="columns">
+              <div class="columns" *ngIf="!update">
 
                 <div class="column is-6">
                   <div class="field">
@@ -154,8 +160,9 @@
 
             </section>
             <footer class="modal-card-foot">
-              <button class="button is-success" id="addBtn" (click)="register()">Add</button>
-              <button class="button">Cancel</button>
+              <button class="button is-success" id="addBtn" (click)="register()" *ngIf="!update">Add</button>
+              <button class="button is-success" id="addBtn" (click)="updateCrew()" *ngIf="update">Update</button>
+              <button class="button" (click)="close()">Cancel</button>
             </footer>
           </form>
         </div>

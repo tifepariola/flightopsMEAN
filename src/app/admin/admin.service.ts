@@ -126,6 +126,29 @@ export class AdminService {
       })
     });
   }
+  updateCrewData(id: string,
+    name: string,
+    img_url: string,
+    occupation: string,
+    p_email: string,
+    s_email: string,
+    p_phone: string,
+    s_phone: string): Observable<any> {
+    return Observable.create(observer => {
+      this.http.put('/api/crew/updateCrew/' + id, {
+        img_url,
+        name,
+        occupation,
+        p_email,
+        s_email,
+        p_phone,
+        s_phone
+      }).subscribe((data: any) => {
+        observer.next({ data: data });
+        observer.complete();
+      })
+    });
+  }
   sendMail(email: string,
     subject: string,
     message: string): Observable<any> {

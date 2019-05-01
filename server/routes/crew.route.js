@@ -61,6 +61,24 @@ router.put('/update/:id', function (req, res) {
         }
     });
 });
+router.put('/updateCrew/:id', function (req, res) {
+    Crew.findOne({ _id: req.params.id }, function (err, doc) {
+        doc.img_url = req.body.img_url;
+        doc.name = req.body.name;
+        doc.occupation = req.body.occupation;
+        doc.p_email = req.body.p_email;
+        doc.s_email = req.body.s_email;
+        doc.p_phone = req.body.p_phone;
+        doc.s_phone = req.body.s_phone;
+        // // doc.visits.$inc();
+        doc.save();
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(doc);
+        }
+    });
+});
 
 
 

@@ -666,6 +666,23 @@ var AdminService = /** @class */ (function () {
             });
         });
     };
+    AdminService.prototype.updateCrewData = function (id, name, img_url, occupation, p_email, s_email, p_phone, s_phone) {
+        var _this = this;
+        return rxjs_Observable__WEBPACK_IMPORTED_MODULE_2__["Observable"].create(function (observer) {
+            _this.http.put('/api/crew/updateCrew/' + id, {
+                img_url: img_url,
+                name: name,
+                occupation: occupation,
+                p_email: p_email,
+                s_email: s_email,
+                p_phone: p_phone,
+                s_phone: s_phone
+            }).subscribe(function (data) {
+                observer.next({ data: data });
+                observer.complete();
+            });
+        });
+    };
     AdminService.prototype.sendMail = function (email, subject, message) {
         var _this = this;
         return rxjs_Observable__WEBPACK_IMPORTED_MODULE_2__["Observable"].create(function (observer) {
@@ -2187,7 +2204,7 @@ var CrewComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-header></app-header>\n<div class=\"container\">\n  <div class=\"columns\">\n    <div class=\"column is-3\">\n      <app-side-nav></app-side-nav>\n    </div>\n    <div class=\"column is-9\">\n      <h3 class=\"title is-pulled-left\">Crews</h3>\n      <button class=\"button is-primary is-outlined is-pulled-right\" id=\"btn-add-crew\">Add Crew</button>\n      <table class=\"table is-fullwidth\">\n        <thead>\n          <th></th>\n          <th>Name</th>\n          <th>Upcoming Movement</th>\n          <th>Current Status</th>\n        </thead>\n        <tbody>\n          <tr *ngFor=\"let crew of crews\">\n            <td>\n              <a routerLink=\"/admin/crew/{{crew._id}}\">\n                <img src=\"{{crew.img_url}}\" class=\"crew-img\" alt=\"\">\n              </a>\n            </td>\n            <td>\n              <a routerLink=\"/admin/crew/{{crew._id}}\">\n                {{crew.name}}\n              </a>\n            </td>\n            <td>\n              {{crew.name}}\n            </td>\n            <td>\n              On-duty\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <div class=\"modal\" id=\"add-crew\">\n        <div class=\"modal-background\"></div>\n        <div class=\"modal-card\">\n          <form>\n            <header class=\"modal-card-head\">\n              <p class=\"modal-card-title\">Add Crew</p>\n              <button class=\"delete\" aria-label=\"close\"></button>\n            </header>\n            <section class=\"modal-card-body\">\n              <div class=\"field\">\n                <label class=\"label\">Name</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" name=\"name\" [(ngModel)]=\"name\">\n                </div>\n              </div>\n              <div class=\"columns\">\n                <div class=\"column is-8\">\n                  <div class=\"field\">\n                    <label class=\"label\">Photo</label>\n                    <div class=\"control\">\n                      <progress *ngIf=\"currentFileUpload\" class=\"progress is-primary\" value=\"{{progress.percentage}}\" max=\"100\"></progress>\n                      <div class=\"file has-name\">\n                        <label class=\"file-label\"> <input type=\"file\" class=\"file-input\" (change)=\"selectFile($event)\">\n                        <span class=\"file-cta\">\n                          <span class=\"file-icon\">\n                            <i class=\"fas fa-upload\"></i>\n                          </span>\n                          <span class=\"file-label\">\n                            Choose an image…\n                          </span>\n                        </span>\n                        <span class=\"file-name\">\n                          .jpg, .png, .gif\n                        </span>\n                        </label>\n                      </div>\n\n                      <button class=\"button is-success\" [disabled]=\"!selectedFiles\" (click)=\"upload()\">Upload</button>\n                    </div>\n                  </div>\n                </div>\n                <div class=\"column is-4\">\n                  <div class=\"field\">\n                    <label class=\"label\">Occupation</label>\n                    <div class=\"control\">\n                      <div class=\"select\">\n                        <select name=\"occupation\" [(ngModel)]=\"occupation\">\n                          <option></option>\n                          <option>PIC</option>\n                          <option>FO</option>\n                          <option>OPS</option>\n                        </select>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n              </div>\n              <div class=\"columns\">\n                <div class=\"column is-6\">\n                  <div class=\"field\">\n                    <label class=\"label\">Primary Email</label>\n                    <div class=\"control\">\n                      <input class=\"input\" type=\"text\" name=\"p_email\" [(ngModel)]=\"p_email\">\n                    </div>\n                  </div>\n                </div>\n                <div class=\"column is-6\">\n                  <div class=\"field\">\n                    <label class=\"label\">Secondary Email</label>\n                    <div class=\"control\">\n                      <input class=\"input\" type=\"text\" name=\"s_email\" [(ngModel)]=\"s_email\">\n                    </div>\n                  </div>\n                </div>\n              </div>\n              <div class=\"columns\">\n\n                <div class=\"column is-6\">\n                  <div class=\"field\">\n                    <label class=\"label\">Password</label>\n                    <div class=\"control\">\n                      <input placeholder=\"Password\" class=\"input\" type=\"password\" [(ngModel)]=\"password\" name=\"password\"\n                        required>\n                    </div>\n                  </div>\n                </div>\n                <div class=\"column is-6\">\n                  <div class=\"field\">\n                    <label class=\"label\">Repeat Password</label>\n                    <div class=\"control\">\n                      <input placeholder=\"Reapet Password\" class=\"input\" [(ngModel)]=\"repeatPassword\" type=\"password\"\n                        name=\"repeatPassword\" required>\n\n                    </div>\n                  </div>\n                </div>\n              </div>\n              <div class=\"columns\">\n                <div class=\"column is-6\">\n                  <div class=\"field\">\n                    <label class=\"label\">Primary Phone Number</label>\n                    <div class=\"control\">\n                      <input class=\"input\" type=\"text\" name=\"p_phone\" [(ngModel)]=\"p_phone\">\n                    </div>\n                  </div>\n                </div>\n                <div class=\"column is-6\">\n                  <div class=\"field\">\n                    <label class=\"label\">Secondary Phone Number</label>\n                    <div class=\"control\">\n                      <input class=\"input\" type=\"text\" name=\"s_phone\" [(ngModel)]=\"s_phone\">\n                    </div>\n                  </div>\n                </div>\n              </div>\n\n\n            </section>\n            <footer class=\"modal-card-foot\">\n              <button class=\"button is-success\" id=\"addBtn\" (click)=\"register()\">Add</button>\n              <button class=\"button\">Cancel</button>\n            </footer>\n          </form>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n<app-chat></app-chat>\n"
+module.exports = "<app-header></app-header>\n<div class=\"container\">\n  <div class=\"columns\">\n    <div class=\"column is-3\">\n      <app-side-nav></app-side-nav>\n    </div>\n    <div class=\"column is-9\">\n      <h3 class=\"title is-pulled-left\">Crews</h3>\n      <button class=\"button is-primary is-outlined is-pulled-right\" id=\"btn-add-crew\">Add Crew</button>\n      <table class=\"table is-fullwidth\">\n        <thead>\n          <th></th>\n          <th>Name</th>\n          <th>Upcoming Movement</th>\n          <th>Current Status</th>\n          <th>Action</th>\n        </thead>\n        <tbody>\n          <tr *ngFor=\"let crew of crews\">\n            <td>\n              <a routerLink=\"/admin/crew/{{crew._id}}\">\n                <img src=\"{{crew.img_url}}\" class=\"crew-img\" alt=\"\">\n              </a>\n            </td>\n            <td>\n              <a routerLink=\"/admin/crew/{{crew._id}}\">\n                {{crew.name}}\n              </a>\n            </td>\n            <td>\n              {{crew.name}}\n            </td>\n            <td>\n              On-duty\n            </td>\n            <td>\n              <a class=\"is-link\" (click)=\"edit(crew._id);update=true\">Edit</a> / \n              <a class=\"is-danger\" (click)=\"edit(crew._id)\">Delete</a>\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <div class=\"modal\" id=\"add-crew\">\n        <div class=\"modal-background\"></div>\n        <div class=\"modal-card\">\n          <form>\n            <header class=\"modal-card-head\">\n              <p class=\"modal-card-title\" *ngIf=\"!update\">Add Crew Member</p>\n              <p class=\"modal-card-title\" *ngIf=\"update\">Update Crew Member</p>\n              <button class=\"delete\" aria-label=\"close\" (click)=\"close()\"></button>\n            </header>\n            <section class=\"modal-card-body\">\n              <div class=\"field\">\n                <label class=\"label\">Name</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" name=\"name\" [(ngModel)]=\"name\">\n                </div>\n              </div>\n              <div class=\"columns\">\n                <div class=\"column is-8\">\n                  <div class=\"field\">\n                    <label class=\"label\">Photo</label>\n                    <div class=\"control\">\n                      <progress *ngIf=\"currentFileUpload\" class=\"progress is-primary\" value=\"{{progress.percentage}}\" max=\"100\"></progress>\n                      <div class=\"file has-name\">\n                        <label class=\"file-label\"> <input type=\"file\" class=\"file-input\" (change)=\"selectFile($event)\">\n                        <span class=\"file-cta\">\n                          <span class=\"file-icon\">\n                            <i class=\"fas fa-upload\"></i>\n                          </span>\n                          <span class=\"file-label\">\n                            Choose an image…\n                          </span>\n                        </span>\n                        <span class=\"file-name\">\n                          .jpg, .png, .gif\n                        </span>\n                        </label>\n                      </div>\n\n                      <button class=\"button is-success\" [disabled]=\"!selectedFiles\" (click)=\"upload()\">Upload</button>\n                    </div>\n                  </div>\n                </div>\n                <div class=\"column is-4\">\n                  <div class=\"field\">\n                    <label class=\"label\">Occupation</label>\n                    <div class=\"control\">\n                      <div class=\"select\">\n                        <select name=\"occupation\" [(ngModel)]=\"occupation\">\n                          <option></option>\n                          <option>PIC</option>\n                          <option>FO</option>\n                          <option>OPS</option>\n                        </select>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n              </div>\n              <div class=\"columns\">\n                <div class=\"column is-6\" *ngIf=\"!update\">\n                  <div class=\"field\">\n                    <label class=\"label\">Primary Email</label>\n                    <div class=\"control\">\n                      <input class=\"input\" type=\"text\" name=\"p_email\" [(ngModel)]=\"p_email\">\n                    </div>\n                  </div>\n                </div>\n                <div class=\"column is-6\">\n                  <div class=\"field\">\n                    <label class=\"label\">Secondary Email</label>\n                    <div class=\"control\">\n                      <input class=\"input\" type=\"text\" name=\"s_email\" [(ngModel)]=\"s_email\">\n                    </div>\n                  </div>\n                </div>\n              </div>\n              <div class=\"columns\" *ngIf=\"!update\">\n\n                <div class=\"column is-6\">\n                  <div class=\"field\">\n                    <label class=\"label\">Password</label>\n                    <div class=\"control\">\n                      <input placeholder=\"Password\" class=\"input\" type=\"password\" [(ngModel)]=\"password\" name=\"password\"\n                        required>\n                    </div>\n                  </div>\n                </div>\n                <div class=\"column is-6\">\n                  <div class=\"field\">\n                    <label class=\"label\">Repeat Password</label>\n                    <div class=\"control\">\n                      <input placeholder=\"Reapet Password\" class=\"input\" [(ngModel)]=\"repeatPassword\" type=\"password\"\n                        name=\"repeatPassword\" required>\n\n                    </div>\n                  </div>\n                </div>\n              </div>\n              <div class=\"columns\">\n                <div class=\"column is-6\">\n                  <div class=\"field\">\n                    <label class=\"label\">Primary Phone Number</label>\n                    <div class=\"control\">\n                      <input class=\"input\" type=\"text\" name=\"p_phone\" [(ngModel)]=\"p_phone\">\n                    </div>\n                  </div>\n                </div>\n                <div class=\"column is-6\">\n                  <div class=\"field\">\n                    <label class=\"label\">Secondary Phone Number</label>\n                    <div class=\"control\">\n                      <input class=\"input\" type=\"text\" name=\"s_phone\" [(ngModel)]=\"s_phone\">\n                    </div>\n                  </div>\n                </div>\n              </div>\n\n\n            </section>\n            <footer class=\"modal-card-foot\">\n              <button class=\"button is-success\" id=\"addBtn\" (click)=\"register()\" *ngIf=\"!update\">Add</button>\n              <button class=\"button is-success\" id=\"addBtn\" (click)=\"updateCrew()\" *ngIf=\"update\">Update</button>\n              <button class=\"button\" (click)=\"close()\">Cancel</button>\n            </footer>\n          </form>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n<app-chat></app-chat>\n"
 
 /***/ }),
 
@@ -2234,6 +2251,7 @@ var CrewsComponent = /** @class */ (function () {
     function CrewsComponent(adminService) {
         this.adminService = adminService;
         this.progress = { percentage: 0 };
+        this.update = false;
         this.responses = [];
     }
     CrewsComponent.prototype.selectFile = function (event) {
@@ -2255,15 +2273,40 @@ var CrewsComponent = /** @class */ (function () {
             jquery__WEBPACK_IMPORTED_MODULE_1__('#add-crew').addClass('is-active');
         });
         jquery__WEBPACK_IMPORTED_MODULE_1__('.delete').on('click', function () {
-            jquery__WEBPACK_IMPORTED_MODULE_1__('#add-crew').removeClass('is-active');
         });
         this.getCrews();
+    };
+    CrewsComponent.prototype.close = function () {
+        this.update = false;
+        jquery__WEBPACK_IMPORTED_MODULE_1__('#add-crew').removeClass('is-active');
+        this.name = '';
+        this.img_url = '';
+        this.occupation = '';
+        this.p_email = '';
+        this.s_email = '';
+        this.p_phone = '';
+        this.s_phone = '';
     };
     CrewsComponent.prototype.getCrews = function () {
         var _this = this;
         this.adminService.getCrews().subscribe(function (data) {
             _this.crews = data.data;
             console.log('crews ', _this.crews);
+        });
+    };
+    CrewsComponent.prototype.edit = function (id) {
+        var _this = this;
+        this.adminService.getCrew(id).subscribe(function (data) {
+            _this.crewid = id;
+            _this.name = data.data.name;
+            _this.img_url = data.data.img_url;
+            _this.occupation = data.data.occupation;
+            _this.p_email = data.data.p_email;
+            _this.s_email = data.data.s_email;
+            _this.p_phone = data.data.p_phone;
+            _this.s_phone = data.data.s_phone;
+            jquery__WEBPACK_IMPORTED_MODULE_1__('#add-crew').addClass('is-active');
+            console.log('crewww', data.data);
         });
     };
     CrewsComponent.prototype.addCrew = function (userID) {
@@ -2274,6 +2317,20 @@ var CrewsComponent = /** @class */ (function () {
             console.log('Crew Added ', data);
             _this.getCrews();
             _this.doRun = false;
+            jquery__WEBPACK_IMPORTED_MODULE_1__('form').trigger("reset");
+            jquery__WEBPACK_IMPORTED_MODULE_1__('#addBtn').removeClass('is-loading');
+        }, function (error) {
+            jquery__WEBPACK_IMPORTED_MODULE_1__('#addBtn').removeClass('is-loading');
+            console.log(error);
+        });
+    };
+    CrewsComponent.prototype.updateCrew = function () {
+        var _this = this;
+        console.log('update start');
+        this.adminService.updateCrewData(this.crewid, this.name, this.img_url, this.occupation, this.p_email, this.s_email, this.p_phone, this.s_phone)
+            .subscribe(function (data) {
+            console.log('Crew Updated ', data);
+            _this.getCrews();
             jquery__WEBPACK_IMPORTED_MODULE_1__('form').trigger("reset");
             jquery__WEBPACK_IMPORTED_MODULE_1__('#addBtn').removeClass('is-loading');
         }, function (error) {
@@ -3361,9 +3418,9 @@ var NewFlightComponent = /** @class */ (function () {
     };
     NewFlightComponent.prototype.createHandlerMail = function () {
         console.log('sending handler mail');
-        this.sendCrewMail(this.fromHandler.email_primary, 'Handler', this.positionFromDep, this.positionFromArr, this.positionFromDepT);
-        this.sendCrewMail(this.handler.email_primary, 'Handler', this.LiveDep, this.LiveArr, this.LiveDepT);
-        this.sendCrewMail(this.toHandler.email_primary, 'Handler', this.positionToDep, this.positionToArr, this.positionToDepT);
+        this.sendHandlerMail(this.fromHandler.email_primary, this.fromHandler.name, 'Handler', this.positionFromDep, this.positionFromArr, this.positionFromDepT);
+        this.sendHandlerMail(this.handler.email_primary, this.handler.name, 'Handler', this.LiveDep, this.LiveArr, this.LiveDepT);
+        this.sendHandlerMail(this.toHandler.email_primary, this.toHandler.name, 'Handler', this.positionToDep, this.positionToArr, this.positionToDepT);
     };
     NewFlightComponent.prototype.sendCrewMail = function (name, role, beginning, end, departTime) {
         var _this = this;
@@ -3387,7 +3444,7 @@ var NewFlightComponent = /** @class */ (function () {
             var replace = [name, role, _this.reference_id, _this.aircraft.aircraftId, _this.aircraft.registration, new Date(departTime * 1000).getDate() + '-' + new Date(departTime * 1000).getMonth() + '-' + new Date(departTime * 1000).getFullYear(), new Date(departTime * 1000).getHours() + ':' + new Date(departTime * 1000).getMinutes() + ':' + new Date(departTime * 1000).getSeconds(), beginning, end, _this.reference_id];
             _this.handlerTemplate.subject = _this.replaceArray(_this.handlerTemplate.subject, find, replace);
             _this.handlerTemplate.message = _this.replaceArray(_this.handlerTemplate.message, find, replace);
-            _this.adminService.sendMail(email, _this.handlerTemplate.subject, _this.handlerTemplate.message).subscribe(function (data) {
+            _this.adminService.sendMail('kininteractivesolutions@gmail.com', _this.handlerTemplate.subject, _this.handlerTemplate.message).subscribe(function (data) {
                 console.log('hello ', data);
             });
         });

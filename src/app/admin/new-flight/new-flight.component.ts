@@ -198,9 +198,9 @@ export class NewFlightComponent implements OnInit {
   }
   createHandlerMail(): void {
     console.log('sending handler mail')
-    this.sendCrewMail(this.fromHandler.email_primary, 'Handler', this.positionFromDep, this.positionFromArr, this.positionFromDepT)
-    this.sendCrewMail(this.handler.email_primary, 'Handler', this.LiveDep, this.LiveArr, this.LiveDepT)
-    this.sendCrewMail(this.toHandler.email_primary, 'Handler', this.positionToDep, this.positionToArr, this.positionToDepT)
+    this.sendHandlerMail(this.fromHandler.email_primary, this.fromHandler.name ,'Handler', this.positionFromDep, this.positionFromArr, this.positionFromDepT)
+    this.sendHandlerMail(this.handler.email_primary, this.handler.name ,'Handler', this.LiveDep, this.LiveArr, this.LiveDepT)
+    this.sendHandlerMail(this.toHandler.email_primary, this.toHandler.name ,'Handler', this.positionToDep, this.positionToArr, this.positionToDepT)
   }
   sendCrewMail(name, role, beginning, end, departTime): void {
     this.adminService.getTemplates().subscribe(data => {
@@ -222,7 +222,7 @@ export class NewFlightComponent implements OnInit {
       var replace = [name, role, this.reference_id, this.aircraft.aircraftId, this.aircraft.registration, new Date(departTime * 1000).getDate() + '-' + new Date(departTime * 1000).getMonth() + '-' + new Date(departTime * 1000).getFullYear(), new Date(departTime * 1000).getHours() + ':' + new Date(departTime * 1000).getMinutes() + ':' + new Date(departTime * 1000).getSeconds(), beginning, end, this.reference_id];
       this.handlerTemplate.subject = this.replaceArray(this.handlerTemplate.subject, find, replace)
       this.handlerTemplate.message = this.replaceArray(this.handlerTemplate.message, find, replace)
-      this.adminService.sendMail(email, this.handlerTemplate.subject, this.handlerTemplate.message).subscribe(data => {
+      this.adminService.sendMail('kininteractivesolutions@gmail.com', this.handlerTemplate.subject, this.handlerTemplate.message).subscribe(data => {
         console.log('hello ', data)
       })
     })

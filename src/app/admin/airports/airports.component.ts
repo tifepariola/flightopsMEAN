@@ -2,6 +2,7 @@ import { Component, OnInit, NgZone, Input } from '@angular/core';
 import * as $ from 'jquery';
 import { AdminService } from '../admin.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { toast } from "bulma-toast";
 
 @Component({
   selector: 'app-airports',
@@ -53,6 +54,23 @@ export class AirportsComponent implements OnInit {
 
   navigate(link): void {
     this.router.navigate([link]);
+  }
+
+  delete(aircraft): void {
+    console.log('update start')
+    this.adminService.deleteCrew(aircraft)
+      .subscribe(data => {
+        if (data.data === "deleted") {
+          console.log('Airport Deleted ', data)
+          this.getAirports();
+          toast({
+            message: "Airport Deleted",
+            type: "is-success",
+            dismissible: true,
+            pauseOnHover: true
+          });
+        }
+      })
   }
 
 }

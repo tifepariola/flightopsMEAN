@@ -179,12 +179,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _new_handler_new_handler_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./new-handler/new-handler.component */ "./src/app/admin/new-handler/new-handler.component.ts");
 /* harmony import */ var _settings_settings_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./settings/settings.component */ "./src/app/admin/settings/settings.component.ts");
 /* harmony import */ var _airport_airport_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./airport/airport.component */ "./src/app/admin/airport/airport.component.ts");
+/* harmony import */ var _edit_airport_edit_airport_component__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./edit-airport/edit-airport.component */ "./src/app/admin/edit-airport/edit-airport.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -231,6 +233,10 @@ var routes = [{
             {
                 path: 'new-airport',
                 component: _new_airport_new_airport_component__WEBPACK_IMPORTED_MODULE_15__["NewAirportComponent"]
+            },
+            {
+                path: 'edit-airport/:id',
+                component: _edit_airport_edit_airport_component__WEBPACK_IMPORTED_MODULE_20__["EditAirportComponent"]
             },
             {
                 path: 'handlers',
@@ -439,12 +445,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _new_handler_new_handler_component__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./new-handler/new-handler.component */ "./src/app/admin/new-handler/new-handler.component.ts");
 /* harmony import */ var _settings_settings_component__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./settings/settings.component */ "./src/app/admin/settings/settings.component.ts");
 /* harmony import */ var _airport_airport_component__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ./airport/airport.component */ "./src/app/admin/airport/airport.component.ts");
+/* harmony import */ var _edit_airport_edit_airport_component__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! ./edit-airport/edit-airport.component */ "./src/app/admin/edit-airport/edit-airport.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -508,6 +516,7 @@ var AdminModule = /** @class */ (function () {
                 _new_handler_new_handler_component__WEBPACK_IMPORTED_MODULE_34__["NewHandlerComponent"],
                 _settings_settings_component__WEBPACK_IMPORTED_MODULE_35__["SettingsComponent"],
                 _airport_airport_component__WEBPACK_IMPORTED_MODULE_36__["AirportComponent"],
+                _edit_airport_edit_airport_component__WEBPACK_IMPORTED_MODULE_37__["EditAirportComponent"],
             ],
             imports: [
                 _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"],
@@ -805,6 +814,25 @@ var AdminService = /** @class */ (function () {
             });
         });
     };
+    AdminService.prototype.updateAircraft = function (id, registration, aircraftId, img_url, tow, fuel, pax, cargo, icao24, base) {
+        var _this = this;
+        return rxjs_Observable__WEBPACK_IMPORTED_MODULE_2__["Observable"].create(function (observer) {
+            _this.http.put('/api/aircraft/update/' + id, {
+                registration: registration,
+                aircraftId: aircraftId,
+                img_url: img_url,
+                tow: tow,
+                fuel: fuel,
+                pax: pax,
+                cargo: cargo,
+                icao24: icao24,
+                base: base
+            }).subscribe(function (data) {
+                observer.next({ data: data });
+                observer.complete();
+            });
+        });
+    };
     AdminService.prototype.addLicence = function (crew_id, licence, expiry) {
         var _this = this;
         return rxjs_Observable__WEBPACK_IMPORTED_MODULE_2__["Observable"].create(function (observer) {
@@ -822,6 +850,30 @@ var AdminService = /** @class */ (function () {
         var _this = this;
         return rxjs_Observable__WEBPACK_IMPORTED_MODULE_2__["Observable"].create(function (observer) {
             _this.http.post('/api/airport', {
+                name: name,
+                country: country,
+                icao: icao,
+                latitude: latitude,
+                longitude: longitude,
+                elevation: elevation,
+                longest_runway: longest_runway,
+                magnetic_variation: magnetic_variation,
+                airport_type: airport_type,
+                beacon: beacon,
+                fuel_types: fuel_types,
+                landing_fee: landing_fee,
+                oxygen: oxygen,
+                repairs: repairs
+            }).subscribe(function (data) {
+                observer.next({ data: data });
+                observer.complete();
+            });
+        });
+    };
+    AdminService.prototype.updateAirport = function (id, name, country, icao, latitude, longitude, elevation, longest_runway, magnetic_variation, airport_type, beacon, fuel_types, landing_fee, oxygen, repairs) {
+        var _this = this;
+        return rxjs_Observable__WEBPACK_IMPORTED_MODULE_2__["Observable"].create(function (observer) {
+            _this.http.put('/api/airport/update/' + id, {
                 name: name,
                 country: country,
                 icao: icao,
@@ -886,6 +938,24 @@ var AdminService = /** @class */ (function () {
         var _this = this;
         return rxjs_Observable__WEBPACK_IMPORTED_MODULE_2__["Observable"].create(function (observer) {
             _this.http.delete('/api/crew/delete/' + id).subscribe(function (data) {
+                observer.next({ data: data });
+                observer.complete();
+            });
+        });
+    };
+    AdminService.prototype.deleteAirport = function (id) {
+        var _this = this;
+        return rxjs_Observable__WEBPACK_IMPORTED_MODULE_2__["Observable"].create(function (observer) {
+            _this.http.delete('/api/airport/delete/' + id).subscribe(function (data) {
+                observer.next({ data: data });
+                observer.complete();
+            });
+        });
+    };
+    AdminService.prototype.deleteAircraft = function (id) {
+        var _this = this;
+        return rxjs_Observable__WEBPACK_IMPORTED_MODULE_2__["Observable"].create(function (observer) {
+            _this.http.delete('/api/aircraft/delete/' + id).subscribe(function (data) {
                 observer.next({ data: data });
                 observer.complete();
             });
@@ -1003,6 +1073,15 @@ var AdminService = /** @class */ (function () {
         var _this = this;
         return rxjs_Observable__WEBPACK_IMPORTED_MODULE_2__["Observable"].create(function (observer) {
             _this.http.get('/api/airport/fetch/' + icao).subscribe(function (data) {
+                observer.next({ data: data });
+                observer.complete();
+            });
+        });
+    };
+    AdminService.prototype.getAirportDetails = function (icao) {
+        var _this = this;
+        return rxjs_Observable__WEBPACK_IMPORTED_MODULE_2__["Observable"].create(function (observer) {
+            _this.http.get('/api/airport/fetchAirport/' + icao).subscribe(function (data) {
                 observer.next({ data: data });
                 observer.complete();
             });
@@ -1478,7 +1557,7 @@ var AircraftComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-header></app-header>\n<div class=\"container\">\n  <div class=\"columns\">\n    <div class=\"column is-3\">\n      <app-side-nav></app-side-nav>\n    </div>\n    <div class=\"column is-9\">\n      <h3 class=\"title is-pulled-left\">Aircrafts Overview</h3>\n      <button class=\"button is-primary is-outlined is-pulled-right\" id=\"btn-add-aircraft\">Add Aircraft</button>\n      <table class=\"table is-fullwidth\">\n        <thead>\n          <th></th>\n          <th>Registration</th>\n          <th>Upcoming Movement</th>\n          <th>Current Status</th>\n        </thead>\n        <tbody>\n          <tr *ngFor=\"let aircraft of aircrafts\">\n            <td>\n              <a routerLink=\"/admin/aircraft/{{aircraft._id}}\">\n                <img src=\"{{aircraft.img_url}}\" class=\"aircraft-img\" alt=\"\">\n              </a>\n            </td>\n            <td>\n              <a routerLink=\"/admin/aircraft/{{aircraft._id}}\">\n                {{aircraft.registration}}\n              </a>\n            </td>\n            <td>\n            </td>\n            <td></td>\n          </tr>\n        </tbody>\n      </table>\n      <app-chat></app-chat>\n\n      <div class=\"modal\" id=\"add-aircraft\">\n        <div class=\"modal-background\"></div>\n        <div class=\"modal-card\">\n          <form>\n            <header class=\"modal-card-head\">\n              <p class=\"modal-card-title\">Add Aircraft</p>\n              <button class=\"delete\" aria-label=\"close\"></button>\n            </header>\n            <section class=\"modal-card-body\">\n              <div class=\"field\">\n                <label class=\"label\">Registration</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" name=\"registration\" [(ngModel)]=\"registration\">\n                </div>\n              </div>\n              <div class=\"field\">\n                <label class=\"label\">Aircraft ID</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" name=\"aircraftId\" [(ngModel)]=\"aircraftId\">\n                </div>\n              </div>\n\n              <div class=\"field\">\n                <label class=\"label\">Photo</label>\n                <div class=\"control\">\n                  <progress *ngIf=\"currentFileUpload\" class=\"progress is-primary\" value=\"{{progress.percentage}}\"\n                    max=\"100\"></progress>\n                  <div class=\"file has-name\">\n                    <label class=\"file-label\"> <input type=\"file\" class=\"file-input\" (change)=\"selectFile($event)\">\n                      <span class=\"file-cta\">\n                        <span class=\"file-icon\">\n                          <i class=\"fas fa-upload\"></i>\n                        </span>\n                        <span class=\"file-label\">\n                          Choose an image…\n                        </span>\n                      </span>\n                      <span class=\"file-name\">\n                        .jpg, .png, .gif\n                      </span>\n                    </label>\n                  </div>\n\n                  <button class=\"button is-success\" [disabled]=\"!selectedFiles\" (click)=\"upload()\">Upload</button>\n                </div>\n              </div>\n\n              <div class=\"field\">\n                <label class=\"label\">Max Take Off Weight</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" [(ngModel)]=\"tow\" name=\"tow\">\n                </div>\n              </div>\n              <div class=\"field\">\n                <label class=\"label\">Max Fuel Capacity</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" [(ngModel)]=\"fuel\" name=\"fuel\">\n                </div>\n              </div>\n              <div class=\"field\">\n                <label class=\"label\">Max PAX</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" [(ngModel)]=\"pax\" name=\"pax\">\n                </div>\n              </div>\n              <div class=\"field\">\n                <label class=\"label\">Max Cargo</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" [(ngModel)]=\"cargo\" name=\"cargo\">\n                </div>\n              </div>\n              <div class=\"field\">\n                <label class=\"label\">ICAO 24</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" [(ngModel)]=\"icao24\" name=\"icao24\">\n                </div>\n              </div>\n              <div class=\"field\">\n                <label class=\"label\">Base Location</label>\n                <div class=\"control\">\n                  <div class=\"select\">\n                    <select [(ngModel)]=\"base\" name=\"base\">\n                      <option *ngFor=\"let airport of airports\" [value]=\"airport.icao\">{{airport.icao}}\n                      </option>\n                    </select>\n                  </div>\n                </div>\n              </div>\n\n\n            </section>\n            <footer class=\"modal-card-foot\">\n              <button class=\"button is-success\" id=\"addBtn\" (click)=\"addAircraft()\">Add</button>\n              <button class=\"button\">Cancel</button>\n            </footer>\n          </form>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>"
+module.exports = "<app-header></app-header>\n<div class=\"container\">\n  <div class=\"columns\">\n    <div class=\"column is-3\">\n      <app-side-nav></app-side-nav>\n    </div>\n    <div class=\"column is-9\">\n      <h3 class=\"title is-pulled-left\">Aircrafts Overview</h3>\n      <button class=\"button is-primary is-outlined is-pulled-right\" id=\"btn-add-aircraft\">Add Aircraft</button>\n      <table class=\"table is-fullwidth\">\n        <thead>\n          <th></th>\n          <th>Registration</th>\n          <th>Upcoming Movement</th>\n          <th>Current Status</th>\n          <th>Action</th>\n        </thead>\n        <tbody>\n          <tr *ngFor=\"let aircraft of aircrafts\">\n            <td>\n              <a routerLink=\"/admin/aircraft/{{aircraft._id}}\">\n                <img src=\"{{aircraft.img_url}}\" class=\"aircraft-img\" alt=\"\">\n              </a>\n            </td>\n            <td>\n              <a routerLink=\"/admin/aircraft/{{aircraft._id}}\">\n                {{aircraft.registration}}\n              </a>\n            </td>\n            <td>\n            </td>\n            <td></td>\n            <td>\n              <a class=\"is-link\" (click)=\"edit(aircraft);update=true\">Edit</a> / \n              <a class=\"is-danger\" (click)=\"delete(aircraft._id)\">Delete</a>\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <app-chat></app-chat>\n\n      <div class=\"modal\" id=\"add-aircraft\">\n        <div class=\"modal-background\"></div>\n        <div class=\"modal-card\">\n          <form>\n            <header class=\"modal-card-head\">\n                <p class=\"modal-card-title\" *ngIf=\"!update\">Add Aircraft</p>\n                <p class=\"modal-card-title\" *ngIf=\"update\">Update Aircraft</p>\n              <button class=\"delete\" aria-label=\"close\" (click)=\"close()\"></button>\n            </header>\n            <section class=\"modal-card-body\">\n              <div class=\"field\">\n                <label class=\"label\">Registration</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" name=\"registration\" [(ngModel)]=\"registration\">\n                </div>\n              </div>\n              <div class=\"field\">\n                <label class=\"label\">Aircraft ID</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" name=\"aircraftId\" [(ngModel)]=\"aircraftId\">\n                </div>\n              </div>\n\n              <div class=\"field\">\n                <label class=\"label\">Photo</label>\n                <div class=\"control\">\n                  <progress *ngIf=\"currentFileUpload\" class=\"progress is-primary\" value=\"{{progress.percentage}}\"\n                    max=\"100\"></progress>\n                  <div class=\"file has-name\">\n                    <label class=\"file-label\"> <input type=\"file\" class=\"file-input\" (change)=\"selectFile($event)\">\n                      <span class=\"file-cta\">\n                        <span class=\"file-icon\">\n                          <i class=\"fas fa-upload\"></i>\n                        </span>\n                        <span class=\"file-label\">\n                          Choose an image…\n                        </span>\n                      </span>\n                      <span class=\"file-name\">\n                        .jpg, .png, .gif\n                      </span>\n                    </label>\n                  </div>\n\n                  <button class=\"button is-success\" [disabled]=\"!selectedFiles\" (click)=\"upload()\">Upload</button>\n                </div>\n              </div>\n\n              <div class=\"field\">\n                <label class=\"label\">Max Take Off Weight</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" [(ngModel)]=\"tow\" name=\"tow\">\n                </div>\n              </div>\n              <div class=\"field\">\n                <label class=\"label\">Max Fuel Capacity</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" [(ngModel)]=\"fuel\" name=\"fuel\">\n                </div>\n              </div>\n              <div class=\"field\">\n                <label class=\"label\">Max PAX</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" [(ngModel)]=\"pax\" name=\"pax\">\n                </div>\n              </div>\n              <div class=\"field\">\n                <label class=\"label\">Max Cargo</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" [(ngModel)]=\"cargo\" name=\"cargo\">\n                </div>\n              </div>\n              <div class=\"field\">\n                <label class=\"label\">ICAO 24</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" [(ngModel)]=\"icao24\" name=\"icao24\">\n                </div>\n              </div>\n              <div class=\"field\">\n                <label class=\"label\">Base Location</label>\n                <div class=\"control\">\n                  <div class=\"select\">\n                    <select [(ngModel)]=\"base\" name=\"base\">\n                      <option *ngFor=\"let airport of airports\" [value]=\"airport.icao\">{{airport.icao}}\n                      </option>\n                    </select>\n                  </div>\n                </div>\n              </div>\n\n\n            </section>\n            <footer class=\"modal-card-foot\">\n                <button class=\"button is-success\" id=\"addBtn\" (click)=\"addAircraft()\" *ngIf=\"!update\">Add</button>\n                <button class=\"button is-success\" id=\"addBtn\" (click)=\"updateAircraft()\" *ngIf=\"update\">Update</button>\n                <button class=\"button\" (click)=\"close()\">Cancel</button>\n            </footer>\n          </form>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -1508,6 +1587,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _admin_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../admin.service */ "./src/app/admin/admin.service.ts");
 /* harmony import */ var _fileupload__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../fileupload */ "./src/app/admin/fileupload.ts");
+/* harmony import */ var bulma_toast__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! bulma-toast */ "./node_modules/bulma-toast/dist/bulma-toast.min.js");
+/* harmony import */ var bulma_toast__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(bulma_toast__WEBPACK_IMPORTED_MODULE_4__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1521,10 +1602,12 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var AircraftsComponent = /** @class */ (function () {
     function AircraftsComponent(adminService) {
         this.adminService = adminService;
         this.progress = { percentage: 0 };
+        this.update = false;
         this.responses = [];
     }
     AircraftsComponent.prototype.ngOnInit = function () {
@@ -1540,6 +1623,19 @@ var AircraftsComponent = /** @class */ (function () {
     };
     AircraftsComponent.prototype.selectFile = function (event) {
         this.selectedFiles = event.target.files;
+    };
+    AircraftsComponent.prototype.close = function () {
+        this.update = false;
+        jquery__WEBPACK_IMPORTED_MODULE_1__('#add-aircraft').removeClass('is-active');
+        this.registration = '';
+        this.image = '';
+        this.tow = '';
+        this.fuel = '';
+        this.pax = '';
+        this.cargo = '';
+        this.icao24 = '';
+        this.base = '';
+        this.aircraftId = '';
     };
     AircraftsComponent.prototype.upload = function () {
         var _this = this;
@@ -1583,6 +1679,54 @@ var AircraftsComponent = /** @class */ (function () {
                 console.log(error);
             });
         }
+    };
+    AircraftsComponent.prototype.updateAircraft = function () {
+        var _this = this;
+        console.log('update start');
+        this.adminService.updateAircraft(this.id, this.registration, this.aircraftId, this.image, this.tow, this.fuel, this.pax, this.cargo, this.icao24, this.base)
+            .subscribe(function (data) {
+            console.log('Crew Updated ', data);
+            _this.getAircrafts();
+            Object(bulma_toast__WEBPACK_IMPORTED_MODULE_4__["toast"])({
+                message: "Aircraft Updated",
+                type: "is-success",
+                dismissible: true,
+                pauseOnHover: true
+            });
+            jquery__WEBPACK_IMPORTED_MODULE_1__('form').trigger("reset");
+            jquery__WEBPACK_IMPORTED_MODULE_1__('#addBtn').removeClass('is-loading');
+            jquery__WEBPACK_IMPORTED_MODULE_1__('#add-aircraft').removeClass('is-active');
+        });
+    };
+    AircraftsComponent.prototype.delete = function (aircraft) {
+        var _this = this;
+        console.log('update start');
+        this.adminService.deleteCrew(aircraft)
+            .subscribe(function (data) {
+            if (data.data === "deleted") {
+                console.log('Crew Deleted ', data);
+                _this.getAircrafts();
+                Object(bulma_toast__WEBPACK_IMPORTED_MODULE_4__["toast"])({
+                    message: "Aircraft Deleted",
+                    type: "is-success",
+                    dismissible: true,
+                    pauseOnHover: true
+                });
+            }
+        });
+    };
+    AircraftsComponent.prototype.edit = function (aircraft) {
+        this.id = aircraft._id;
+        this.registration = aircraft.registration;
+        this.tow = aircraft.tow;
+        this.aircraftId = aircraft.aircraftId;
+        this.image = aircraft.img_url;
+        this.fuel = aircraft.fuel;
+        this.pax = aircraft.pax;
+        this.cargo = aircraft.cargo;
+        this.icao24 = aircraft.icao24;
+        this.base = aircraft.base;
+        jquery__WEBPACK_IMPORTED_MODULE_1__('#add-aircraft').addClass('is-active');
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
@@ -1688,7 +1832,7 @@ var AirportComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-header></app-header>\n<div class=\"container\">\n  <div class=\"columns\">\n    <div class=\"column is-3\">\n      <app-side-nav></app-side-nav>\n    </div>\n    <div class=\"column is-9\">\n      <h3 class=\"title is-pulled-left\">Airport Overview</h3>\n      <button class=\"button is-primary is-outlined is-pulled-right\" routerLink=\"/admin/new-airport\">Add Airport</button>\n      <table class=\"table is-fullwidth\">\n        <thead>\n          <th></th>\n          <th>Name</th>\n          <th>ICAO</th>\n        </thead>\n        <tbody>\n          <tr *ngFor=\"let airport of airports\">\n            <td>\n                <img src=\"{{airport.logo}}\" class=\"aircraft-img\" alt=\"\">\n            </td>\n            <td>\n                <a routerLink=\"/admin/airport/{{airport.icao}}\">{{airport.name}}</a>\n            </td>\n            <td>{{airport.icao}}</td>\n          </tr>\n        </tbody>\n      </table>\n      <a (click)=\"prev()\" class=\"is-link\" *ngIf=\"pageNo > 1\">&lt;&lt;&lt; Previous</a> - \n      <a (click)=\"next()\" class=\"is-link\">Next &gt;&gt;&gt;</a>\n      <app-chat></app-chat>\n\n    </div>\n  </div>\n</div>"
+module.exports = "<app-header></app-header>\n<div class=\"container\">\n  <div class=\"columns\">\n    <div class=\"column is-3\">\n      <app-side-nav></app-side-nav>\n    </div>\n    <div class=\"column is-9\">\n      <h3 class=\"title is-pulled-left\">Airport Overview</h3>\n      <button class=\"button is-primary is-outlined is-pulled-right\" routerLink=\"/admin/new-airport\">Add Airport</button>\n      <table class=\"table is-fullwidth\">\n        <thead>\n          <th></th>\n          <th>Name</th>\n          <th>ICAO</th>\n          <th>Action</th>\n        </thead>\n        <tbody>\n          <tr *ngFor=\"let airport of airports\">\n            <td>\n                <img src=\"{{airport.logo}}\" class=\"aircraft-img\" alt=\"\">\n            </td>\n            <td>\n                <a routerLink=\"/admin/airport/{{airport.icao}}\">{{airport.name}}</a>\n            </td>\n            <td>{{airport.icao}}</td>\n            <td>\n              <a class=\"is-link\" routerLink=\"/admin/edit-airport/{{airport.icao}}\">Edit</a> / \n              <a class=\"is-danger\" (click)=\"delete(airport._id)\">Delete</a>\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <a (click)=\"prev()\" class=\"is-link\" *ngIf=\"pageNo > 1\">&lt;&lt;&lt; Previous</a> - \n      <a (click)=\"next()\" class=\"is-link\">Next &gt;&gt;&gt;</a>\n      <app-chat></app-chat>\n\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -1718,6 +1862,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _admin_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../admin.service */ "./src/app/admin/admin.service.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var bulma_toast__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! bulma-toast */ "./node_modules/bulma-toast/dist/bulma-toast.min.js");
+/* harmony import */ var bulma_toast__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(bulma_toast__WEBPACK_IMPORTED_MODULE_4__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1727,6 +1873,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -1768,6 +1915,23 @@ var AirportsComponent = /** @class */ (function () {
     };
     AirportsComponent.prototype.navigate = function (link) {
         this.router.navigate([link]);
+    };
+    AirportsComponent.prototype.delete = function (aircraft) {
+        var _this = this;
+        console.log('update start');
+        this.adminService.deleteCrew(aircraft)
+            .subscribe(function (data) {
+            if (data.data === "deleted") {
+                console.log('Airport Deleted ', data);
+                _this.getAirports();
+                Object(bulma_toast__WEBPACK_IMPORTED_MODULE_4__["toast"])({
+                    message: "Airport Deleted",
+                    type: "is-success",
+                    dismissible: true,
+                    pauseOnHover: true
+                });
+            }
+        });
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
@@ -2213,7 +2377,7 @@ var CrewComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-header></app-header>\n<div class=\"container\">\n  <div class=\"columns\">\n    <div class=\"column is-3\">\n      <app-side-nav></app-side-nav>\n    </div>\n    <div class=\"column is-9\">\n      <h3 class=\"title is-pulled-left\">Crews</h3>\n      <button class=\"button is-primary is-outlined is-pulled-right\" id=\"btn-add-crew\">Add Crew</button>\n      <table class=\"table is-fullwidth\">\n        <thead>\n          <th></th>\n          <th>Name</th>\n          <th>Upcoming Movement</th>\n          <th>Current Status</th>\n          <th>Action</th>\n        </thead>\n        <tbody>\n          <tr *ngFor=\"let crew of crews\">\n            <td>\n              <a routerLink=\"/admin/crew/{{crew._id}}\">\n                <img src=\"{{crew.img_url}}\" class=\"crew-img\" alt=\"\">\n              </a>\n            </td>\n            <td>\n              <a routerLink=\"/admin/crew/{{crew._id}}\">\n                {{crew.name}}\n              </a>\n            </td>\n            <td>\n              {{crew.name}}\n            </td>\n            <td>\n              On-duty\n            </td>\n            <td>\n              <a class=\"is-link\" (click)=\"edit(crew._id);update=true\">Edit</a> / \n              <a class=\"is-danger\" (click)=\"deleteCrew(crew._id)\">Delete</a>\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <div class=\"modal\" id=\"add-crew\">\n        <div class=\"modal-background\"></div>\n        <div class=\"modal-card\">\n          <form>\n            <header class=\"modal-card-head\">\n              <p class=\"modal-card-title\" *ngIf=\"!update\">Add Crew Member</p>\n              <p class=\"modal-card-title\" *ngIf=\"update\">Update Crew Member</p>\n              <button class=\"delete\" aria-label=\"close\" (click)=\"close()\"></button>\n            </header>\n            <section class=\"modal-card-body\">\n              <div class=\"field\">\n                <label class=\"label\">Name</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" name=\"name\" [(ngModel)]=\"name\">\n                </div>\n              </div>\n              <div class=\"columns\">\n                <div class=\"column is-8\">\n                  <div class=\"field\">\n                    <label class=\"label\">Photo</label>\n                    <div class=\"control\">\n                      <progress *ngIf=\"currentFileUpload\" class=\"progress is-primary\" value=\"{{progress.percentage}}\" max=\"100\"></progress>\n                      <div class=\"file has-name\">\n                        <label class=\"file-label\"> <input type=\"file\" class=\"file-input\" (change)=\"selectFile($event)\">\n                        <span class=\"file-cta\">\n                          <span class=\"file-icon\">\n                            <i class=\"fas fa-upload\"></i>\n                          </span>\n                          <span class=\"file-label\">\n                            Choose an image…\n                          </span>\n                        </span>\n                        <span class=\"file-name\">\n                          .jpg, .png, .gif\n                        </span>\n                        </label>\n                      </div>\n\n                      <button class=\"button is-success\" [disabled]=\"!selectedFiles\" (click)=\"upload()\">Upload</button>\n                    </div>\n                  </div>\n                </div>\n                <div class=\"column is-4\">\n                  <div class=\"field\">\n                    <label class=\"label\">Occupation</label>\n                    <div class=\"control\">\n                      <div class=\"select\">\n                        <select name=\"occupation\" [(ngModel)]=\"occupation\">\n                          <option></option>\n                          <option>PIC</option>\n                          <option>FO</option>\n                          <option>OPS</option>\n                        </select>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n              </div>\n              <div class=\"columns\">\n                <div class=\"column is-6\" *ngIf=\"!update\">\n                  <div class=\"field\">\n                    <label class=\"label\">Primary Email</label>\n                    <div class=\"control\">\n                      <input class=\"input\" type=\"text\" name=\"p_email\" [(ngModel)]=\"p_email\">\n                    </div>\n                  </div>\n                </div>\n                <div class=\"column is-6\">\n                  <div class=\"field\">\n                    <label class=\"label\">Secondary Email</label>\n                    <div class=\"control\">\n                      <input class=\"input\" type=\"text\" name=\"s_email\" [(ngModel)]=\"s_email\">\n                    </div>\n                  </div>\n                </div>\n              </div>\n              <div class=\"columns\" *ngIf=\"!update\">\n\n                <div class=\"column is-6\">\n                  <div class=\"field\">\n                    <label class=\"label\">Password</label>\n                    <div class=\"control\">\n                      <input placeholder=\"Password\" class=\"input\" type=\"password\" [(ngModel)]=\"password\" name=\"password\"\n                        required>\n                    </div>\n                  </div>\n                </div>\n                <div class=\"column is-6\">\n                  <div class=\"field\">\n                    <label class=\"label\">Repeat Password</label>\n                    <div class=\"control\">\n                      <input placeholder=\"Reapet Password\" class=\"input\" [(ngModel)]=\"repeatPassword\" type=\"password\"\n                        name=\"repeatPassword\" required>\n\n                    </div>\n                  </div>\n                </div>\n              </div>\n              <div class=\"columns\">\n                <div class=\"column is-6\">\n                  <div class=\"field\">\n                    <label class=\"label\">Primary Phone Number</label>\n                    <div class=\"control\">\n                      <input class=\"input\" type=\"text\" name=\"p_phone\" [(ngModel)]=\"p_phone\">\n                    </div>\n                  </div>\n                </div>\n                <div class=\"column is-6\">\n                  <div class=\"field\">\n                    <label class=\"label\">Secondary Phone Number</label>\n                    <div class=\"control\">\n                      <input class=\"input\" type=\"text\" name=\"s_phone\" [(ngModel)]=\"s_phone\">\n                    </div>\n                  </div>\n                </div>\n              </div>\n\n\n            </section>\n            <footer class=\"modal-card-foot\">\n              <button class=\"button is-success\" id=\"addBtn\" (click)=\"register()\" *ngIf=\"!update\">Add</button>\n              <button class=\"button is-success\" id=\"addBtn\" (click)=\"updateCrew()\" *ngIf=\"update\">Update</button>\n              <button class=\"button\" (click)=\"close()\">Cancel</button>\n            </footer>\n          </form>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n<app-chat></app-chat>\n"
+module.exports = "<app-header></app-header>\n<div class=\"container\">\n  <div class=\"columns\">\n    <div class=\"column is-3\">\n      <app-side-nav></app-side-nav>\n    </div>\n    <div class=\"column is-9\">\n      <h3 class=\"title is-pulled-left\">Crews</h3>\n      <button class=\"button is-primary is-outlined is-pulled-right\" id=\"btn-add-crew\">Add Crew</button>\n      <table class=\"table is-fullwidth\">\n        <thead>\n          <th></th>\n          <th>Name</th>\n          <th>Upcoming Movement</th>\n          <th>Current Status</th>\n          <th>Action</th>\n        </thead>\n        <tbody>\n          <tr *ngFor=\"let crew of crews\">\n            <td>\n              <a routerLink=\"/admin/crew/{{crew._id}}\">\n                <img src=\"{{crew.img_url}}\" class=\"crew-img\" alt=\"\">\n              </a>\n            </td>\n            <td>\n              <a routerLink=\"/admin/crew/{{crew._id}}\">\n                {{crew.name}}\n              </a>\n            </td>\n            <td>\n              {{crew.name}}\n            </td>\n            <td>\n              On-duty\n            </td>\n            <td>\n              <a class=\"is-link\" (click)=\"edit(crew);update=true\">Edit</a> / \n              <a class=\"is-danger\" (click)=\"deleteCrew(crew._id)\">Delete</a>\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <div class=\"modal\" id=\"add-crew\">\n        <div class=\"modal-background\"></div>\n        <div class=\"modal-card\">\n          <form>\n            <header class=\"modal-card-head\">\n              <p class=\"modal-card-title\" *ngIf=\"!update\">Add Crew Member</p>\n              <p class=\"modal-card-title\" *ngIf=\"update\">Update Crew Member</p>\n              <button class=\"delete\" aria-label=\"close\" (click)=\"close()\"></button>\n            </header>\n            <section class=\"modal-card-body\">\n              <div class=\"field\">\n                <label class=\"label\">Name</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" name=\"name\" [(ngModel)]=\"name\">\n                </div>\n              </div>\n              <div class=\"columns\">\n                <div class=\"column is-8\">\n                  <div class=\"field\">\n                    <label class=\"label\">Photo</label>\n                    <div class=\"control\">\n                      <progress *ngIf=\"currentFileUpload\" class=\"progress is-primary\" value=\"{{progress.percentage}}\" max=\"100\"></progress>\n                      <div class=\"file has-name\">\n                        <label class=\"file-label\"> <input type=\"file\" class=\"file-input\" (change)=\"selectFile($event)\">\n                        <span class=\"file-cta\">\n                          <span class=\"file-icon\">\n                            <i class=\"fas fa-upload\"></i>\n                          </span>\n                          <span class=\"file-label\">\n                            Choose an image…\n                          </span>\n                        </span>\n                        <span class=\"file-name\">\n                          .jpg, .png, .gif\n                        </span>\n                        </label>\n                      </div>\n\n                      <button class=\"button is-success\" [disabled]=\"!selectedFiles\" (click)=\"upload()\">Upload</button>\n                    </div>\n                  </div>\n                </div>\n                <div class=\"column is-4\">\n                  <div class=\"field\">\n                    <label class=\"label\">Occupation</label>\n                    <div class=\"control\">\n                      <div class=\"select\">\n                        <select name=\"occupation\" [(ngModel)]=\"occupation\">\n                          <option></option>\n                          <option>PIC</option>\n                          <option>FO</option>\n                          <option>OPS</option>\n                        </select>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n              </div>\n              <div class=\"columns\">\n                <div class=\"column is-6\" *ngIf=\"!update\">\n                  <div class=\"field\">\n                    <label class=\"label\">Primary Email</label>\n                    <div class=\"control\">\n                      <input class=\"input\" type=\"text\" name=\"p_email\" [(ngModel)]=\"p_email\">\n                    </div>\n                  </div>\n                </div>\n                <div class=\"column is-6\">\n                  <div class=\"field\">\n                    <label class=\"label\">Secondary Email</label>\n                    <div class=\"control\">\n                      <input class=\"input\" type=\"text\" name=\"s_email\" [(ngModel)]=\"s_email\">\n                    </div>\n                  </div>\n                </div>\n              </div>\n              <div class=\"columns\" *ngIf=\"!update\">\n\n                <div class=\"column is-6\">\n                  <div class=\"field\">\n                    <label class=\"label\">Password</label>\n                    <div class=\"control\">\n                      <input placeholder=\"Password\" class=\"input\" type=\"password\" [(ngModel)]=\"password\" name=\"password\"\n                        required>\n                    </div>\n                  </div>\n                </div>\n                <div class=\"column is-6\">\n                  <div class=\"field\">\n                    <label class=\"label\">Repeat Password</label>\n                    <div class=\"control\">\n                      <input placeholder=\"Reapet Password\" class=\"input\" [(ngModel)]=\"repeatPassword\" type=\"password\"\n                        name=\"repeatPassword\" required>\n\n                    </div>\n                  </div>\n                </div>\n              </div>\n              <div class=\"columns\">\n                <div class=\"column is-6\">\n                  <div class=\"field\">\n                    <label class=\"label\">Primary Phone Number</label>\n                    <div class=\"control\">\n                      <input class=\"input\" type=\"text\" name=\"p_phone\" [(ngModel)]=\"p_phone\">\n                    </div>\n                  </div>\n                </div>\n                <div class=\"column is-6\">\n                  <div class=\"field\">\n                    <label class=\"label\">Secondary Phone Number</label>\n                    <div class=\"control\">\n                      <input class=\"input\" type=\"text\" name=\"s_phone\" [(ngModel)]=\"s_phone\">\n                    </div>\n                  </div>\n                </div>\n              </div>\n\n\n            </section>\n            <footer class=\"modal-card-foot\">\n              <button class=\"button is-success\" id=\"addBtn\" (click)=\"register()\" *ngIf=\"!update\">Add</button>\n              <button class=\"button is-success\" id=\"addBtn\" (click)=\"updateCrew()\" *ngIf=\"update\">Update</button>\n              <button class=\"button\" (click)=\"close()\">Cancel</button>\n            </footer>\n          </form>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n<app-chat></app-chat>\n"
 
 /***/ }),
 
@@ -2306,20 +2470,16 @@ var CrewsComponent = /** @class */ (function () {
             console.log('crews ', _this.crews);
         });
     };
-    CrewsComponent.prototype.edit = function (id) {
-        var _this = this;
-        this.adminService.getCrew(id).subscribe(function (data) {
-            _this.crewid = id;
-            _this.name = data.data.name;
-            _this.img_url = data.data.img_url;
-            _this.occupation = data.data.occupation;
-            _this.p_email = data.data.p_email;
-            _this.s_email = data.data.s_email;
-            _this.p_phone = data.data.p_phone;
-            _this.s_phone = data.data.s_phone;
-            jquery__WEBPACK_IMPORTED_MODULE_1__('#add-crew').addClass('is-active');
-            console.log('crewww', data.data);
-        });
+    CrewsComponent.prototype.edit = function (crew) {
+        this.crewid = crew._id;
+        this.name = crew.name;
+        this.img_url = crew.img_url;
+        this.occupation = crew.occupation;
+        this.p_email = crew.p_email;
+        this.s_email = crew.s_email;
+        this.p_phone = crew.p_phone;
+        this.s_phone = crew.s_phone;
+        jquery__WEBPACK_IMPORTED_MODULE_1__('#add-crew').addClass('is-active');
     };
     CrewsComponent.prototype.addCrew = function (userID) {
         var _this = this;
@@ -2344,7 +2504,14 @@ var CrewsComponent = /** @class */ (function () {
             console.log('Crew Updated ', data);
             _this.getCrews();
             jquery__WEBPACK_IMPORTED_MODULE_1__('form').trigger("reset");
+            jquery__WEBPACK_IMPORTED_MODULE_1__('#add-crew').removeClass('is-active');
             jquery__WEBPACK_IMPORTED_MODULE_1__('#addBtn').removeClass('is-loading');
+            Object(bulma_toast__WEBPACK_IMPORTED_MODULE_4__["toast"])({
+                message: "Crew Member Updated",
+                type: "is-success",
+                dismissible: true,
+                pauseOnHover: true
+            });
         }, function (error) {
             jquery__WEBPACK_IMPORTED_MODULE_1__('#addBtn').removeClass('is-loading');
             console.log(error);
@@ -2637,6 +2804,119 @@ var DashboardComponent = /** @class */ (function () {
             _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"]])
     ], DashboardComponent);
     return DashboardComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/admin/edit-airport/edit-airport.component.html":
+/*!****************************************************************!*\
+  !*** ./src/app/admin/edit-airport/edit-airport.component.html ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<app-header></app-header>\n<div class=\"container\">\n  <div class=\"columns\">\n    <div class=\"column is-3\">\n      <app-side-nav></app-side-nav>\n    </div>\n    <div class=\"column is-9\">\n      <h3 class=\"title\">Edit Airport</h3>\n\n      <form>\n        <div class=\"columns\">\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Name</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"name\" [(ngModel)]=\"name\">\n              </div>\n            </div>\n          </div>\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">ICAO Code</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"icao\" [(ngModel)]=\"icao\">\n              </div>\n            </div>\n          </div>\n        </div>\n\n        <div class=\"columns\">\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Longitude</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"longitude\" [(ngModel)]=\"longitude\">\n              </div>\n            </div>\n          </div>\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Latitude</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"latitude\" [(ngModel)]=\"latitude\">\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"columns\">\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Elevation</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"elevation\" [(ngModel)]=\"elevation\">\n              </div>\n            </div>\n          </div>\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Longest Runway</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"longest_runway\" [(ngModel)]=\"longest_runway\">\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"columns\">\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Magnetic Variation</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"magnetic_variation\" [(ngModel)]=\"magnetic_variation\">\n              </div>\n            </div>\n          </div>\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Airport Type</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"airport_type\" [(ngModel)]=\"airport_type\">\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"columns\">\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Beacon</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"beacon\" [(ngModel)]=\"beacon\">\n              </div>\n            </div>\n          </div>\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Fuel Types</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"fuel_types\" [(ngModel)]=\"fuel_types\">\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"columns\">\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Landing Fee</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"landing_fee\" [(ngModel)]=\"landing_fee\">\n              </div>\n            </div>\n          </div>\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Oxygen</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"oxygen\" [(ngModel)]=\"oxygen\">\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"columns\">\n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Repairs</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"repairs\" [(ngModel)]=\"repairs\">\n              </div>\n            </div>\n          </div>\n          \n          <div class=\"column is-6\">\n            <div class=\"field\">\n              <label class=\"label\">Country</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" name=\"country\" [(ngModel)]=\"country\">\n              </div>\n            </div>\n          </div>\n        </div>\n\n        <div class=\"columns\">\n          <div class=\"column is-6\">\n            <div class=\"field is-grouped\">\n              <div class=\"control\">\n                <button class=\"button is-link\" id=\"addBtn\" (click)=\"updateAirport()\">Submit</button>\n              </div>\n              <div class=\"control\">\n                <button class=\"button is-text\" type=\"reset\">Reset</button>\n              </div>\n            </div>\n          </div>\n        </div>\n      </form>\n    </div>\n  </div>\n</div>\n<app-chat></app-chat>"
+
+/***/ }),
+
+/***/ "./src/app/admin/edit-airport/edit-airport.component.scss":
+/*!****************************************************************!*\
+  !*** ./src/app/admin/edit-airport/edit-airport.component.scss ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2FkbWluL2VkaXQtYWlycG9ydC9lZGl0LWFpcnBvcnQuY29tcG9uZW50LnNjc3MifQ== */"
+
+/***/ }),
+
+/***/ "./src/app/admin/edit-airport/edit-airport.component.ts":
+/*!**************************************************************!*\
+  !*** ./src/app/admin/edit-airport/edit-airport.component.ts ***!
+  \**************************************************************/
+/*! exports provided: EditAirportComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EditAirportComponent", function() { return EditAirportComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _admin_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../admin.service */ "./src/app/admin/admin.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var bulma_toast__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! bulma-toast */ "./node_modules/bulma-toast/dist/bulma-toast.min.js");
+/* harmony import */ var bulma_toast__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(bulma_toast__WEBPACK_IMPORTED_MODULE_3__);
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var EditAirportComponent = /** @class */ (function () {
+    function EditAirportComponent(adminService, route, router) {
+        this.adminService = adminService;
+        this.route = route;
+        this.router = router;
+    }
+    EditAirportComponent.prototype.ngOnInit = function () {
+        this.id = this.route.snapshot.paramMap.get("id");
+        this.doRun = true;
+        this.getAirport();
+    };
+    EditAirportComponent.prototype.getAirport = function () {
+        var _this = this;
+        console.log('getting airport');
+        this.adminService.getAirportDetails(this.id).subscribe(function (data) {
+            var airport = data.data;
+            _this._id = airport._id;
+            _this.name = airport.name;
+            _this.country = airport.country;
+            _this.icao = airport.icao;
+            _this.latitude = airport.latitude;
+            _this.longitude = airport.longitude;
+            _this.elevation = airport.elevation;
+            _this.longest_runway = airport.longest_runway;
+            _this.magnetic_variation = airport.magnetic_variation;
+            _this.airport_type = airport.airport_type;
+            _this.beacon = airport.beacon;
+            _this.fuel_types = airport.fuel_types;
+            _this.landing_fee = airport.landing_fee;
+            _this.oxygen = airport.oxygen;
+            _this.repairs = airport.repairs;
+            console.log('airport got', airport);
+        });
+    };
+    EditAirportComponent.prototype.updateAirport = function () {
+        console.log('update start');
+        this.adminService.updateAirport(this._id, this.name, this.country, this.icao, this.latitude, this.longitude, this.elevation, this.longest_runway, this.magnetic_variation, this.airport_type, this.beacon, this.fuel_types, this.landing_fee, this.oxygen, this.repairs)
+            .subscribe(function (data) {
+            console.log('Crew Updated ', data);
+            Object(bulma_toast__WEBPACK_IMPORTED_MODULE_3__["toast"])({
+                message: "Airport Updated",
+                type: "is-success",
+                dismissible: true,
+                pauseOnHover: true
+            });
+        });
+    };
+    EditAirportComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-edit-airport',
+            template: __webpack_require__(/*! ./edit-airport.component.html */ "./src/app/admin/edit-airport/edit-airport.component.html"),
+            styles: [__webpack_require__(/*! ./edit-airport.component.scss */ "./src/app/admin/edit-airport/edit-airport.component.scss")]
+        }),
+        __metadata("design:paramtypes", [_admin_service__WEBPACK_IMPORTED_MODULE_1__["AdminService"], _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"], _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]])
+    ], EditAirportComponent);
+    return EditAirportComponent;
 }());
 
 
@@ -3187,6 +3467,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _admin_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../admin.service */ "./src/app/admin/admin.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3199,9 +3480,11 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var NewAirportComponent = /** @class */ (function () {
-    function NewAirportComponent(adminService) {
+    function NewAirportComponent(adminService, route) {
         this.adminService = adminService;
+        this.route = route;
     }
     NewAirportComponent.prototype.ngOnInit = function () {
         this.doRun = true;
@@ -3229,7 +3512,7 @@ var NewAirportComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./new-airport.component.html */ "./src/app/admin/new-airport/new-airport.component.html"),
             styles: [__webpack_require__(/*! ./new-airport.component.scss */ "./src/app/admin/new-airport/new-airport.component.scss")]
         }),
-        __metadata("design:paramtypes", [_admin_service__WEBPACK_IMPORTED_MODULE_2__["AdminService"]])
+        __metadata("design:paramtypes", [_admin_service__WEBPACK_IMPORTED_MODULE_2__["AdminService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"]])
     ], NewAirportComponent);
     return NewAirportComponent;
 }());

@@ -39,6 +39,15 @@ router.get('/fetch/:icao', function (req, res) {
         }
     })
 });
+router.get('/fetchAirport/:icao', function (req, res) {
+    Airport.findOne({ icao: req.params.icao }, function (err, airport) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(airport);
+        }
+    })
+});
 router.get('/find/:keyword', function (req, res) {
     Airport.find({ $or: [{ icao: { $regex: req.params.keyword, $options: 'i' } }, { name: { $regex: req.params.keyword, $options: 'i' } }] }, function (err, airport) {
         if (err) {
@@ -47,6 +56,41 @@ router.get('/find/:keyword', function (req, res) {
             res.json(airport);
         }
     })
+});
+router.put('/update/:id', function (req, res) {
+    Airport.findOne({ _id: req.params.id }, function (err, doc) {
+        doc.name = req.body.name;
+        doc.country = req.body.country;
+        doc.icao = req.body.icao;
+        doc.latitude = req.body.latitude;
+        doc.longitude = req.body.longitude;
+        doc.elevation = req.body.elevation;
+        doc.longest_runway = req.body.longest_runway;
+        doc.magnetic_variation = req.body.magnetic_variation;
+        doc.airport_type = req.body.airport_type;
+        doc.beacon = req.body.beacon;
+        doc.fuel_types = req.body.fuel_types;
+        doc.landing_fee = req.body.landing_fee;
+        doc.oxygen = req.body.oxygen;
+        doc.repairs = req.body.repairs;
+        // // doc.visits.$inc();
+        doc.save();
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(doc);
+        }
+    });
+});
+router.delete('/delete/:id', function (req, res) {
+    Airport.findOne({ _id: req.params.id }, function (err, doc) {
+        doc.remove();
+        if (err) {
+            console.log(err);
+        } else {
+            res.json("deleted");
+        }
+    });
 });
 
 

@@ -322,6 +322,33 @@ export class AdminService {
       })
     });
   }
+  updateAircraft(id: string,
+    registration: string,
+    aircraftId: string,
+    img_url: string,
+    tow: string,
+    fuel: string,
+    pax: string,
+    cargo: string,
+    icao24: string,
+    base: string): Observable<any> {
+    return Observable.create(observer => {
+      this.http.put('/api/aircraft/update/' + id, {
+        registration,
+        aircraftId,
+        img_url,
+        tow,
+        fuel,
+        pax,
+        cargo,
+        icao24,
+        base
+      }).subscribe((data: any) => {
+        observer.next({ data: data });
+        observer.complete();
+      })
+    });
+  }
   addLicence(
     crew_id: string,
     licence: string,
@@ -354,6 +381,44 @@ export class AdminService {
     repairs: string): Observable<any> {
     return Observable.create(observer => {
       this.http.post('/api/airport', {
+        name,
+        country,
+        icao,
+        latitude,
+        longitude,
+        elevation,
+        longest_runway,
+        magnetic_variation,
+        airport_type,
+        beacon,
+        fuel_types,
+        landing_fee,
+        oxygen,
+        repairs
+      }).subscribe((data: any) => {
+        observer.next({ data: data });
+        observer.complete();
+      })
+    });
+  }
+  updateAirport(
+    id: string,
+    name: string,
+    country: string,
+    icao: string,
+    latitude: number,
+    longitude: number,
+    elevation: number,
+    longest_runway: number,
+    magnetic_variation: number,
+    airport_type: string,
+    beacon: string,
+    fuel_types: string,
+    landing_fee: boolean,
+    oxygen: string,
+    repairs: string): Observable<any> {
+    return Observable.create(observer => {
+      this.http.put('/api/airport/update/' + id, {
         name,
         country,
         icao,
@@ -436,6 +501,22 @@ export class AdminService {
   deleteCrew(id): Observable<any> {
     return Observable.create(observer => {
       this.http.delete('/api/crew/delete/' + id).subscribe((data: any) => {
+        observer.next({ data: data });
+        observer.complete();
+      })
+    });
+  }
+  deleteAirport(id): Observable<any> {
+    return Observable.create(observer => {
+      this.http.delete('/api/airport/delete/' + id).subscribe((data: any) => {
+        observer.next({ data: data });
+        observer.complete();
+      })
+    });
+  }
+  deleteAircraft(id): Observable<any> {
+    return Observable.create(observer => {
+      this.http.delete('/api/aircraft/delete/' + id).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
       })
@@ -540,6 +621,14 @@ export class AdminService {
   getAirport(icao): Observable<any> {
     return Observable.create(observer => {
       this.http.get('/api/airport/fetch/' + icao).subscribe((data: any) => {
+        observer.next({ data: data });
+        observer.complete();
+      })
+    });
+  }
+  getAirportDetails(icao): Observable<any> {
+    return Observable.create(observer => {
+      this.http.get('/api/airport/fetchAirport/' + icao).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
       })

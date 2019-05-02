@@ -36,6 +36,7 @@ import { HandlersComponent } from './handlers/handlers.component';
 import { NewHandlerComponent } from './new-handler/new-handler.component';
 import { SettingsComponent } from './settings/settings.component';
 import { AirportComponent } from './airport/airport.component';
+import { EditAirportComponent } from './edit-airport/edit-airport.component';
 
 
 @NgModule({
@@ -60,6 +61,7 @@ import { AirportComponent } from './airport/airport.component';
     NewHandlerComponent,
     SettingsComponent,
     AirportComponent,
+    EditAirportComponent,
   ],
   imports: [
     CommonModule,

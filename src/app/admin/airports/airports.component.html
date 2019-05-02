@@ -12,6 +12,7 @@
           <th></th>
           <th>Name</th>
           <th>ICAO</th>
+          <th>Action</th>
         </thead>
         <tbody>
           <tr *ngFor="let airport of airports">
@@ -22,6 +23,10 @@
                 <a routerLink="/admin/airport/{{airport.icao}}">{{airport.name}}</a>
             </td>
             <td>{{airport.icao}}</td>
+            <td>
+              <a class="is-link" routerLink="/admin/edit-airport/{{airport.icao}}">Edit</a> / 
+              <a class="is-danger" (click)="delete(airport._id)">Delete</a>
+            </td>
           </tr>
         </tbody>
       </table>

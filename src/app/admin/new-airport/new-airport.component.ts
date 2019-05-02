@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as $ from 'jquery';
 import { AdminService } from '../admin.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-new-airport',
@@ -10,7 +11,7 @@ import { AdminService } from '../admin.service';
 export class NewAirportComponent implements OnInit {
   doRun: boolean;
 
-  constructor(private adminService: AdminService) { }
+  constructor(private adminService: AdminService, private route: ActivatedRoute) { }
 
 
   name: string;
@@ -30,6 +31,7 @@ export class NewAirportComponent implements OnInit {
   ngOnInit() {
     this.doRun = true
   }
+
   addAirport(): void {
     console.log('add start')
     $('#addBtn').addClass('is-loading');

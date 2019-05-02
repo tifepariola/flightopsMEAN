@@ -13,6 +13,7 @@
           <th>Registration</th>
           <th>Upcoming Movement</th>
           <th>Current Status</th>
+          <th>Action</th>
         </thead>
         <tbody>
           <tr *ngFor="let aircraft of aircrafts">
@@ -29,6 +30,10 @@
             <td>
             </td>
             <td></td>
+            <td>
+              <a class="is-link" (click)="edit(aircraft);update=true">Edit</a> / 
+              <a class="is-danger" (click)="delete(aircraft._id)">Delete</a>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -39,8 +44,9 @@
         <div class="modal-card">
           <form>
             <header class="modal-card-head">
-              <p class="modal-card-title">Add Aircraft</p>
-              <button class="delete" aria-label="close"></button>
+                <p class="modal-card-title" *ngIf="!update">Add Aircraft</p>
+                <p class="modal-card-title" *ngIf="update">Update Aircraft</p>
+              <button class="delete" aria-label="close" (click)="close()"></button>
             </header>
             <section class="modal-card-body">
               <div class="field">
@@ -126,8 +132,9 @@
 
             </section>
             <footer class="modal-card-foot">
-              <button class="button is-success" id="addBtn" (click)="addAircraft()">Add</button>
-              <button class="button">Cancel</button>
+                <button class="button is-success" id="addBtn" (click)="addAircraft()" *ngIf="!update">Add</button>
+                <button class="button is-success" id="addBtn" (click)="updateAircraft()" *ngIf="update">Update</button>
+                <button class="button" (click)="close()">Cancel</button>
             </footer>
           </form>
         </div>

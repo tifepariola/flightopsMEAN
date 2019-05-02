@@ -36,6 +36,37 @@ router.get('/fetch', function (req, res) {
         }
     })
 });
+
+router.put('/update/:id', function (req, res) {
+    Aircraft.findOne({ _id: req.params.id }, function (err, doc) {
+        doc.img_url = req.body.img_url;
+        doc.aircraftId = req.body.aircraftId;
+        doc.registration = req.body.registration;
+        doc.tow = req.body.tow;
+        doc.fuel = req.body.fuel;
+        doc.pax = req.body.pax;
+        doc.cargo = req.body.cargo;
+        doc.icao24 = req.body.icao24;
+        doc.base = req.body.base;
+        // // doc.visits.$inc();
+        doc.save();
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(doc);
+        }
+    });
+});
+router.delete('/delete/:id', function (req, res) {
+    Aircraft.findOne({ _id: req.params.id }, function (err, doc) {
+        doc.remove();
+        if (err) {
+            console.log(err);
+        } else {
+            res.json("deleted");
+        }
+    });
+});
 router.get('/fetch/:id', function (req, res) {
     Aircraft.findById(req.params.id, function (err, aircraft) {
         if (err) {

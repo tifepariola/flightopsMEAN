@@ -80,19 +80,16 @@ export class CrewsComponent implements OnInit {
       console.log('crews ', this.crews)
     })
   }
-  edit(id) {
-    this.adminService.getCrew(id).subscribe(data => {
-      this.crewid = id
-      this.name = data.data.name
-      this.img_url = data.data.img_url
-      this.occupation = data.data.occupation
-      this.p_email = data.data.p_email
-      this.s_email = data.data.s_email
-      this.p_phone = data.data.p_phone
-      this.s_phone = data.data.s_phone
-      $('#add-crew').addClass('is-active');
-      console.log('crewww', data.data)
-    })
+  edit(crew) {
+    this.crewid = crew._id
+    this.name = crew.name
+    this.img_url = crew.img_url
+    this.occupation = crew.occupation
+    this.p_email = crew.p_email
+    this.s_email = crew.s_email
+    this.p_phone = crew.p_phone
+    this.s_phone = crew.s_phone
+    $('#add-crew').addClass('is-active');
 
   }
   addCrew(userID): void {
@@ -117,7 +114,14 @@ export class CrewsComponent implements OnInit {
         console.log('Crew Updated ', data)
         this.getCrews();
         $('form').trigger("reset");
+        $('#add-crew').removeClass('is-active');
         $('#addBtn').removeClass('is-loading');
+        toast({
+          message: "Crew Member Updated",
+          type: "is-success",
+          dismissible: true,
+          pauseOnHover: true
+        });
       },
         error => {
           $('#addBtn').removeClass('is-loading');

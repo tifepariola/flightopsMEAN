@@ -20,6 +20,7 @@ import { NewHandlerComponent } from './new-handler/new-handler.component';
 import { SettingsComponent } from './settings/settings.component';
 import { AirportComponent } from './airport/airport.component';
 import { EditAirportComponent } from './edit-airport/edit-airport.component';
+import { EditSalesComponent } from './edit-sales/edit-sales.component';
 
 const routes: Routes = [{
   path: 'admin',
@@ -51,6 +52,10 @@ const routes: Routes = [{
   {
     path: 'edit-airport/:id',
     component: EditAirportComponent
+  },
+  {
+    path: 'edit-sales/:id',
+    component: EditSalesComponent
   },
   {
     path: 'handlers',

@@ -13,6 +13,7 @@
           <th>Fullname</th>
           <th>Email Address</th>
           <th>Date Created</th>
+          <th>Action</th>
         </thead>
         <tbody>
           <tr *ngFor="let user of users">
@@ -28,6 +29,10 @@
               {{user.email}}
             </td>
             <td>{{user.createdAt}}</td>
+            <td>
+              <a class="is-link" (click)="getUser(user._id)">Edit</a> / 
+              <a class="is-danger" (click)="delete(user._id)">Delete</a>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -39,7 +44,7 @@
             <div class="field">
               <label class="label">Subject</label>
               <div class="control">
-                <input type="text" placeholder="Type Subject Here..." name="crew_subject" [(ngModel)]="crewTemplate.subject" class="input">
+                <input type="input" placeholder="Type Subject Here..." name="crew_subject" [(ngModel)]="crewTemplate.subject" class="input">
               </div>
             </div>
             <div class="field">
@@ -57,7 +62,7 @@
           <div class="field">
             <label class="label">Subject</label>
             <div class="control">
-              <input type="text" placeholder="Type Subject Here..." name="subject" [(ngModel)]="handlerTemplate.subject" class="input">
+              <input type="input" placeholder="Type Subject Here..." name="subject" [(ngModel)]="handlerTemplate.subject" class="input">
             </div>
           </div>
           <div class="field">
@@ -73,34 +78,35 @@
         <div class="modal-background"></div>
         <div class="modal-card">
           <header class="modal-card-head">
-            <p class="modal-card-title">Add User</p>
-            <button class="delete" aria-label="close"></button>
+            <p class="modal-card-title" *ngIf="!update">Add User</p>
+            <p class="modal-card-title" *ngIf="update">Update User</p>
+            <button class="delete" aria-label="close" (click)="close()"></button>
           </header>
           <section class="modal-card-body" [formGroup]="userForm">
             <div class="field">
               <label class="label">Fullname</label>
               <div class="control">
-                <input matInput placeholder="Fullname" formControlName="fullname" name="fullname" required>
+                <input class="input" placeholder="Fullname" formControlName="fullname" name="fullname" required>
               </div>
             </div>
             <div class="field">
               <label class="label">Email</label>
               <div class="control">
-                <input matInput placeholder="Email" formControlName="email" name="email" required>
+                <input class="input" placeholder="Email" formControlName="email" name="email" required>
 
               </div>
             </div>
             <div class="field">
               <label class="label">Password</label>
               <div class="control">
-                <input matInput placeholder="Password" formControlName="password" type="password" name="password"
+                <input class="input" placeholder="Password" formControlName="password" type="password" name="password"
                   required>
               </div>
             </div>
             <div class="field">
               <label class="label">Repeat Password</label>
               <div class="control">
-                <input matInput placeholder="Reapet Password" formControlName="repeatPassword" type="password"
+                <input class="input" placeholder="Reapet Password" formControlName="repeatPassword" type="password"
                   name="repeatPassword" required>
 
               </div>
@@ -109,8 +115,9 @@
 
           </section>
           <footer class="modal-card-foot">
-            <button class="button is-success" (click)="register()">Add</button>
-            <button class="button">Cancel</button>
+            <button class="button is-success" (click)="register()" *ngIf="!update">Add</button>
+              <button class="button is-success" (click)="updateUser()" *ngIf="update">Update</button>
+              <button class="button" (click)="close()">Cancel</button>
           </footer>
         </div>
       </div>

@@ -15,6 +15,7 @@
           <th>Flight Date</th>
           <th>Flight Origin</th>
           <th>Flight Destination</th>
+          <th>Action</th>
         </thead>
         <tbody>
           <tr *ngFor="let sale of sales">
@@ -34,6 +35,10 @@
             </td>
             <td>{{sale.origin_airport}}</td>
             <td>{{sale.destination_airport}}</td>
+            <td>
+              <a class="is-link" routerLink="/admin/edit-sales/{{sale._id}}">Edit</a> / 
+              <a class="is-danger" (click)="delete(sale._id)">Delete</a>
+            </td>
           </tr>
         </tbody>
       </table>

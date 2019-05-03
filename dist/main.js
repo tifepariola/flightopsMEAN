@@ -180,12 +180,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _settings_settings_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./settings/settings.component */ "./src/app/admin/settings/settings.component.ts");
 /* harmony import */ var _airport_airport_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./airport/airport.component */ "./src/app/admin/airport/airport.component.ts");
 /* harmony import */ var _edit_airport_edit_airport_component__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./edit-airport/edit-airport.component */ "./src/app/admin/edit-airport/edit-airport.component.ts");
+/* harmony import */ var _edit_sales_edit_sales_component__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./edit-sales/edit-sales.component */ "./src/app/admin/edit-sales/edit-sales.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -237,6 +239,10 @@ var routes = [{
             {
                 path: 'edit-airport/:id',
                 component: _edit_airport_edit_airport_component__WEBPACK_IMPORTED_MODULE_20__["EditAirportComponent"]
+            },
+            {
+                path: 'edit-sales/:id',
+                component: _edit_sales_edit_sales_component__WEBPACK_IMPORTED_MODULE_21__["EditSalesComponent"]
             },
             {
                 path: 'handlers',
@@ -446,12 +452,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _settings_settings_component__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./settings/settings.component */ "./src/app/admin/settings/settings.component.ts");
 /* harmony import */ var _airport_airport_component__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ./airport/airport.component */ "./src/app/admin/airport/airport.component.ts");
 /* harmony import */ var _edit_airport_edit_airport_component__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! ./edit-airport/edit-airport.component */ "./src/app/admin/edit-airport/edit-airport.component.ts");
+/* harmony import */ var _edit_sales_edit_sales_component__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! ./edit-sales/edit-sales.component */ "./src/app/admin/edit-sales/edit-sales.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -517,6 +525,7 @@ var AdminModule = /** @class */ (function () {
                 _settings_settings_component__WEBPACK_IMPORTED_MODULE_35__["SettingsComponent"],
                 _airport_airport_component__WEBPACK_IMPORTED_MODULE_36__["AirportComponent"],
                 _edit_airport_edit_airport_component__WEBPACK_IMPORTED_MODULE_37__["EditAirportComponent"],
+                _edit_sales_edit_sales_component__WEBPACK_IMPORTED_MODULE_38__["EditSalesComponent"],
             ],
             imports: [
                 _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"],
@@ -795,6 +804,30 @@ var AdminService = /** @class */ (function () {
             });
         });
     };
+    AdminService.prototype.updateSale = function (id, company_name, contact_name, contact_email, contact_phone, weight, dangerous, description, instructions, origin_airport, destination_airport, departure, reference_id, estimated_cost, price_charged) {
+        var _this = this;
+        return rxjs_Observable__WEBPACK_IMPORTED_MODULE_2__["Observable"].create(function (observer) {
+            _this.http.post('/api/sale/update/' + id, {
+                company_name: company_name,
+                contact_name: contact_name,
+                contact_email: contact_email,
+                contact_phone: contact_phone,
+                weight: weight,
+                dangerous: dangerous,
+                description: description,
+                instructions: instructions,
+                origin_airport: origin_airport,
+                destination_airport: destination_airport,
+                departure: departure,
+                reference_id: reference_id,
+                estimated_cost: estimated_cost,
+                price_charged: price_charged,
+            }).subscribe(function (data) {
+                observer.next({ data: data });
+                observer.complete();
+            });
+        });
+    };
     AdminService.prototype.addAircraft = function (registration, aircraftId, img_url, tow, fuel, pax, cargo, icao24, base) {
         var _this = this;
         return rxjs_Observable__WEBPACK_IMPORTED_MODULE_2__["Observable"].create(function (observer) {
@@ -938,6 +971,15 @@ var AdminService = /** @class */ (function () {
         var _this = this;
         return rxjs_Observable__WEBPACK_IMPORTED_MODULE_2__["Observable"].create(function (observer) {
             _this.http.delete('/api/crew/delete/' + id).subscribe(function (data) {
+                observer.next({ data: data });
+                observer.complete();
+            });
+        });
+    };
+    AdminService.prototype.deleteUser = function (id) {
+        var _this = this;
+        return rxjs_Observable__WEBPACK_IMPORTED_MODULE_2__["Observable"].create(function (observer) {
+            _this.http.delete('/api/auth/delete/' + id).subscribe(function (data) {
                 observer.next({ data: data });
                 observer.complete();
             });
@@ -1132,10 +1174,35 @@ var AdminService = /** @class */ (function () {
             });
         });
     };
+    AdminService.prototype.getUser = function (id) {
+        var _this = this;
+        return rxjs_Observable__WEBPACK_IMPORTED_MODULE_2__["Observable"].create(function (observer) {
+            _this.http.get('/api/auth/fetch/' + id).subscribe(function (data) {
+                observer.next({ data: data });
+                observer.complete();
+            });
+        });
+    };
     AdminService.prototype.addUser = function (fullname, email, password, repeatPassword, role, occupation) {
         var _this = this;
         return rxjs_Observable__WEBPACK_IMPORTED_MODULE_2__["Observable"].create(function (observer) {
             _this.http.post('/api/auth/register', {
+                fullname: fullname,
+                email: email,
+                password: password,
+                repeatPassword: repeatPassword,
+                role: role,
+                occupation: occupation
+            }).subscribe(function (data) {
+                observer.next({ data: data.user });
+                observer.complete();
+            });
+        });
+    };
+    AdminService.prototype.updateUser = function (id, fullname, email, password, repeatPassword, role, occupation) {
+        var _this = this;
+        return rxjs_Observable__WEBPACK_IMPORTED_MODULE_2__["Observable"].create(function (observer) {
+            _this.http.put('/api/auth/update/' + id, {
                 fullname: fullname,
                 email: email,
                 password: password,
@@ -2923,6 +2990,143 @@ var EditAirportComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/admin/edit-sales/edit-sales.component.html":
+/*!************************************************************!*\
+  !*** ./src/app/admin/edit-sales/edit-sales.component.html ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<p>\n  edit-sales works!\n</p>\n"
+
+/***/ }),
+
+/***/ "./src/app/admin/edit-sales/edit-sales.component.scss":
+/*!************************************************************!*\
+  !*** ./src/app/admin/edit-sales/edit-sales.component.scss ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2FkbWluL2VkaXQtc2FsZXMvZWRpdC1zYWxlcy5jb21wb25lbnQuc2NzcyJ9 */"
+
+/***/ }),
+
+/***/ "./src/app/admin/edit-sales/edit-sales.component.ts":
+/*!**********************************************************!*\
+  !*** ./src/app/admin/edit-sales/edit-sales.component.ts ***!
+  \**********************************************************/
+/*! exports provided: EditSalesComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EditSalesComponent", function() { return EditSalesComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _admin_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../admin.service */ "./src/app/admin/admin.service.ts");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (undefined && undefined.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+
+
+
+
+
+var EditSalesComponent = /** @class */ (function () {
+    function EditSalesComponent(adminService, renderer, route, document) {
+        this.adminService = adminService;
+        this.renderer = renderer;
+        this.route = route;
+        this.document = document;
+        this.exampleOptions = {
+            enableTime: true,
+            mode: "single"
+        };
+    }
+    EditSalesComponent.prototype.ngOnInit = function () {
+        this.id = this.route.snapshot.paramMap.get("id");
+        this.getAirports();
+        this.doRun = true;
+    };
+    EditSalesComponent.prototype.ngAfterViewInit = function () {
+        // addClass hack until ng2-flatpickr takes my PR
+        this.renderer.addClass(this.document.getElementsByClassName('ng2-flatpickr-input flatpickr-input')[0], 'input');
+    };
+    EditSalesComponent.prototype.getAirports = function () {
+        var _this = this;
+        this.adminService.getAirports(1, 20).subscribe(function (data) {
+            _this.airports = data.data;
+            console.log('airports ', _this.airports);
+        });
+    };
+    EditSalesComponent.prototype.getSale = function () {
+        var _this = this;
+        console.log('getting airport');
+        this.adminService.getSale(this.id).subscribe(function (data) {
+            var sale = data.data;
+            _this._id = sale._id;
+            _this.company_name = sale.company_name;
+            _this.contact_name = sale.contact_name;
+            _this.contact_email = sale.contact_email;
+            _this.contact_phone = sale.contact_phone;
+            _this.weight = sale.weight;
+            _this.description = sale.description;
+            _this.instructions = sale.instructions;
+            _this.origin_airport = sale.origin_airport;
+            _this.destination_airport = sale.destination_airport;
+            _this.departure = sale.departure;
+            _this.estimated_cost = sale.estimated_cost;
+            _this.price_charged = sale.price_charged;
+            console.log('airport got', sale);
+        });
+    };
+    EditSalesComponent.prototype.updateSale = function () {
+        var _this = this;
+        console.log('add start');
+        jquery__WEBPACK_IMPORTED_MODULE_2__('#addBtn').addClass('is-loading');
+        if (this.doRun === true) {
+            this.adminService.updateSale(this.id, this.company_name, this.contact_name, this.contact_email, this.contact_phone, this.weight, this.dangerous, this.instructions, this.description, this.origin_airport, this.destination_airport, Date.parse(this.departure) / 1000, this.reference_id, this.estimated_cost, this.price_charged)
+                .subscribe(function (data) {
+                console.log('Aircraft Updated ', data);
+                // this.getAircrafts();
+                jquery__WEBPACK_IMPORTED_MODULE_2__('form').trigger("reset");
+                jquery__WEBPACK_IMPORTED_MODULE_2__('#addBtn').removeClass('is-loading');
+                _this.doRun = false;
+            }, function (error) {
+                jquery__WEBPACK_IMPORTED_MODULE_2__('#addBtn').removeClass('is-loading');
+                console.log(error);
+            });
+        }
+    };
+    EditSalesComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-edit-sales',
+            template: __webpack_require__(/*! ./edit-sales.component.html */ "./src/app/admin/edit-sales/edit-sales.component.html"),
+            styles: [__webpack_require__(/*! ./edit-sales.component.scss */ "./src/app/admin/edit-sales/edit-sales.component.scss")]
+        }),
+        __param(3, Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"])(_angular_platform_browser__WEBPACK_IMPORTED_MODULE_3__["DOCUMENT"])),
+        __metadata("design:paramtypes", [_admin_service__WEBPACK_IMPORTED_MODULE_1__["AdminService"], _angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"], _angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"], Object])
+    ], EditSalesComponent);
+    return EditSalesComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/admin/fileupload.ts":
 /*!*************************************!*\
   !*** ./src/app/admin/fileupload.ts ***!
@@ -4168,7 +4372,7 @@ var NewHandlerComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-header></app-header>\n<div class=\"container\">\n  <div class=\"columns\">\n    <div class=\"column is-3\">\n      <app-side-nav></app-side-nav>\n    </div>\n    <div class=\"column is-9\">\n      <h3 class=\"title is-pulled-left\">Sales Overview</h3>\n      <a routerLink=\"/admin/add-sales\" class=\"button is-primary is-outlined is-pulled-right\">Add Sales</a>\n      <table class=\"table is-fullwidth\">\n        <thead>\n          <th>ID</th>\n          <th>Client Name</th>\n          <th>Date Created</th>\n          <th>Flight Date</th>\n          <th>Flight Origin</th>\n          <th>Flight Destination</th>\n        </thead>\n        <tbody>\n          <tr *ngFor=\"let sale of sales\">\n            <td>\n              <a routerLink=\"/admin/new-flight/{{sale._id}}\">\n                {{sale._id}}\n              </a>\n            </td>\n            <td>\n                {{sale.contact_name}}\n            </td>\n            <td>\n              2019-02-11 11:00PM\n            </td>\n            <td>\n              {{sale.departure}}\n            </td>\n            <td>{{sale.origin_airport}}</td>\n            <td>{{sale.destination_airport}}</td>\n          </tr>\n        </tbody>\n      </table>\n      <div class=\"modal\" id=\"add-aircraft\">\n        <div class=\"modal-background\"></div>\n        <div class=\"modal-card\">\n          <header class=\"modal-card-head\">\n            <p class=\"modal-card-title\">Add Aircraft</p>\n            <button class=\"delete\" aria-label=\"close\"></button>\n          </header>\n          <section class=\"modal-card-body\">\n            <div class=\"field\">\n              <label class=\"label\">Registration</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" placeholder=\"\">\n              </div>\n            </div>\n            <div class=\"field\">\n              <label class=\"label\">Photo</label>\n              <div class=\"control\">\n                <div class=\"file has-name\">\n                  <label class=\"file-label\">\n                    <input class=\"file-input\" type=\"file\" name=\"resume\">\n                    <span class=\"file-cta\">\n                      <span class=\"file-icon\">\n                        <i class=\"fas fa-upload\"></i>\n                      </span>\n                      <span class=\"file-label\">\n                        Choose an image…\n                      </span>\n                    </span>\n                    <span class=\"file-name\">\n                      .jpg, .png, .gif\n                    </span>\n                  </label>\n                </div>\n              </div>\n            </div>\n            <div class=\"field\">\n              <label class=\"label\">Max Take Off Weight</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" placeholder=\"\">\n              </div>\n            </div>\n            <div class=\"field\">\n              <label class=\"label\">Max Fuel Capacity</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" placeholder=\"\">\n              </div>\n            </div>\n            <div class=\"field\">\n              <label class=\"label\">Max PAX</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" placeholder=\"\">\n              </div>\n            </div>\n            <div class=\"field\">\n              <label class=\"label\">Max Cargo</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" placeholder=\"\">\n              </div>\n            </div>\n\n\n          </section>\n          <footer class=\"modal-card-foot\">\n            <button class=\"button is-success\">Add</button>\n            <button class=\"button\">Cancel</button>\n          </footer>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n<app-chat></app-chat>\n"
+module.exports = "<app-header></app-header>\n<div class=\"container\">\n  <div class=\"columns\">\n    <div class=\"column is-3\">\n      <app-side-nav></app-side-nav>\n    </div>\n    <div class=\"column is-9\">\n      <h3 class=\"title is-pulled-left\">Sales Overview</h3>\n      <a routerLink=\"/admin/add-sales\" class=\"button is-primary is-outlined is-pulled-right\">Add Sales</a>\n      <table class=\"table is-fullwidth\">\n        <thead>\n          <th>ID</th>\n          <th>Client Name</th>\n          <th>Date Created</th>\n          <th>Flight Date</th>\n          <th>Flight Origin</th>\n          <th>Flight Destination</th>\n          <th>Action</th>\n        </thead>\n        <tbody>\n          <tr *ngFor=\"let sale of sales\">\n            <td>\n              <a routerLink=\"/admin/new-flight/{{sale._id}}\">\n                {{sale._id}}\n              </a>\n            </td>\n            <td>\n                {{sale.contact_name}}\n            </td>\n            <td>\n              2019-02-11 11:00PM\n            </td>\n            <td>\n              {{sale.departure}}\n            </td>\n            <td>{{sale.origin_airport}}</td>\n            <td>{{sale.destination_airport}}</td>\n            <td>\n              <a class=\"is-link\" routerLink=\"/admin/edit-sales/{{sale._id}}\">Edit</a> / \n              <a class=\"is-danger\" (click)=\"delete(sale._id)\">Delete</a>\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <div class=\"modal\" id=\"add-aircraft\">\n        <div class=\"modal-background\"></div>\n        <div class=\"modal-card\">\n          <header class=\"modal-card-head\">\n            <p class=\"modal-card-title\">Add Aircraft</p>\n            <button class=\"delete\" aria-label=\"close\"></button>\n          </header>\n          <section class=\"modal-card-body\">\n            <div class=\"field\">\n              <label class=\"label\">Registration</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" placeholder=\"\">\n              </div>\n            </div>\n            <div class=\"field\">\n              <label class=\"label\">Photo</label>\n              <div class=\"control\">\n                <div class=\"file has-name\">\n                  <label class=\"file-label\">\n                    <input class=\"file-input\" type=\"file\" name=\"resume\">\n                    <span class=\"file-cta\">\n                      <span class=\"file-icon\">\n                        <i class=\"fas fa-upload\"></i>\n                      </span>\n                      <span class=\"file-label\">\n                        Choose an image…\n                      </span>\n                    </span>\n                    <span class=\"file-name\">\n                      .jpg, .png, .gif\n                    </span>\n                  </label>\n                </div>\n              </div>\n            </div>\n            <div class=\"field\">\n              <label class=\"label\">Max Take Off Weight</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" placeholder=\"\">\n              </div>\n            </div>\n            <div class=\"field\">\n              <label class=\"label\">Max Fuel Capacity</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" placeholder=\"\">\n              </div>\n            </div>\n            <div class=\"field\">\n              <label class=\"label\">Max PAX</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" placeholder=\"\">\n              </div>\n            </div>\n            <div class=\"field\">\n              <label class=\"label\">Max Cargo</label>\n              <div class=\"control\">\n                <input class=\"input\" type=\"text\" placeholder=\"\">\n              </div>\n            </div>\n\n\n          </section>\n          <footer class=\"modal-card-foot\">\n            <button class=\"button is-success\">Add</button>\n            <button class=\"button\">Cancel</button>\n          </footer>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n<app-chat></app-chat>\n"
 
 /***/ }),
 
@@ -4195,6 +4399,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SalesComponent", function() { return SalesComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _admin_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../admin.service */ "./src/app/admin/admin.service.ts");
+/* harmony import */ var bulma_toast__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! bulma-toast */ "./node_modules/bulma-toast/dist/bulma-toast.min.js");
+/* harmony import */ var bulma_toast__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(bulma_toast__WEBPACK_IMPORTED_MODULE_2__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4204,6 +4410,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 var SalesComponent = /** @class */ (function () {
@@ -4217,7 +4424,24 @@ var SalesComponent = /** @class */ (function () {
         var _this = this;
         this.adminService.getSales().subscribe(function (data) {
             _this.sales = data.data;
-            console.log('crews ', _this.sales);
+            console.log('sales ', _this.sales);
+        });
+    };
+    SalesComponent.prototype.delete = function (aircraft) {
+        var _this = this;
+        console.log('update start');
+        this.adminService.deleteCrew(aircraft)
+            .subscribe(function (data) {
+            if (data.data === "deleted") {
+                console.log('Airport Deleted ', data);
+                _this.getSales();
+                Object(bulma_toast__WEBPACK_IMPORTED_MODULE_2__["toast"])({
+                    message: "Airport Deleted",
+                    type: "is-success",
+                    dismissible: true,
+                    pauseOnHover: true
+                });
+            }
         });
     };
     SalesComponent = __decorate([
@@ -4242,7 +4466,7 @@ var SalesComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-header></app-header>\n<div class=\"container\">\n  <div class=\"columns\">\n    <div class=\"column is-3\">\n      <app-side-nav></app-side-nav>\n    </div>\n    <div class=\"column is-9\">\n      <h3 class=\"title is-pulled-left\">Users Overview</h3>\n      <button class=\"button is-primary is-outlined is-pulled-right\" id=\"btn-add-user\">Add User</button>\n      <table class=\"table is-fullwidth\">\n        <thead>\n          <th>ID</th>\n          <th>Fullname</th>\n          <th>Email Address</th>\n          <th>Date Created</th>\n        </thead>\n        <tbody>\n          <tr *ngFor=\"let user of users\">\n            <td>\n              <a routerLink=\"/admin/new-flight/{{user._id}}\">\n                {{user._id}}\n              </a>\n            </td>\n            <td>\n              {{user.fullname}}\n            </td>\n            <td>\n              {{user.email}}\n            </td>\n            <td>{{user.createdAt}}</td>\n          </tr>\n        </tbody>\n      </table>\n      <div class=\"columns\">\n        <div class=\"column is-6\" *ngIf=\"crewTemplate\">\n\n            <h3 class=\"title\">Crew Mail Template</h3>\n\n            <div class=\"field\">\n              <label class=\"label\">Subject</label>\n              <div class=\"control\">\n                <input type=\"text\" placeholder=\"Type Subject Here...\" name=\"crew_subject\" [(ngModel)]=\"crewTemplate.subject\" class=\"input\">\n              </div>\n            </div>\n            <div class=\"field\">\n              <label class=\"label\">Message</label>\n              <div class=\"control\">\n                <textarea placeholder=\"Type Message Here...\" name=\"crew_message\" [(ngModel)]=\"crewTemplate.message\" class=\"textarea\" (change)=\"handleCrewChange($event.target.value)\" [(ngModel)]=\"crewTemplate.message\"></textarea>\n              </div>\n            </div>\n            <button class=\"button is-success\" (click)=\"saveCrew()\">Save</button>\n        </div>\n        <div class=\"column is-6\" *ngIf=\"handlerTemplate\">\n\n          <h3 class=\"title\">Handler Mail Template</h3>\n\n          <div class=\"field\">\n            <label class=\"label\">Subject</label>\n            <div class=\"control\">\n              <input type=\"text\" placeholder=\"Type Subject Here...\" name=\"subject\" [(ngModel)]=\"handlerTemplate.subject\" class=\"input\">\n            </div>\n          </div>\n          <div class=\"field\">\n            <label class=\"label\">Message</label>\n            <div class=\"control\">\n              <textarea placeholder=\"Type Message Here...\" name=\"message\" class=\"textarea\" [(ngModel)]=\"handlerTemplate.message\"></textarea>\n            </div>\n          </div>\n          <button class=\"button is-success\" (click)=\"saveHandler()\">Save</button>\n        </div>\n      </div>\n      <div class=\"modal\" id=\"add-user\">\n        <div class=\"modal-background\"></div>\n        <div class=\"modal-card\">\n          <header class=\"modal-card-head\">\n            <p class=\"modal-card-title\">Add User</p>\n            <button class=\"delete\" aria-label=\"close\"></button>\n          </header>\n          <section class=\"modal-card-body\" [formGroup]=\"userForm\">\n            <div class=\"field\">\n              <label class=\"label\">Fullname</label>\n              <div class=\"control\">\n                <input matInput placeholder=\"Fullname\" formControlName=\"fullname\" name=\"fullname\" required>\n              </div>\n            </div>\n            <div class=\"field\">\n              <label class=\"label\">Email</label>\n              <div class=\"control\">\n                <input matInput placeholder=\"Email\" formControlName=\"email\" name=\"email\" required>\n\n              </div>\n            </div>\n            <div class=\"field\">\n              <label class=\"label\">Password</label>\n              <div class=\"control\">\n                <input matInput placeholder=\"Password\" formControlName=\"password\" type=\"password\" name=\"password\"\n                  required>\n              </div>\n            </div>\n            <div class=\"field\">\n              <label class=\"label\">Repeat Password</label>\n              <div class=\"control\">\n                <input matInput placeholder=\"Reapet Password\" formControlName=\"repeatPassword\" type=\"password\"\n                  name=\"repeatPassword\" required>\n\n              </div>\n            </div>\n\n\n          </section>\n          <footer class=\"modal-card-foot\">\n            <button class=\"button is-success\" (click)=\"register()\">Add</button>\n            <button class=\"button\">Cancel</button>\n          </footer>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n<app-chat></app-chat>\n"
+module.exports = "<app-header></app-header>\n<div class=\"container\">\n  <div class=\"columns\">\n    <div class=\"column is-3\">\n      <app-side-nav></app-side-nav>\n    </div>\n    <div class=\"column is-9\">\n      <h3 class=\"title is-pulled-left\">Users Overview</h3>\n      <button class=\"button is-primary is-outlined is-pulled-right\" id=\"btn-add-user\">Add User</button>\n      <table class=\"table is-fullwidth\">\n        <thead>\n          <th>ID</th>\n          <th>Fullname</th>\n          <th>Email Address</th>\n          <th>Date Created</th>\n          <th>Action</th>\n        </thead>\n        <tbody>\n          <tr *ngFor=\"let user of users\">\n            <td>\n              <a routerLink=\"/admin/new-flight/{{user._id}}\">\n                {{user._id}}\n              </a>\n            </td>\n            <td>\n              {{user.fullname}}\n            </td>\n            <td>\n              {{user.email}}\n            </td>\n            <td>{{user.createdAt}}</td>\n            <td>\n              <a class=\"is-link\" (click)=\"getUser(user._id)\">Edit</a> / \n              <a class=\"is-danger\" (click)=\"delete(user._id)\">Delete</a>\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <div class=\"columns\">\n        <div class=\"column is-6\" *ngIf=\"crewTemplate\">\n\n            <h3 class=\"title\">Crew Mail Template</h3>\n\n            <div class=\"field\">\n              <label class=\"label\">Subject</label>\n              <div class=\"control\">\n                <input type=\"input\" placeholder=\"Type Subject Here...\" name=\"crew_subject\" [(ngModel)]=\"crewTemplate.subject\" class=\"input\">\n              </div>\n            </div>\n            <div class=\"field\">\n              <label class=\"label\">Message</label>\n              <div class=\"control\">\n                <textarea placeholder=\"Type Message Here...\" name=\"crew_message\" [(ngModel)]=\"crewTemplate.message\" class=\"textarea\" (change)=\"handleCrewChange($event.target.value)\" [(ngModel)]=\"crewTemplate.message\"></textarea>\n              </div>\n            </div>\n            <button class=\"button is-success\" (click)=\"saveCrew()\">Save</button>\n        </div>\n        <div class=\"column is-6\" *ngIf=\"handlerTemplate\">\n\n          <h3 class=\"title\">Handler Mail Template</h3>\n\n          <div class=\"field\">\n            <label class=\"label\">Subject</label>\n            <div class=\"control\">\n              <input type=\"input\" placeholder=\"Type Subject Here...\" name=\"subject\" [(ngModel)]=\"handlerTemplate.subject\" class=\"input\">\n            </div>\n          </div>\n          <div class=\"field\">\n            <label class=\"label\">Message</label>\n            <div class=\"control\">\n              <textarea placeholder=\"Type Message Here...\" name=\"message\" class=\"textarea\" [(ngModel)]=\"handlerTemplate.message\"></textarea>\n            </div>\n          </div>\n          <button class=\"button is-success\" (click)=\"saveHandler()\">Save</button>\n        </div>\n      </div>\n      <div class=\"modal\" id=\"add-user\">\n        <div class=\"modal-background\"></div>\n        <div class=\"modal-card\">\n          <header class=\"modal-card-head\">\n            <p class=\"modal-card-title\" *ngIf=\"!update\">Add User</p>\n            <p class=\"modal-card-title\" *ngIf=\"update\">Update User</p>\n            <button class=\"delete\" aria-label=\"close\" (click)=\"close()\"></button>\n          </header>\n          <section class=\"modal-card-body\" [formGroup]=\"userForm\">\n            <div class=\"field\">\n              <label class=\"label\">Fullname</label>\n              <div class=\"control\">\n                <input class=\"input\" placeholder=\"Fullname\" formControlName=\"fullname\" name=\"fullname\" required>\n              </div>\n            </div>\n            <div class=\"field\">\n              <label class=\"label\">Email</label>\n              <div class=\"control\">\n                <input class=\"input\" placeholder=\"Email\" formControlName=\"email\" name=\"email\" required>\n\n              </div>\n            </div>\n            <div class=\"field\">\n              <label class=\"label\">Password</label>\n              <div class=\"control\">\n                <input class=\"input\" placeholder=\"Password\" formControlName=\"password\" type=\"password\" name=\"password\"\n                  required>\n              </div>\n            </div>\n            <div class=\"field\">\n              <label class=\"label\">Repeat Password</label>\n              <div class=\"control\">\n                <input class=\"input\" placeholder=\"Reapet Password\" formControlName=\"repeatPassword\" type=\"password\"\n                  name=\"repeatPassword\" required>\n\n              </div>\n            </div>\n\n\n          </section>\n          <footer class=\"modal-card-foot\">\n            <button class=\"button is-success\" (click)=\"register()\" *ngIf=\"!update\">Add</button>\n              <button class=\"button is-success\" (click)=\"updateUser()\" *ngIf=\"update\">Update</button>\n              <button class=\"button\" (click)=\"close()\">Cancel</button>\n          </footer>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n<app-chat></app-chat>\n"
 
 /***/ }),
 
@@ -4272,6 +4496,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _admin_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../admin.service */ "./src/app/admin/admin.service.ts");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var bulma_toast__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! bulma-toast */ "./node_modules/bulma-toast/dist/bulma-toast.min.js");
+/* harmony import */ var bulma_toast__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(bulma_toast__WEBPACK_IMPORTED_MODULE_4__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4281,6 +4507,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -4300,9 +4527,6 @@ var SettingsComponent = /** @class */ (function () {
         jquery__WEBPACK_IMPORTED_MODULE_1__('#btn-add-user').on('click', function () {
             jquery__WEBPACK_IMPORTED_MODULE_1__('#add-user').addClass('is-active');
         });
-        jquery__WEBPACK_IMPORTED_MODULE_1__('.delete').on('click', function () {
-            jquery__WEBPACK_IMPORTED_MODULE_1__('#add-user').removeClass('is-active');
-        });
         this.getUsers();
     };
     SettingsComponent.prototype.getUsers = function () {
@@ -4310,6 +4534,27 @@ var SettingsComponent = /** @class */ (function () {
         this.adminService.getUsers().subscribe(function (data) {
             _this.users = data.data;
             console.log('crews ', _this.users);
+        });
+    };
+    SettingsComponent.prototype.getUser = function (id) {
+        var _this = this;
+        this.adminService.getUser(id).subscribe(function (data) {
+            _this.update = true;
+            _this.user = data.data;
+            _this.userForm.patchValue({
+                fullname: _this.user.fullname,
+                email: _this.user.email
+            });
+            jquery__WEBPACK_IMPORTED_MODULE_1__('#add-user').addClass('is-active');
+            console.log('user ', _this.user);
+        });
+    };
+    SettingsComponent.prototype.close = function () {
+        this.update = false;
+        jquery__WEBPACK_IMPORTED_MODULE_1__('#add-user').removeClass('is-active');
+        this.userForm.patchValue({
+            fullname: '',
+            email: ''
         });
     };
     SettingsComponent.prototype.passwordsMatchValidator = function (control) {
@@ -4371,6 +4616,40 @@ var SettingsComponent = /** @class */ (function () {
         this.adminService.addUser(fullname, email, password, repeatPassword, "admin", "")
             .subscribe(function (data) {
             console.log('new user ', data);
+        });
+    };
+    SettingsComponent.prototype.updateUser = function () {
+        var _this = this;
+        console.log('update user', this.passwordsMatchValidator);
+        var _a = this.userForm.getRawValue(), fullname = _a.fullname, email = _a.email, password = _a.password, repeatPassword = _a.repeatPassword;
+        this.adminService.updateUser(this.user._id, fullname, email, password, repeatPassword, this.user.role, this.user.occupation)
+            .subscribe(function (data) {
+            jquery__WEBPACK_IMPORTED_MODULE_1__('#add-user').removeClass('is-active');
+            _this.getUsers();
+            console.log('update user ', data);
+            Object(bulma_toast__WEBPACK_IMPORTED_MODULE_4__["toast"])({
+                message: "User Updated",
+                type: "is-success",
+                dismissible: true,
+                pauseOnHover: true
+            });
+        });
+    };
+    SettingsComponent.prototype.delete = function (user) {
+        var _this = this;
+        console.log('update start');
+        this.adminService.deleteUser(user)
+            .subscribe(function (data) {
+            if (data.data === "deleted") {
+                console.log('User Deleted ', data);
+                _this.getUsers();
+                Object(bulma_toast__WEBPACK_IMPORTED_MODULE_4__["toast"])({
+                    message: "User Deleted",
+                    type: "is-success",
+                    dismissible: true,
+                    pauseOnHover: true
+                });
+            }
         });
     };
     SettingsComponent = __decorate([

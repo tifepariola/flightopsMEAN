@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as $ from 'jquery';
 import { AdminService } from '../admin.service';
 import { FormControl, ValidationErrors, FormGroup, Validators } from '@angular/forms';
+import { toast } from "bulma-toast";
 
 @Component({
   selector: 'app-settings',
@@ -11,6 +12,8 @@ import { FormControl, ValidationErrors, FormGroup, Validators } from '@angular/f
 export class SettingsComponent implements OnInit {
   crewTemplate: any;
   handlerTemplate: any;
+  user: any;
+  update: boolean;
 
   constructor(private adminService: AdminService) { }
 
@@ -20,9 +23,6 @@ export class SettingsComponent implements OnInit {
     $('#btn-add-user').on('click', function () {
       $('#add-user').addClass('is-active');
     })
-    $('.delete').on('click', function () {
-      $('#add-user').removeClass('is-active');
-    })
     this.getUsers();
   }
   getUsers(): void {
@@ -31,7 +31,27 @@ export class SettingsComponent implements OnInit {
       console.log('crews ', this.users)
     })
   }
+  getUser(id): void {
+    this.adminService.getUser(id).subscribe(data => {
+      this.update = true
+      this.user = data.data;
+      this.userForm.patchValue({
+        fullname: this.user.fullname,
+        email: this.user.email
+      })
+      $('#add-user').addClass('is-active');
+      console.log('user ', this.user)
+    })
+  }
 
+  close(): void {
+    this.update = false
+    $('#add-user').removeClass('is-active');
+    this.userForm.patchValue({
+      fullname: '',
+      email: ''
+    })
+  }
   passwordsMatchValidator(control: FormControl): ValidationErrors {
     let password = control.root.get('password');
     return password && control.value !== password.value ? {
@@ -94,7 +114,46 @@ export class SettingsComponent implements OnInit {
         console.log('new user ', data)
       })
   }
+  updateUser() {
+    console.log('update user', this.passwordsMatchValidator)
 
+    let {
+      fullname,
+      email,
+      password,
+      repeatPassword
+    } = this.userForm.getRawValue();
+
+    this.adminService.updateUser(this.user._id, fullname, email, password, repeatPassword, this.user.role, this.user.occupation)
+      .subscribe(data => {
+      $('#add-user').removeClass('is-active');
+          this.getUsers();
+          console.log('update user ', data)
+        toast({
+          message: "User Updated",
+          type: "is-success",
+          dismissible: true,
+          pauseOnHover: true
+        });
+      })
+  }
+
+  delete(user): void {
+    console.log('update start')
+    this.adminService.deleteUser(user)
+      .subscribe(data => {
+        if (data.data === "deleted") {
+          console.log('User Deleted ', data)
+          this.getUsers();
+          toast({
+            message: "User Deleted",
+            type: "is-success",
+            dismissible: true,
+            pauseOnHover: true
+          });
+        }
+      })
+  }
 
 
 }

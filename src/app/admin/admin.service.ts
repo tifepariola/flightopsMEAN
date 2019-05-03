@@ -296,6 +296,43 @@ export class AdminService {
       })
     });
   }
+  updateSale(id: string,
+    company_name: string,
+    contact_name: string,
+    contact_email: string,
+    contact_phone: string,
+    weight: string,
+    dangerous: string,
+    description: string,
+    instructions: string,
+    origin_airport: string,
+    destination_airport: string,
+    departure: number,
+    reference_id: string,
+    estimated_cost: string,
+    price_charged: string, ): Observable<any> {
+    return Observable.create(observer => {
+      this.http.post('/api/sale/update/' + id, {
+        company_name,
+        contact_name,
+        contact_email,
+        contact_phone,
+        weight,
+        dangerous,
+        description,
+        instructions,
+        origin_airport,
+        destination_airport,
+        departure,
+        reference_id,
+        estimated_cost,
+        price_charged,
+      }).subscribe((data: any) => {
+        observer.next({ data: data });
+        observer.complete();
+      })
+    });
+  }
   addAircraft(registration: string,
     aircraftId: string,
     img_url: string,
@@ -506,6 +543,14 @@ export class AdminService {
       })
     });
   }
+  deleteUser(id): Observable<any> {
+    return Observable.create(observer => {
+      this.http.delete('/api/auth/delete/' + id).subscribe((data: any) => {
+        observer.next({ data: data });
+        observer.complete();
+      })
+    });
+  }
   deleteAirport(id): Observable<any> {
     return Observable.create(observer => {
       this.http.delete('/api/airport/delete/' + id).subscribe((data: any) => {
@@ -674,9 +719,32 @@ export class AdminService {
       })
     });
   }
+  getUser(id): Observable<any> {
+    return Observable.create(observer => {
+      this.http.get('/api/auth/fetch/' + id).subscribe((data: any) => {
+        observer.next({ data: data });
+        observer.complete();
+      })
+    });
+  }
   addUser(fullname: string, email: string, password: string, repeatPassword: string, role: string, occupation: string): Observable<any> {
     return Observable.create(observer => {
       this.http.post('/api/auth/register', {
+        fullname,
+        email,
+        password,
+        repeatPassword,
+        role,
+        occupation
+      }).subscribe((data: any) => {
+        observer.next({ data: data.user });
+        observer.complete();
+      })
+    });
+  }
+  updateUser(id: string, fullname: string, email: string, password: string, repeatPassword: string, role: string, occupation: string): Observable<any> {
+    return Observable.create(observer => {
+      this.http.put('/api/auth/update/' + id, {
         fullname,
         email,
         password,

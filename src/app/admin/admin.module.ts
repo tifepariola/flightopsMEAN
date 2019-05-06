@@ -38,6 +38,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { AirportComponent } from './airport/airport.component';
 import { EditAirportComponent } from './edit-airport/edit-airport.component';
 import { EditSalesComponent } from './edit-sales/edit-sales.component';
+import { NewAircraftComponent } from './new-aircraft/new-aircraft.component';
 
 
 @NgModule({
@@ -64,6 +65,7 @@ import { EditSalesComponent } from './edit-sales/edit-sales.component';
     AirportComponent,
     EditAirportComponent,
     EditSalesComponent,
+    NewAircraftComponent,
   ],
   imports: [
     CommonModule,

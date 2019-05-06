@@ -21,6 +21,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { AirportComponent } from './airport/airport.component';
 import { EditAirportComponent } from './edit-airport/edit-airport.component';
 import { EditSalesComponent } from './edit-sales/edit-sales.component';
+import { NewAircraftComponent } from './new-aircraft/new-aircraft.component';
 
 const routes: Routes = [{
   path: 'admin',
@@ -64,6 +65,10 @@ const routes: Routes = [{
   {
     path: 'new-handler/:id',
     component: NewHandlerComponent
+  },
+  {
+    path: 'new-aircraft',
+    component: NewAircraftComponent
   },
   {
     path: 'crews',

@@ -124,20 +124,28 @@ export class NewFlightComponent implements OnInit {
       console.log('aircrafts ', this.aircrafts)
     })
   }
+  distance(lat1, lon1, lat2, lon2, unit) {
+    if ((lat1 == lat2) && (lon1 == lon2)) {
+      return 0;
+    }
+    else {
+      var radlat1 = Math.PI * lat1 / 180;
+      var radlat2 = Math.PI * lat2 / 180;
+      var theta = lon1 - lon2;
+      var radtheta = Math.PI * theta / 180;
+      var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+      if (dist > 1) {
+        dist = 1;
+      }
+      dist = Math.acos(dist);
+      dist = dist * 180 / Math.PI;
+      dist = dist * 60 * 1.1515;
+      if (unit == "K") { dist = dist * 1.609344 }
+      if (unit == "N") { dist = dist * 0.8684 }
+      return dist;
+    }
+  }
   getAirports(keyword, type): void {
-    // this.adminService.getAirports(pageNo, 100).subscribe(data => {
-    //   if (pageNo === 1) {
-    //     this.airports = data.data
-    //     console.log('first airports ', this.airports)
-    //   }
-    //   this.airportss = data.data;
-    //   this.airports = this.airports.concat(this.airportss)
-    //   console.log('airports ', this.airports)
-    //   console.log('airportss ', this.airportss)
-    //   if (this.airportss !== []) {
-    //     this.getAirports(pageNo + 1);
-    //   }
-    // })
     if (keyword.length > 2) {
       this.airports = []
       $('#' + type).addClass('is-active')
@@ -198,9 +206,9 @@ export class NewFlightComponent implements OnInit {
   }
   createHandlerMail(): void {
     console.log('sending handler mail')
-    this.sendHandlerMail(this.fromHandler.email_primary, this.fromHandler.name ,'Handler', this.positionFromDep, this.positionFromArr, this.positionFromDepT)
-    this.sendHandlerMail(this.handler.email_primary, this.handler.name ,'Handler', this.LiveDep, this.LiveArr, this.LiveDepT)
-    this.sendHandlerMail(this.toHandler.email_primary, this.toHandler.name ,'Handler', this.positionToDep, this.positionToArr, this.positionToDepT)
+    this.sendHandlerMail(this.fromHandler.email_primary, this.fromHandler.name, 'Handler', this.positionFromDep, this.positionFromArr, this.positionFromDepT)
+    this.sendHandlerMail(this.handler.email_primary, this.handler.name, 'Handler', this.LiveDep, this.LiveArr, this.LiveDepT)
+    this.sendHandlerMail(this.toHandler.email_primary, this.toHandler.name, 'Handler', this.positionToDep, this.positionToArr, this.positionToDepT)
   }
   sendCrewMail(name, role, beginning, end, departTime): void {
     this.adminService.getTemplates().subscribe(data => {
@@ -328,6 +336,8 @@ export class NewFlightComponent implements OnInit {
     })
   }
   doRoute(): void {
+    console.log('DISTANCE ', this.distance(this.departure_airport.latitude, this.departure_airport.longitude, this.arrival_airport.latitude, this.arrival_airport.longitude, 'K'))
+
     $('#addBtn').addClass('is-loading');
     $('#reset').addClass('is-hidden');
     $('#cancel').removeClass('is-hidden');

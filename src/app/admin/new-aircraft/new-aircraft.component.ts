@@ -87,10 +87,10 @@ export class NewAircraftComponent implements OnInit {
   }
 
   removeTakeOff(id: any) {
-    this.takeOffList.splice(id, 1);
+    this.distances.takeoff.splice(id, 1);
   }
   removeLanding(id: any) {
-    this.landingList.splice(id, 1);
+    this.distances.landing.splice(id, 1);
   }
 
   addTakeOff() {

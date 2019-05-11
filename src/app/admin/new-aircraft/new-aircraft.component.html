@@ -178,11 +178,11 @@
                 <label class="label">Fuel Unit</label>
                 <div class="control">
                   <label class="radio">
-                    <input type="radio" name="answer" [(ngModel)]="fuelunit" value="liter" name="fuelunit">
+                    <input type="radio" name="answer" [(ngModel)]="fuelunit" value="l" name="fuelunit">
                     liter
                   </label>
                   <label class="radio">
-                    <input type="radio" name="answer" [(ngModel)]="fuelunit" value="US gal" name="fuelunit">
+                    <input type="radio" name="answer" [(ngModel)]="fuelunit" value="usgal" name="fuelunit">
                     US gal
                   </label>
                   <label class="radio">
@@ -479,7 +479,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let takeOff of takeOffList; let id = index">
+                  <tr *ngFor="let takeOff of distances.takeoff; let id = index">
                     <td>
                       <span (keyup)="changeTakeOffValue(id, 'da', $event)"
                         (blur)="updateTakeOffList(id, 'da', $event)"
@@ -514,7 +514,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let landing of landingList; let id = index">
+                  <tr *ngFor="let landing of distances.landing; let id = index">
                     <td>
                       <span (keyup)="changeLandingValue(id, 'da', $event)"
                         (blur)="updateLandingList(id, 'da', $event)"

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../admin.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as $ from 'jquery';
+import { toast } from "bulma-toast";
 
 @Component({
   selector: 'app-new-aircraft',
@@ -18,23 +19,62 @@ export class NewAircraftComponent implements OnInit {
   first: boolean = true;
   takeOffCount: number = 0;
   landingCount: number = 0;
+  manufacturers: [];
+  aircraftTypes: any;
+  icaotype: any;
 
-  constructor(private adminService: AdminService, private route: ActivatedRoute) { }
+  constructor(private adminService: AdminService, private router: Router, private route: ActivatedRoute) { }
 
-  registration: string;
-  manufacturer: string;
-  type: string;
-  model: string;
+  callsign: string;
+  manufacturer: any;
+  icaotypename: string;
+  modelname: string;
   year: string;
-  base: {};
-  fuel_type: string;
-  mass_unit: string;
-  speed_unit: string;
-  fuel_unit: string;
+  homebase = {
+    name: '',
+    icao: ''
+  };
+  fueltype: string;
+  speedunit: string;
+  fuelunit: string;
   comment: string;
+  equipment: string;
+  transponder: string;
+  com: string;
+  nav: string;
+  dat: string;
+  picname: string;
+  crewcontact: string;
+  colormarking: string;
+  dinghies: string;
+  dinghycapacity: number;
+  dinghycolor: string;
+  dinghycover: boolean;
+  emergencyradio: string;
+  survival: string;
+  lifejackets: string;
+  wb: object = {
+    massunitname: "",
+    mtom: 0,
+    mlm: 0,
+    mrm: 0,
+    armunitname: "",
+  };
+  distances = {
+    unitname: "",
+    vrotate: 0,
+    takeoff: [],
+    landing: []
+  };
+  defaultmaxfl: string;
+  maxbhp: string;
+  taxifuel: string;
+  taxifuelflow: string;
+  contingencyfuel: string;
 
   ngOnInit() {
-    this.base = {}
+    this.getManufacturers()
+
   }
 
   updateTakeOffList(id: number, property: string, event: any) {
@@ -55,17 +95,18 @@ export class NewAircraftComponent implements OnInit {
 
   addTakeOff() {
     this.takeOffCount = this.takeOffCount + 1
-    const takeOff = 
-      { id: this.takeOffCount, density: '0', ground_roll: '0', obstacle: '0' }
-    ;
-    this.takeOffList.push(takeOff);
+    const takeOff =
+      { id: this.takeOffCount, da: '0', gnddist: '0', obstdist: '0' }
+      ;
+    this.distances.takeoff.push(takeOff);
+
   }
   addLanding() {
     this.landingCount = this.landingCount + 1
-    const landing = 
-      { id: this.landingCount, density: '0', ground_roll: '0', obstacle: '0' }
-    ;
-    this.landingList.push(landing);
+    const landing =
+      { id: this.landingCount, da: '0', gnddist: '0', obstdist: '0' }
+      ;
+    this.distances.landing.push(landing);
   }
 
   changeTakeOffValue(id: number, property: string, event: any) {
@@ -108,5 +149,45 @@ export class NewAircraftComponent implements OnInit {
     $(".steps-segment[data-step='" + this.current + "']").addClass("is-active");
     $("#step-" + this.current).removeClass("is-hidden");
   }
+  addAircraft() {
+    this.adminService.addAircraft(this.callsign, this.manufacturer.name, this.manufacturer.id, this.icaotype.icao, this.icaotype.id, this.modelname, this.modelname, this.year, this.homebase.icao, this.fueltype, this.speedunit, this.fuelunit, this.comment, this.equipment, this.transponder, this.com, this.nav, this.dat, this.picname, this.crewcontact, this.colormarking, this.dinghies, this.dinghycapacity, this.dinghycolor, this.dinghycover, this.emergencyradio, this.survival, this.lifejackets, this.wb, this.distances, this.defaultmaxfl, this.maxbhp, this.taxifuel, this.taxifuelflow, this.contingencyfuel).subscribe(data => {
+      console.log('Aircraft Added ', data)
+      this.adminService.addAircraftDB(data.data).subscribe(data => {
+        // this.navigate('/admin/aircrafts')
+        $('form').trigger("reset");
+        toast({
+          message: "Aircraft Created",
+          type: "is-success",
+          dismissible: true,
+          pauseOnHover: true
+        });
+      })
+    },
+      error => {
+        $('#addBtn').removeClass('is-loading');
+        console.log(error)
+      })
+  }
+  getManufacturers() {
+    this.adminService.getManufacturers().subscribe(data => {
+      this.manufacturers = data.data
 
+      console.log('Manufacturers ', this.manufacturers)
+    })
+  }
+  getAircraftTypes() {
+    this.adminService.getAircraftTypes(this.manufacturer.id).subscribe(data => {
+      this.aircraftTypes = data.data
+      console.log('Aircraft Types ', this.aircraftTypes)
+    })
+  }
+  navigate(link): void {
+    this.router.navigate([link]);
+  }
+
+  hideSearch(): void {
+    console.log(this.homebase)
+    $('.dropdown').removeClass('is-active');
+
+  }
 }

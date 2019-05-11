@@ -34,7 +34,7 @@
               <div class="field">
                 <label class="label">Registration Mark</label>
                 <div class="control">
-                  <input class="input" type="text" [(ngModel)]="registration" name="registration">
+                  <input class="input" type="text" [(ngModel)]="callsign" name="callsign">
                 </div>
               </div>
             </div>
@@ -43,9 +43,8 @@
                 <label class="label">Aircraft Manufacturer</label>
                 <div class="control">
                   <div class="select">
-                    <select [(ngModel)]="manufacturer" name="manufacturer">
-                      <option>OPS Employees</option>
-                      <option *ngFor="let ops_crew of ops_crews" [ngValue]="ops_crew">{{ops_crew.name}}</option>
+                    <select [(ngModel)]="manufacturer" name="manufacturer" (change)="getAircraftTypes()">
+                      <option *ngFor="let manufacturer of manufacturers" [ngValue]="manufacturer">{{manufacturer.name}}</option>
                     </select>
                   </div>
                 </div>
@@ -56,9 +55,9 @@
                 <label class="label">Aircraft Type</label>
                 <div class="control">
                   <div class="select">
-                    <select [(ngModel)]="type" name="type">
-                      <option>Suggested Aircraft</option>
-                      <option *ngFor="let aircraft of aircrafts" [ngValue]="aircraft">{{aircraft.registration}}
+                    <select [(ngModel)]="icaotype" name="icaotype">
+                      <option>Aircraft Type</option>
+                      <option *ngFor="let aircraftType of aircraftTypes" [ngValue]="aircraftType">{{aircraftType.type}}
                       </option>
                     </select>
                   </div>
@@ -72,7 +71,7 @@
               <div class="field">
                 <label class="label">Aircraft Model</label>
                 <div class="control">
-                  <input type="text" [(ngModel)]="model" class="input" name="model">
+                  <input type="text" [(ngModel)]="modelname" class="input" name="modelname">
                 </div>
               </div>
             </div>
@@ -91,13 +90,13 @@
                 <div class="control">
                   <div class="dropdown" id="base">
                     <div class="dropdown-trigger">
-                      <input class="input" name="base" autocomplete="off" [(ngModel)]="base.name"
+                      <input class="input" name="homebase" autocomplete="off" [(ngModel)]="homebase.name"
                         (input)="getAirports($event.target.value, 'base')" type="text"
-                        placeholder="Enter Departure Airport" aria-haspopup="true">
+                        placeholder="Enter Homebase" aria-haspopup="true">
                     </div>
                     <div class="dropdown-menu" role="menu">
                       <div class="dropdown-content">
-                        <a (click)="base = airport;hideSearch()" class="dropdown-item" *ngFor="let airport of airports">
+                        <a (click)="homebase = airport;hideSearch()" class="dropdown-item" *ngFor="let airport of airports">
                           {{airport.name}} ({{airport.icao}})
                         </a>
                         <span *ngIf="!airports">Loading...</span>
@@ -115,11 +114,11 @@
                 <label class="label">Fuel Type</label>
                 <div class="control">
                   <label class="radio">
-                    <input type="radio" name="answer" [(ngModel)]="fuel_type" value="AVGAS 100LL" name="fuel_type">
+                    <input type="radio" name="answer" [(ngModel)]="fueltype" value="AVGAS 100LL" name="fueltype">
                     AVGAS 100LL
                   </label>
                   <label class="radio">
-                    <input type="radio" name="answer" [(ngModel)]="fuel_type" value="Jet A-1" name="fuel_type">
+                    <input type="radio" name="answer" [(ngModel)]="fueltype" value="Jet A-1" name="fueltype">
                     Jet A-1
                   </label>
                 </div>
@@ -130,12 +129,27 @@
                 <label class="label">Aircraft Mass Unit</label>
                 <div class="control">
                   <label class="radio">
-                    <input type="radio" name="answer" [(ngModel)]="mass_unit" value="kg" name="mass_unit">
+                    <input type="radio" name="answer" [(ngModel)]="wb.massunitname" value="kg" name="massunitname">
                     kg
                   </label>
                   <label class="radio">
-                    <input type="radio" name="answer" [(ngModel)]="mass_unit" value="lb" name="mass_unit">
+                    <input type="radio" name="answer" [(ngModel)]="wb.massunitname" value="lb" name="massunitname">
                     lb
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="column is-6">
+              <div class="field">
+                <label class="label">Aircraft Mass ARM Unit</label>
+                <div class="control">
+                  <label class="radio">
+                    <input type="radio" name="answer" [(ngModel)]="wb.armunitname" value="in" name="armunitname">
+                    in
+                  </label>
+                  <label class="radio">
+                    <input type="radio" name="answer" [(ngModel)]="wb.armunitname" value="cm" name="armunitname">
+                    cm
                   </label>
                 </div>
               </div>
@@ -145,15 +159,15 @@
                 <label class="label">Speed Unit</label>
                 <div class="control">
                   <label class="radio">
-                    <input type="radio" name="answer" [(ngModel)]="speed_unit" value="kts" name="speed_unit">
+                    <input type="radio" name="answer" [(ngModel)]="speedunit" value="kts" name="speedunit">
                     kts
                   </label>
                   <label class="radio">
-                    <input type="radio" name="answer" [(ngModel)]="speed_unit" value="kph" name="speed_unit">
+                    <input type="radio" name="answer" [(ngModel)]="speedunit" value="kph" name="speedunit">
                     kph
                   </label>
                   <label class="radio">
-                    <input type="radio" name="answer" [(ngModel)]="speed_unit" value="mph" name="speed_unit">
+                    <input type="radio" name="answer" [(ngModel)]="speedunit" value="mph" name="speedunit">
                     mph
                   </label>
                 </div>
@@ -164,19 +178,19 @@
                 <label class="label">Fuel Unit</label>
                 <div class="control">
                   <label class="radio">
-                    <input type="radio" name="answer" [(ngModel)]="fuel_unit" value="liter" name="fuel_unit">
+                    <input type="radio" name="answer" [(ngModel)]="fuelunit" value="liter" name="fuelunit">
                     liter
                   </label>
                   <label class="radio">
-                    <input type="radio" name="answer" [(ngModel)]="fuel_unit" value="US gal" name="fuel_unit">
+                    <input type="radio" name="answer" [(ngModel)]="fuelunit" value="US gal" name="fuelunit">
                     US gal
                   </label>
                   <label class="radio">
-                    <input type="radio" name="answer" [(ngModel)]="fuel_unit" value="lb" name="fuel_unit">
+                    <input type="radio" name="answer" [(ngModel)]="fuelunit" value="lb" name="fuelunit">
                     lb
                   </label>
                   <label class="radio">
-                    <input type="radio" name="answer" [(ngModel)]="fuel_unit" value="kg" name="fuel_unit">
+                    <input type="radio" name="answer" [(ngModel)]="fuelunit" value="kg" name="fuelunit">
                     kg
                   </label>
                 </div>
@@ -200,7 +214,7 @@
               <div class="field">
                 <label class="label">Equipment String</label>
                 <div class="control">
-                  <input class="input" type="text" [(ngModel)]="equipment_string" name="equipment_string">
+                  <input class="input" type="text" [(ngModel)]="equipment" name="equipment">
                 </div>
               </div>
             </div>
@@ -216,7 +230,7 @@
               <div class="field">
                 <label class="label">Additional Communication Equipment (COM)</label>
                 <div class="control">
-                  <input class="input" type="text" [(ngModel)]="add_comm_equipment" name="add_comm_equipment">
+                  <input class="input" type="text" [(ngModel)]="com" name="com">
                 </div>
               </div>
             </div>
@@ -224,7 +238,7 @@
               <div class="field">
                 <label class="label">Additional Navigation Equipment (NAV)</label>
                 <div class="control">
-                  <input class="input" type="text" [(ngModel)]="add_nav_equipment" name="add_nav_equipment">
+                  <input class="input" type="text" [(ngModel)]="nav" name="nav">
                 </div>
               </div>
             </div>
@@ -232,7 +246,7 @@
               <div class="field">
                 <label class="label">Additional Data Equipment (DAT)</label>
                 <div class="control">
-                  <input class="input" type="text" [(ngModel)]="add_data_equipment" name="add_data_equipment">
+                  <input class="input" type="text" [(ngModel)]="dat" name="dat">
                 </div>
               </div>
             </div>
@@ -246,7 +260,7 @@
               <div class="field">
                 <label class="label">Pilot in Command (PIC)</label>
                 <div class="control">
-                  <input class="input" type="text" [(ngModel)]="pic_name" name="pic_name">
+                  <input class="input" type="text" [(ngModel)]="picname" name="picname">
                 </div>
               </div>
             </div>
@@ -254,7 +268,7 @@
               <div class="field">
                 <label class="label">Crew Contact Number</label>
                 <div class="control">
-                  <input class="input" type="text" [(ngModel)]="pic_phone" name="pic_phone">
+                  <input class="input" type="text" [(ngModel)]="crewcontact" name="crewcontact">
                 </div>
               </div>
             </div>
@@ -262,7 +276,7 @@
               <div class="field">
                 <label class="label">Color Markings</label>
                 <div class="control">
-                  <input class="input" type="text" [(ngModel)]="color_markings" name="color_markings">
+                  <input class="input" type="text" [(ngModel)]="colormarking" name="colormarking">
                 </div>
               </div>
             </div>
@@ -279,7 +293,7 @@
               <div class="field">
                 <label class="label">Dinghy Capacity</label>
                 <div class="control">
-                  <input type="text" [(ngModel)]="dinghy_capacity" class="input" name="dinghy_capacity">
+                  <input type="text" [(ngModel)]="dinghycapacity" class="input" name="dinghycapacity">
                 </div>
               </div>
             </div>
@@ -288,19 +302,19 @@
                 <label class="label">Dinghy Color</label>
                 <div class="control">
                   <label class="radio">
-                    <input type="radio" [(ngModel)]="dinghy_color" value="yellow" name="dinghy_color">
+                    <input type="radio" [(ngModel)]="dinghycolor" value="yellow" name="dinghycolor">
                     Yellow
                   </label>
                   <label class="radio">
-                    <input type="radio" [(ngModel)]="dinghy_color" value="orange" name="dinghy_color">
+                    <input type="radio" [(ngModel)]="dinghycolor" value="orange" name="dinghycolor">
                     Orange
                   </label>
                   <label class="radio">
-                    <input type="radio" [(ngModel)]="dinghy_color" value="red" name="dinghy_color">
+                    <input type="radio" [(ngModel)]="dinghycolor" value="red" name="dinghycolor">
                     Red
                   </label>
                   <label class="checkbox">
-                    <input type="checkbox" [(ngModel)]="dinghy_cover" value="yes" name="dinghy_cover">
+                    <input type="checkbox" [(ngModel)]="dinghycover" value="true" name="dinghycover">
                     With Cover
                   </label>
                 </div>
@@ -389,7 +403,7 @@
               <div class="field">
                 <label class="label">Maximum Takeoff Mass (kg)</label>
                 <div class="control">
-                  <input class="input" type="text" [(ngModel)]="max_takeoff" name="max_takeoff">
+                  <input class="input" type="text" [(ngModel)]="wb.mtom" name="mtom">
                 </div>
               </div>
             </div>
@@ -397,7 +411,7 @@
               <div class="field">
                 <label class="label">Maximum Landing Mass (kg)</label>
                 <div class="control">
-                  <input class="input" type="text" [(ngModel)]="max_landing" name="max_landing">
+                  <input class="input" type="text" [(ngModel)]="wb.mlm" name="mlm">
                 </div>
               </div>
             </div>
@@ -405,7 +419,7 @@
               <div class="field">
                 <label class="label">Maximum Ramp Mass (kg)</label>
                 <div class="control">
-                  <input class="input" type="text" [(ngModel)]="max_ramp" name="max_ramp">
+                  <input class="input" type="text" [(ngModel)]="wb.mrm" name="mrm">
                 </div>
               </div>
             </div>
@@ -431,11 +445,11 @@
                 <label class="label">Distance Unit</label>
                 <div class="control">
                   <label class="radio">
-                    <input type="radio" name="answer" [(ngModel)]="distance_unit" value="liter" name="distance_unit">
+                    <input type="radio" name="answer" [(ngModel)]="distances.unitname" value="liter" name="unitname">
                     feet
                   </label>
                   <label class="radio">
-                    <input type="radio" name="answer" [(ngModel)]="distance_unit" value="US gal" name="distance_unit">
+                    <input type="radio" name="answer" [(ngModel)]="distances.unitname" value="US gal" name="unitname">
                     meter
                   </label>
                 </div>
@@ -446,7 +460,7 @@
               <div class="field">
                 <label class="label">Rotation Speed Vr (kts)</label>
                 <div class="control">
-                  <input type="text" [(ngModel)]="year" class="input" name="year">
+                  <input type="text" [(ngModel)]="distances.vrotate" class="input" name="vrotate">
 
                 </div>
               </div>
@@ -467,17 +481,17 @@
                 <tbody>
                   <tr *ngFor="let takeOff of takeOffList; let id = index">
                     <td>
-                      <span (keyup)="changeTakeOffValue(id, 'density', $event)"
-                        (blur)="updateTakeOffList(id, 'density', $event)"
-                        contenteditable="true">{{takeOff.density}}</span>
+                      <span (keyup)="changeTakeOffValue(id, 'da', $event)"
+                        (blur)="updateTakeOffList(id, 'da', $event)"
+                        contenteditable="true">{{takeOff.da}}</span>
                     </td>
                     <td>
-                      <span contenteditable="true" (keyup)="changeTakeOffValue(id, 'ground_roll', $event)"
-                        (blur)="updateTakeOffList(id, 'ground_roll', $event)">{{takeOff.ground_roll}}</span>
+                      <span contenteditable="true" (keyup)="changeTakeOffValue(id, 'gnddist', $event)"
+                        (blur)="updateTakeOffList(id, 'gnddist', $event)">{{takeOff.gnddist}}</span>
                     </td>
                     <td>
-                      <span contenteditable="true" (keyup)="changeTakeOffValue(id, 'obstacle', $event)"
-                        (blur)="updateTakeOffList(id, 'obstacle', $event)">{{takeOff.obstacle}}</span>
+                      <span contenteditable="true" (keyup)="changeTakeOffValue(id, 'obstdist', $event)"
+                        (blur)="updateTakeOffList(id, 'obstdist', $event)">{{takeOff.obstdist}}</span>
                     </td>
                     <td>
                       <button type="button" class="button is-danger" (click)="removeTakeOff(id)">Remove</button>
@@ -502,17 +516,17 @@
                 <tbody>
                   <tr *ngFor="let landing of landingList; let id = index">
                     <td>
-                      <span (keyup)="changeLandingValue(id, 'density', $event)"
-                        (blur)="updateLandingList(id, 'density', $event)"
-                        contenteditable="true">{{landing.density}}</span>
+                      <span (keyup)="changeLandingValue(id, 'da', $event)"
+                        (blur)="updateLandingList(id, 'da', $event)"
+                        contenteditable="true">{{landing.da}}</span>
                     </td>
                     <td>
-                      <span contenteditable="true" (keyup)="changeLandingValue(id, 'ground_roll', $event)"
-                        (blur)="updateLandingList(id, 'ground_roll', $event)">{{landing.ground_roll}}</span>
+                      <span contenteditable="true" (keyup)="changeLandingValue(id, 'gnddist', $event)"
+                        (blur)="updateLandingList(id, 'gnddist', $event)">{{landing.gnddist}}</span>
                     </td>
                     <td>
-                      <span contenteditable="true" (keyup)="changeLandingValue(id, 'obstacle', $event)"
-                        (blur)="updateLandingList(id, 'obstacle', $event)">{{landing.obstacle}}</span>
+                      <span contenteditable="true" (keyup)="changeLandingValue(id, 'obstdist', $event)"
+                        (blur)="updateLandingList(id, 'obstdist', $event)">{{landing.obstdist}}</span>
                     </td>
                     <td>
                       <button type="button" class="button is-danger" (click)="removeLanding(id)">Remove</button>
@@ -539,7 +553,7 @@
               <div class="field">
                 <label class="label">Default Maximum Flight Level</label>
                 <div class="control">
-                  <input class="input" type="text" [(ngModel)]="max_flight_level" name="max_flight_level">
+                  <input class="input" type="text" [(ngModel)]="defaultmaxfl" name="defaultmaxfl">
                 </div>
               </div>
             </div>
@@ -547,7 +561,7 @@
               <div class="field">
                 <label class="label">Horse Power Per Engine (BHP)</label>
                 <div class="control">
-                  <input class="input" type="text" [(ngModel)]="bhp" name="bhp">
+                  <input class="input" type="text" [(ngModel)]="maxbhp" name="maxbhp">
                 </div>
               </div>
             </div>
@@ -555,7 +569,7 @@
               <div class="field">
                 <label class="label">Fixed Taxi Fuel</label>
                 <div class="control">
-                  <input class="input" type="text" [(ngModel)]="fixed_taxi_fuel" name="fixed_taxi_fuel">
+                  <input class="input" type="text" [(ngModel)]="taxifuel" name="taxifuel">
                 </div>
               </div>
             </div>
@@ -563,7 +577,7 @@
               <div class="field">
                 <label class="label">Variable Taxi Fuel</label>
                 <div class="control">
-                  <input class="input" type="text" [(ngModel)]="var_taxi_fuel" name="var_taxi_fuel">
+                  <input class="input" type="text" [(ngModel)]="taxifuelflow" name="taxifuelflow">
                 </div>
               </div>
             </div>
@@ -572,7 +586,7 @@
               <div class="field">
                 <label class="label">Contingency Fuel</label>
                 <div class="control">
-                  <input type="text" [(ngModel)]="contingency_fuel" class="input" name="contingency_fuel">
+                  <input type="text" [(ngModel)]="contingencyfuel" class="input" name="contingencyfuel">
                 </div>
               </div>
             </div>
@@ -581,93 +595,20 @@
                 <label class="label">Performance Model</label>
                 <div class="control">
                   <label class="radio">
-                    <input type="radio" [(ngModel)]="performance_model" value="yellow" name="performance_model">
+                    <input type="radio" [(ngModel)]="performancemodel" value="yellow" name="performancemodel">
                     Fixed Pitch
                   </label>
                   <label class="radio">
-                    <input type="radio" [(ngModel)]="performance_model" value="orange" name="performance_model">
+                    <input type="radio" [(ngModel)]="performancemodel" value="orange" name="performancemodel">
                     Constant Speed
                   </label>
                   <label class="radio">
-                    <input type="radio" [(ngModel)]="performance_model" value="red" name="performance_model">
+                    <input type="radio" [(ngModel)]="performancemodel" value="red" name="performancemodel">
                     Turboprop
                   </label>
                   <label class="radio">
-                    <input type="radio" [(ngModel)]="performance_model" value="red" name="performance_model">
+                    <input type="radio" [(ngModel)]="performancemodel" value="red" name="performancemodel">
                     Turbojet
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div class="column is-6">
-              <div class="field" id="distance_unit">
-                <label class="label">Emergency Radios</label>
-                <div class="control">
-                  <label class="checkbox">
-                    <input type="checkbox" [(ngModel)]="uhf" value="yes" name="uhf">
-                    UHF
-                  </label>
-                  <label class="checkbox">
-                    <input type="checkbox" [(ngModel)]="vhf" value="yes" name="vhf">
-                    VHF
-                  </label>
-                  <label class="checkbox">
-                    <input type="checkbox" [(ngModel)]="elt" value="yes" name="elt">
-                    ELT
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div class="column is-6">
-              <div class="field" id="distance_unit">
-                <label class="label">Survival</label>
-                <div class="control">
-                  <label class="checkbox">
-                    <input type="checkbox" [(ngModel)]="standard" value="yes" name="standard">
-                    Standard
-                  </label>
-                  <label class="checkbox">
-                    <input type="checkbox" [(ngModel)]="polar" value="yes" name="polar">
-                    Polar
-                  </label>
-                  <label class="checkbox">
-                    <input type="checkbox" [(ngModel)]="desert" value="yes" name="desert">
-                    Desert
-                  </label>
-                  <label class="checkbox">
-                    <input type="checkbox" [(ngModel)]="maritime" value="yes" name="maritime">
-                    Maritime
-                  </label>
-                  <label class="checkbox">
-                    <input type="checkbox" [(ngModel)]="jungle" value="yes" name="jungle">
-                    Jungle
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div class="column is-6">
-              <div class="field" id="life_jackets">
-                <label class="label">Life Jackets</label>
-                <div class="control">
-                  <label class="checkbox">
-                    <input type="checkbox" [(ngModel)]="standard" value="yes" name="standard">
-                    Standard
-                  </label>
-                  <label class="checkbox">
-                    <input type="checkbox" [(ngModel)]="light" value="yes" name="light">
-                    Light
-                  </label>
-                  <label class="checkbox">
-                    <input type="checkbox" [(ngModel)]="fluorescent" value="yes" name="fluorescent">
-                    Fluorescent
-                  </label>
-                  <label class="checkbox">
-                    <input type="checkbox" [(ngModel)]="life_uhf" value="yes" name="life_uhf">
-                    UHF
-                  </label>
-                  <label class="checkbox">
-                    <input type="checkbox" [(ngModel)]="life_vhf" value="yes" name="life_vhf">
-                    VHF
                   </label>
                 </div>
               </div>
@@ -684,7 +625,7 @@
               </div>
               <div class="control">
                 <button class="button is-link" (click)="next()" *ngIf="!last">Next</button>
-                <button class="button is-link" (click)="doRoute()" id="addBtn" *ngIf="last">Submit</button>
+                <button class="button is-link" (click)="addAircraft()" id="addBtn" *ngIf="last">Submit</button>
               </div>
               <div class="control">
                 <button class="button is-text" type="reset" id="reset">Reset</button>

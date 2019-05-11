@@ -333,26 +333,91 @@ export class AdminService {
       })
     });
   }
-  addAircraft(registration: string,
-    aircraftId: string,
-    img_url: string,
-    tow: string,
-    fuel: string,
-    pax: string,
-    cargo: string,
-    icao24: string,
-    base: string): Observable<any> {
+  addAircraftDB(aircraft: string ): Observable<any> {
     return Observable.create(observer => {
       this.http.post('/api/aircraft', {
-        registration,
-        aircraftId,
-        img_url,
-        tow,
-        fuel,
-        pax,
-        cargo,
-        icao24,
-        base
+        aircraft
+      }).subscribe((data: any) => {
+        observer.next({ data: data });
+        observer.complete();
+      })
+    });
+  }
+  addAircraft(
+
+    callsign: string,
+    manufacturername: string,
+    manufacturer: number,
+    icaotypename: string,
+    icaotype: number,
+    modelname: string,
+    model: string,
+    year: string,
+    homebase: string,
+    fuel_type: string,
+    speedunit: string,
+    fuelunit: string,
+    comment: string,
+    equipment: string,
+    transponder: string,
+    com: string,
+    nav: string,
+    dat: string,
+    picname: string,
+    crewcontact: string,
+    colormarking: string,
+    dinghies: string,
+    dinghycapacity: number,
+    dinghycolor: string,
+    dinghycover: boolean,
+    emergencyradio: string,
+    survival: string,
+    lifejackets: string,
+    wb: object,
+    distances: object,
+    defaultmaxfl: string,
+    maxbhp: string,
+    taxifuel: string,
+    taxifuelflow: string,
+    contingencyfuel: string,
+  ): Observable<any> {
+    return Observable.create(observer => {
+      this.http.post('/api/aircraft/addAircraft', {
+        callsign,
+        manufacturername,
+        manufacturer,
+        icaotypename,
+        icaotype,
+        modelname,
+        model,
+        year,
+        homebase,
+        fuel_type,
+        speedunit,
+        fuelunit,
+        comment,
+        equipment,
+        transponder,
+        com,
+        nav,
+        dat,
+        picname,
+        crewcontact,
+        colormarking,
+        dinghies,
+        dinghycapacity,
+        dinghycolor,
+        dinghycover,
+        emergencyradio,
+        survival,
+        lifejackets,
+        wb,
+        distances,
+        defaultmaxfl,
+        maxbhp,
+        taxifuel,
+        taxifuelflow,
+        contingencyfuel
       }).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
@@ -892,6 +957,22 @@ export class AdminService {
   getMboard(route) {
     return Observable.create(observer => {
       this.http.get('/api/mboard/fetch/' + route).subscribe((data: any) => {
+        observer.next({ data: data });
+        observer.complete();
+      })
+    });
+  }
+  getManufacturers() {
+    return Observable.create(observer => {
+      this.http.get('/api/aircraft/getManufacturers').subscribe((data: any) => {
+        observer.next({ data: data });
+        observer.complete();
+      })
+    });
+  }
+  getAircraftTypes(manufacturer) {
+    return Observable.create(observer => {
+      this.http.get('/api/aircraft/getAircraftTypes/' + manufacturer).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
       })

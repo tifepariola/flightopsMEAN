@@ -89,19 +89,19 @@ export class AircraftsComponent implements OnInit {
     console.log('add start')
     $('#addBtn').addClass('is-loading');
     if (this.doRun === true) {
-      this.adminService.addAircraft(this.registration, this.aircraftId, this.image, this.tow, this.fuel, this.pax, this.cargo, this.icao24, this.base)
-        .subscribe(data => {
-          console.log('Aircraft Added ', data)
-          this.getAircrafts();
-          $('form').trigger("reset");
-          $('#addBtn').removeClass('is-loading');
-          // $('#add-aircraft').removeClass('is-active');
-          this.doRun = false
-        },
-          error => {
-            $('#addBtn').removeClass('is-loading');
-            console.log(error)
-          })
+      // this.adminService.addAircraft(this.registration, this.aircraftId, this.image, this.tow, this.fuel, this.pax, this.cargo, this.icao24, this.base)
+      //   .subscribe(data => {
+      //     console.log('Aircraft Added ', data)
+      //     this.getAircrafts();
+      //     $('form').trigger("reset");
+      //     $('#addBtn').removeClass('is-loading');
+      //     // $('#add-aircraft').removeClass('is-active');
+      //     this.doRun = false
+      //   },
+      //     error => {
+      //       $('#addBtn').removeClass('is-loading');
+      //       console.log(error)
+      //     })
     }
   }
 

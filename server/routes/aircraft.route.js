@@ -85,6 +85,33 @@ router.post('/createRoute', function (req, res) {
             console.log(error);
         });
 });
+router.get('/getManufacturers', function (req, res) {
+    axios.get('https://dev-api.autorouter.aero/v1.0/aircraft/manufacturer', req.body)
+        .then(response => {
+            res.json(response.data);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+});
+router.get('/getAircraftTypes/:manufacturer', function (req, res) {
+    axios.get('https://dev-api.autorouter.aero/v1.0/aircraft/manufacturer/' + req.params.manufacturer + '/types', req.body)
+        .then(response => {
+            res.json(response.data);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+});
+router.post('/addAircraft', function (req, res) {
+    axios.post('https://dev-api.autorouter.aero/v1.0/aircraft', req.body)
+        .then(response => {
+            res.json(response.data);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+});
 router.get('/fileFPL/:route', function (req, res) {
     axios.post('https://dev-api.autorouter.aero/v1.0/flightplan/file/' + req.params.route, {
         "addresses": [],

@@ -5,7 +5,7 @@ import { AdminService } from '../admin.service';
 import { interval } from 'rxjs';
 import { startWith, switchMap, single } from 'rxjs/operators';
 import { FlatpickrOptions } from 'ng2-flatpickr';
-import { DOCUMENT } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-new-flight',
@@ -113,7 +113,7 @@ export class NewFlightComponent implements OnInit {
 
     }
     $('#tabs li').on('click', function () {
-      var tab = $(this).data('option');
+      const tab = $(this).data('option');
 
       $('#tabs li').removeClass('is-active');
       $(this).addClass('is-active');
@@ -130,23 +130,22 @@ export class NewFlightComponent implements OnInit {
     });
   }
   distance(lat1, lon1, lat2, lon2, unit) {
-    if ((lat1 == lat2) && (lon1 == lon2)) {
+    if ((lat1 === lat2) && (lon1 === lon2)) {
       return 0;
-    }
-    else {
-      var radlat1 = Math.PI * lat1 / 180;
-      var radlat2 = Math.PI * lat2 / 180;
-      var theta = lon1 - lon2;
-      var radtheta = Math.PI * theta / 180;
-      var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+    } else {
+      const radlat1 = Math.PI * lat1 / 180;
+      const radlat2 = Math.PI * lat2 / 180;
+      const theta = lon1 - lon2;
+      const radtheta = Math.PI * theta / 180;
+      let dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
       if (dist > 1) {
         dist = 1;
       }
       dist = Math.acos(dist);
       dist = dist * 180 / Math.PI;
       dist = dist * 60 * 1.1515;
-      if (unit == 'K') { dist = dist * 1.609344; }
-      if (unit == 'N') { dist = dist * 0.8684; }
+      if (unit === 'K') { dist = dist * 1.609344; }
+      if (unit === 'N') { dist = dist * 0.8684; }
       return dist;
     }
   }
@@ -219,8 +218,8 @@ export class NewFlightComponent implements OnInit {
     this.adminService.getTemplates().subscribe(data => {
       this.crewTemplate = data.data[0];
       this.handlerTemplate = data.data[1];
-      var find = ['%crewname%', '%role%', '%flightID%', '%aircraftID%', '%aircraftname%', '%date%', '%time%', '%airportdeparture%', '%airportarrival%', '%link%'];
-      var replace = [name, role, this.reference_id, this.aircraft.aircraftId, this.aircraft.registration, new Date(departTime * 1000).getDate() + '-' + new Date(departTime * 1000).getMonth() + '-' + new Date(departTime * 1000).getFullYear(), new Date(departTime * 1000).getHours() + ':' + new Date(departTime * 1000).getMinutes() + ':' + new Date(departTime * 1000).getSeconds(), beginning, end, this.reference_id];
+      const find = ['%crewname%', '%role%', '%flightID%', '%aircraftID%', '%aircraftname%', '%date%', '%time%', '%airportdeparture%', '%airportarrival%', '%link%'];
+      const replace = [name, role, this.reference_id, this.aircraft.aircraftId, this.aircraft.registration, new Date(departTime * 1000).getDate() + '-' + new Date(departTime * 1000).getMonth() + '-' + new Date(departTime * 1000).getFullYear(), new Date(departTime * 1000).getHours() + ':' + new Date(departTime * 1000).getMinutes() + ':' + new Date(departTime * 1000).getSeconds(), beginning, end, this.reference_id];
       this.crewTemplate.subject = this.replaceArray(this.crewTemplate.subject, find, replace);
       this.crewTemplate.message = this.replaceArray(this.crewTemplate.message, find, replace);
       this.adminService.sendMail(this.ops_crew.p_email, this.crewTemplate.subject, this.crewTemplate.message).subscribe(data => {
@@ -231,8 +230,8 @@ export class NewFlightComponent implements OnInit {
   sendHandlerMail(email, name, role, beginning, end, departTime): void {
     this.adminService.getTemplates().subscribe(data => {
       this.handlerTemplate = data.data[1];
-      var find = ['%handlername%', '%role%', '%flightID%', '%aircraftID%', '%aircraftname%', '%date%', '%time%', '%airportdeparture%', '%airportarrival%', '%link%'];
-      var replace = [name, role, this.reference_id, this.aircraft.aircraftId, this.aircraft.registration, new Date(departTime * 1000).getDate() + '-' + new Date(departTime * 1000).getMonth() + '-' + new Date(departTime * 1000).getFullYear(), new Date(departTime * 1000).getHours() + ':' + new Date(departTime * 1000).getMinutes() + ':' + new Date(departTime * 1000).getSeconds(), beginning, end, this.reference_id];
+      const find = ['%handlername%', '%role%', '%flightID%', '%aircraftID%', '%aircraftname%', '%date%', '%time%', '%airportdeparture%', '%airportarrival%', '%link%'];
+      const replace = [name, role, this.reference_id, this.aircraft.aircraftId, this.aircraft.registration, new Date(departTime * 1000).getDate() + '-' + new Date(departTime * 1000).getMonth() + '-' + new Date(departTime * 1000).getFullYear(), new Date(departTime * 1000).getHours() + ':' + new Date(departTime * 1000).getMinutes() + ':' + new Date(departTime * 1000).getSeconds(), beginning, end, this.reference_id];
       this.handlerTemplate.subject = this.replaceArray(this.handlerTemplate.subject, find, replace);
       this.handlerTemplate.message = this.replaceArray(this.handlerTemplate.message, find, replace);
       this.adminService.sendMail('kininteractivesolutions@gmail.com', this.handlerTemplate.subject, this.handlerTemplate.message).subscribe(data => {
@@ -241,9 +240,9 @@ export class NewFlightComponent implements OnInit {
     });
   }
   replaceArray = function (text, find, replace) {
-    var replaceString = text;
-    var regex;
-    for (var i = 0; i < find.length; i++) {
+    let replaceString = text;
+    let regex;
+    for (let i = 0; i < find.length; i++) {
       regex = new RegExp(find[i], 'g');
       replaceString = replaceString.replace(regex, replace[i]);
     }
@@ -276,7 +275,7 @@ export class NewFlightComponent implements OnInit {
       console.log('crewPIC', data.data);
       data.data.some(element => {
         // console.log(Date.parse(this.departure_time) / 1000 - element.unavailable)
-        var subtract = Date.parse(this.departure_time) / 1000 - element.unavailableTo;
+        const subtract = Date.parse(this.departure_time) / 1000 - element.unavailableTo;
         this.pic_crew = element._id;
         this.pic_crew_name = element.name;
         this.pic_crew_email = element.p_email;
@@ -287,7 +286,7 @@ export class NewFlightComponent implements OnInit {
         console.log('crewFO', data.data);
         data.data.some(element => {
           // console.log(Date.parse(this.departure_time) / 1000 - element.unavailable)
-          var subtract = Date.parse(this.departure_time) / 1000 - element.unavailableTo;
+          const subtract = Date.parse(this.departure_time) / 1000 - element.unavailableTo;
           this.fo_crew = element._id;
           this.fo_crew_name = element.name;
           this.fo_crew_email = element.p_email;
@@ -346,7 +345,7 @@ export class NewFlightComponent implements OnInit {
     $('#addBtn').addClass('is-loading');
     $('#reset').addClass('is-hidden');
     $('#cancel').removeClass('is-hidden');
-    let data = {
+    const data = {
       aircraftid: this.aircraft.aircraftId,
       departure: this.departure_airport.icao,
       destination: this.arrival_airport.icao,
@@ -382,7 +381,7 @@ export class NewFlightComponent implements OnInit {
                   console.log('crewPIC', data.data);
                   data.data.some(element => {
                     // console.log(Date.parse(this.departure_time) / 1000 - element.unavailable)
-                    var subtract = Date.parse(this.departure_time) / 1000 - element.unavailableTo;
+                    const subtract = Date.parse(this.departure_time) / 1000 - element.unavailableTo;
                     this.pic_crew = element;
                     return subtract >= 0;
 
@@ -391,7 +390,7 @@ export class NewFlightComponent implements OnInit {
                     console.log('crewFO', data.data);
                     data.data.some(element => {
                       // console.log(Date.parse(this.departure_time) / 1000 - element.unavailable)
-                      var subtract = Date.parse(this.departure_time) / 1000 - element.unavailableTo;
+                      const subtract = Date.parse(this.departure_time) / 1000 - element.unavailableTo;
                       this.fo_crew = element;
                       return subtract >= 0;
 
@@ -441,11 +440,11 @@ export class NewFlightComponent implements OnInit {
     $('#resetFrom').addClass('is-hidden');
     $('#cancelFrom').removeClass('is-hidden');
 
-    var layToTime = this.fromLayOver * 60;
+    const layToTime = this.fromLayOver * 60;
 
-    var arrivalTime = this.departure_time - layToTime;
+    const arrivalTime = this.departure_time - layToTime;
     console.log(arrivalTime);
-    let data = {
+    const data = {
       aircraftid: this.aircraft.aircraftId,
       departure: this.currentLoc.icao,
       destination: this.departure_airport.icao,
@@ -525,11 +524,11 @@ export class NewFlightComponent implements OnInit {
     $('#positionToBtn').addClass('is-loading');
     $('#resetTo').addClass('is-hidden');
     $('#cancelTo').removeClass('is-hidden');
-    var layToTime = this.toLayOver * 60;
+    const layToTime = this.toLayOver * 60;
 
-    var departTime = this.departure_time + layToTime;
+    const departTime = this.departure_time + layToTime;
     console.log(departTime);
-    let data = {
+    const data = {
       aircraftid: this.aircraft.aircraftId,
       departure: this.arrival_airport.icao,
       destination: this.baseLoc.icao,
@@ -555,12 +554,12 @@ export class NewFlightComponent implements OnInit {
                 this.splitB = data.data.departuretime - this.arrival_time;
                 this.rotationEnd = data.data.arrivaltime;
                 this.rotationLength = this.rotationEnd - this.rotationStart;
-                var rotationStartHour = new Date(this.rotationStart*1000).getHours();
-                var rotationEndHour = new Date(this.rotationEnd*1000).getHours();
-                var wocle = this.wocle(rotationStartHour, rotationEndHour);
-                var splittime = this.splitA + this.splitB;
-                var fdt = (this.rotationEnd - this.rotationStart) + 3600 + splittime;
-                var actualTOR = this.rotationLength + (wocle * 2);
+                const rotationStartHour = new Date(this.rotationStart * 1000).getHours();
+                const rotationEndHour = new Date(this.rotationEnd * 1000).getHours();
+                const wocle = this.wocle(rotationStartHour, rotationEndHour);
+                const splittime = this.splitA + this.splitB;
+                const fdt = (this.rotationEnd - this.rotationStart) + 3600 + splittime;
+                const actualTOR = this.rotationLength + (wocle * 2);
                 console.log('rotatStart ', this.rotationStart);
                 console.log('rotatEnd ', this.rotationEnd);
                 console.log('wocleS ', rotationStartHour);
@@ -626,8 +625,6 @@ export class NewFlightComponent implements OnInit {
         });
     });
   }
-  ngOnDestroy() {
-  }
   cancel() {
     this.poll.unsubscribe();
     $('#addBtn').removeClass('is-loading');
@@ -649,14 +646,11 @@ export class NewFlightComponent implements OnInit {
   wocle(x, y) {
     if (x >= 2 && x <= 6 && y >= 2 && y <= 6) {
       return y - x;
-    }
-    else if (x >= 2 && x <= 6 && y >= 2 && y > 6) {
+    } else if (x >= 2 && x <= 6 && y >= 2 && y > 6) {
       return 6 - x;
-    }
-    else if (x < 2 || x > 6 && y >= 2 && y <= 6) {
+    } else if (x < 2 || x > 6 && y >= 2 && y <= 6) {
       return y - 2;
-    }
-    else {
+    } else {
       return 0;
     }
   }

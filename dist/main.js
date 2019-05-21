@@ -4034,7 +4034,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _admin_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../admin.service */ "./src/app/admin/admin.service.ts");
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
-/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
 var __assign = (undefined && undefined.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -4129,7 +4129,7 @@ var NewFlightComponent = /** @class */ (function () {
         });
     };
     NewFlightComponent.prototype.distance = function (lat1, lon1, lat2, lon2, unit) {
-        if ((lat1 == lat2) && (lon1 == lon2)) {
+        if ((lat1 === lat2) && (lon1 === lon2)) {
             return 0;
         }
         else {
@@ -4144,10 +4144,10 @@ var NewFlightComponent = /** @class */ (function () {
             dist = Math.acos(dist);
             dist = dist * 180 / Math.PI;
             dist = dist * 60 * 1.1515;
-            if (unit == 'K') {
+            if (unit === 'K') {
                 dist = dist * 1.609344;
             }
-            if (unit == 'N') {
+            if (unit === 'N') {
                 dist = dist * 0.8684;
             }
             return dist;
@@ -4546,8 +4546,6 @@ var NewFlightComponent = /** @class */ (function () {
             });
         });
     };
-    NewFlightComponent.prototype.ngOnDestroy = function () {
-    };
     NewFlightComponent.prototype.cancel = function () {
         this.poll.unsubscribe();
         jquery__WEBPACK_IMPORTED_MODULE_1__('#addBtn').removeClass('is-loading');
@@ -4586,7 +4584,7 @@ var NewFlightComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./new-flight.component.html */ "./src/app/admin/new-flight/new-flight.component.html"),
             styles: [__webpack_require__(/*! ./new-flight.component.scss */ "./src/app/admin/new-flight/new-flight.component.scss")]
         }),
-        __param(3, Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"])(_angular_platform_browser__WEBPACK_IMPORTED_MODULE_6__["DOCUMENT"])),
+        __param(3, Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"])(_angular_common__WEBPACK_IMPORTED_MODULE_6__["DOCUMENT"])),
         __metadata("design:paramtypes", [_admin_service__WEBPACK_IMPORTED_MODULE_3__["AdminService"], _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"], _angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"], Object])
     ], NewFlightComponent);
     return NewFlightComponent;

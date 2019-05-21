@@ -45,7 +45,7 @@ export class NewFlightComponent implements OnInit {
   flight_id: any;
   toLayOver: number;
   baseLoc: any;
-  arrival_time: string | number | Date;
+  arrival_time: any;
   pic_crew: any;
   fo_crew: any;
   ops_crew_name: string;
@@ -80,6 +80,11 @@ export class NewFlightComponent implements OnInit {
   dptAirportSearch: any;
   search: any;
   lastFlight: any;
+  rotationEnd: any;
+  rotationStart: any;
+  rotationLength: any;
+  splitA: any;
+  splitB: number;
 
   constructor(private adminService: AdminService, private route: ActivatedRoute, private renderer: Renderer2,
     @Inject(DOCUMENT) private document: any, ) { }
@@ -351,80 +356,82 @@ export class NewFlightComponent implements OnInit {
       this.routeId = data.data;
       console.log('response ', this.routeId)
       this.result = this.routeId
-      this.poll = interval(5000)
+      this.poll = interval(15000)
         .pipe(
           startWith(0),
           switchMap(() => this.adminService.longPoll(data.data))
         )
         .subscribe(res => {
           console.log(res.data)
-          if (res.data.length >= 6) {
-            this.poll.unsubscribe();
-            this.adminService.getFplan(this.routeId).subscribe(data => {
-              console.log(data)
-              this.arrival_time = data.data.arrivaltime;
-              this.departure_time = data.data.departuretime;
-              this.routeDet.arrivaltime = data.data.arrivaltime;
-              this.routeDet.departuretime = data.data.departuretime;
-              this.routeDet.fuel = data.data.fuelcalc.reqdfuel;
-              this.routeDet.distance = data.data.gcdist;
-              this.routeDet.fplan = { ...data.data.fplan };
-              console.log('rou', this.routeDet)
-              this.result = JSON.stringify(this.routeDet, undefined, 2)
-              // $('#addBtn').removeClass('is-loading');
-              this.adminService.getCrewByOccupation('PIC').subscribe(data => {
-                console.log('crewPIC', data.data)
-                data.data.some(element => {
-                  // console.log(Date.parse(this.departure_time) / 1000 - element.unavailable)
-                  var subtract = Date.parse(this.departure_time) / 1000 - element.unavailableTo;
-                  this.pic_crew = element
-                  return subtract >= 0
-
-                });
-                this.adminService.getCrewByOccupation('FO').subscribe(data => {
-                  console.log('crewFO', data.data)
+          res.data.forEach(element => {
+            if (element.hasOwnProperty('aircraftid')) {
+              this.poll.unsubscribe();
+              this.adminService.getFplan(this.routeId).subscribe(data => {
+                console.log(data)
+                this.arrival_time = data.data.arrivaltime;
+                this.departure_time = data.data.departuretime;
+                this.routeDet.arrivaltime = data.data.arrivaltime;
+                this.routeDet.departuretime = data.data.departuretime;
+                this.routeDet.fuel = data.data.fuelcalc.reqdfuel;
+                this.routeDet.distance = data.data.gcdist;
+                this.routeDet.fplan = { ...data.data.fplan };
+                console.log('rou', this.routeDet)
+                this.result = JSON.stringify(this.routeDet, undefined, 2)
+                // $('#addBtn').removeClass('is-loading');
+                this.adminService.getCrewByOccupation('PIC').subscribe(data => {
+                  console.log('crewPIC', data.data)
                   data.data.some(element => {
                     // console.log(Date.parse(this.departure_time) / 1000 - element.unavailable)
                     var subtract = Date.parse(this.departure_time) / 1000 - element.unavailableTo;
-                    this.fo_crew = element
+                    this.pic_crew = element
                     return subtract >= 0
 
                   });
-                  this.adminService.addRoute(this.reference_id,
-                    this.routeId,
-                    this.ops_crew._id,
-                    this.pic_crew._id,
-                    this.fo_crew._id,
-                    this.ops_crew.name,
-                    this.pic_crew.name,
-                    this.fo_crew.name,
-                    this.aircraft.aircraftId,
-                    this.departure_airport.icao,
-                    this.arrival_airport.icao,
-                    this.handler._id,
-                    this.dangerous,
-                    this.type,
-                    this.pax,
-                    this.cargo, 'live', this.routeDet.arrivaltime, this.routeDet.departuretime, this.routeDet.fuel, this.routeDet.distance, this.routeDet.fplan).subscribe(data => {
-                      $('#position-from').addClass('is-active');
+                  this.adminService.getCrewByOccupation('FO').subscribe(data => {
+                    console.log('crewFO', data.data)
+                    data.data.some(element => {
+                      // console.log(Date.parse(this.departure_time) / 1000 - element.unavailable)
+                      var subtract = Date.parse(this.departure_time) / 1000 - element.unavailableTo;
+                      this.fo_crew = element
+                      return subtract >= 0
 
-                      this.lastLiveFlight();
-                      this.currentLoc = {}
-                      this.currentLoc.name = ''
-                      console.log('ROUTE ADDED ', data)
-                      this.LiveDep = this.departure_airport.icao
-                      this.LiveArr = this.arrival_airport.icao
-                      this.LiveDepT = this.routeDet.departuretime
-                      this.LiveArr = this.routeDet.arrivaltime
-                      this.liveLeg = data.data._id
-                      this.adminService.getBriefing(this.routeId).subscribe(data => {
-                        console.log('briefing', data)
+                    });
+                    this.adminService.addRoute(this.reference_id,
+                      this.routeId,
+                      this.ops_crew._id,
+                      this.pic_crew._id,
+                      this.fo_crew._id,
+                      this.ops_crew.name,
+                      this.pic_crew.name,
+                      this.fo_crew.name,
+                      this.aircraft.aircraftId,
+                      this.departure_airport.icao,
+                      this.arrival_airport.icao,
+                      this.handler._id,
+                      this.dangerous,
+                      this.type,
+                      this.pax,
+                      this.cargo, 'live', this.routeDet.arrivaltime, this.routeDet.departuretime, this.routeDet.fuel, this.routeDet.distance, this.routeDet.fplan).subscribe(data => {
+                        $('#position-from').addClass('is-active');
+
+                        this.lastLiveFlight();
+                        this.currentLoc = {}
+                        this.currentLoc.name = ''
+                        console.log('ROUTE ADDED ', data)
+                        this.LiveDep = this.departure_airport.icao
+                        this.LiveArr = this.arrival_airport.icao
+                        this.LiveDepT = this.routeDet.departuretime
+                        this.LiveArr = this.routeDet.arrivaltime
+                        this.liveLeg = data.data._id
+                        this.adminService.getBriefing(this.routeId).subscribe(data => {
+                          console.log('briefing', data)
+                        })
                       })
-                    })
-                })
+                  })
+                });
               });
-            });
-          }
+            }
+          });
           this.result = JSON.stringify(res.data, undefined, 2)
         });
     })
@@ -448,61 +455,65 @@ export class NewFlightComponent implements OnInit {
       this.routeId = data.data;
       console.log('response ', this.routeId)
       this.result = this.routeId
-      this.poll = interval(5000)
+      this.poll = interval(15000)
         .pipe(
           startWith(0),
           switchMap(() => this.adminService.longPoll(data.data))
         )
         .subscribe(res => {
           console.log(res.data)
-          if (res.data.length >= 6) {
-            this.poll.unsubscribe();
-            this.adminService.getFplan(this.routeId).subscribe(data => {
-              // console.log(data)
-              this.routeDet.arrivaltime = data.data.arrivaltime;
-              this.departure_time = data.data.departuretime;
-              this.routeDet.departuretime = data.data.departuretime;
-              this.routeDet.fuel = data.data.fuelcalc.reqdfuel;
-              this.routeDet.distance = data.data.gcdist;
-              this.routeDet.fplan = { ...data.data.fplan };
-              console.log(this.routeDet)
-              this.result = JSON.stringify(this.routeDet, undefined, 2)
-              this.adminService.addRoute(this.reference_id,
-                this.routeId,
-                this.ops_crew._id,
-                this.pic_crew._id,
-                this.fo_crew._id,
-                this.ops_crew.name,
-                this.pic_crew.name,
-                this.fo_crew.name,
-                this.aircraft.aircraftId,
-                this.currentLoc.icao,
-                this.departure_airport.icao,
-                this.fromHandler._id,
-                this.dangerous,
-                this.type,
-                this.pax,
-                this.cargo, 'positionFrom', this.routeDet.arrivaltime, this.routeDet.departuretime, this.routeDet.fuel, this.routeDet.distance, this.routeDet.fplan).subscribe(data => {
-                  console.log('ROUTE ADDED ', data)
-                  this.positionFromDep = this.currentLoc.icao
-                  this.positionFromArr = this.departure_airport.icao
-                  this.positionFromDepT = this.routeDet.departuretime
-                  this.positionFromArrT = this.routeDet.arrivaltime
-                  this.adminService.getBriefing(this.routeId).subscribe(data => {
-                    console.log('briefing', data)
+          res.data.forEach(element => {
+            if (element.hasOwnProperty('aircraftid')) {
+              this.poll.unsubscribe();
+              this.adminService.getFplan(this.routeId).subscribe(data => {
+                // console.log(data)
+                this.routeDet.arrivaltime = data.data.arrivaltime;
+                this.splitA = data.data.arrivaltime - this.departure_time
+                this.departure_time = data.data.departuretime;
+                this.rotationStart = data.data.departuretime;
+                this.routeDet.departuretime = data.data.departuretime;
+                this.routeDet.fuel = data.data.fuelcalc.reqdfuel;
+                this.routeDet.distance = data.data.gcdist;
+                this.routeDet.fplan = { ...data.data.fplan };
+                console.log(this.routeDet)
+                this.result = JSON.stringify(this.routeDet, undefined, 2)
+                this.adminService.addRoute(this.reference_id,
+                  this.routeId,
+                  this.ops_crew._id,
+                  this.pic_crew._id,
+                  this.fo_crew._id,
+                  this.ops_crew.name,
+                  this.pic_crew.name,
+                  this.fo_crew.name,
+                  this.aircraft.aircraftId,
+                  this.currentLoc.icao,
+                  this.departure_airport.icao,
+                  this.fromHandler._id,
+                  this.dangerous,
+                  this.type,
+                  this.pax,
+                  this.cargo, 'positionFrom', this.routeDet.arrivaltime, this.routeDet.departuretime, this.routeDet.fuel, this.routeDet.distance, this.routeDet.fplan).subscribe(data => {
+                    console.log('ROUTE ADDED ', data)
+                    this.positionFromDep = this.currentLoc.icao
+                    this.positionFromArr = this.departure_airport.icao
+                    this.positionFromDepT = this.routeDet.departuretime
+                    this.positionFromArrT = this.routeDet.arrivaltime
+                    this.adminService.getBriefing(this.routeId).subscribe(data => {
+                      console.log('briefing', data)
+                    })
+                    this.adminService.updateCrew(this.pic_crew._id, this.routeDet.departuretime, this.routeDet.arrivaltime).subscribe(data => {
+                      console.log('updated', data)
+                    })
+                    this.adminService.updateCrew(this.fo_crew._id, this.routeDet.departuretime, this.routeDet.arrivaltime).subscribe(data => {
+                      console.log('updated', data)
+                    })
+                    $('#positionBtn').removeClass('is-loading');
+                    $('#position-from').removeClass('is-active');
+                    $('#position-to').addClass('is-active');
                   })
-                  this.adminService.updateCrew(this.pic_crew._id, this.routeDet.departuretime, this.routeDet.arrivaltime).subscribe(data => {
-                    console.log('updated', data)
-                  })
-                  this.adminService.updateCrew(this.fo_crew._id, this.routeDet.departuretime, this.routeDet.arrivaltime).subscribe(data => {
-                    console.log('updated', data)
-                  })
-                  $('#positionBtn').removeClass('is-loading');
-                  $('#position-from').removeClass('is-active');
-                  $('#position-to').addClass('is-active');
-                })
-            });
-          }
+              });
+            }
+          })
           this.result = JSON.stringify(res.data, undefined, 2)
           console.log(res.data.length)
         });
@@ -526,63 +537,88 @@ export class NewFlightComponent implements OnInit {
       this.routeId = data.data;
       console.log('response ', this.routeId)
       this.result = this.routeId
-      this.poll = interval(5000)
+      this.poll = interval(15000)
         .pipe(
           startWith(0),
           switchMap(() => this.adminService.longPoll(data.data))
         )
         .subscribe(res => {
           console.log(res.data)
-          if (res.data.length >= 6) {
-            this.poll.unsubscribe();
-            this.adminService.getFplan(this.routeId).subscribe(data => {
-              // console.log(data)
-              this.routeDet.arrivaltime = data.data.arrivaltime;
-              this.routeDet.departuretime = data.data.departuretime;
-              this.routeDet.fuel = data.data.fuelcalc.reqdfuel;
-              this.routeDet.distance = data.data.gcdist;
-              this.routeDet.fplan = { ...data.data.fplan };
-              console.log(this.routeDet)
-              this.result = JSON.stringify(this.routeDet, undefined, 2)
-              this.adminService.addRoute(this.reference_id,
-                this.routeId,
-                this.ops_crew._id,
-                this.pic_crew._id,
-                this.fo_crew._id,
-                this.ops_crew.name,
-                this.pic_crew.name,
-                this.fo_crew.name,
-                this.aircraft.aircraftId,
-                this.arrival_airport.icao,
-                this.baseLoc.icao,
-                this.toHandler._id,
-                this.dangerous,
-                this.type,
-                this.pax,
-                this.cargo, 'positionTo', this.routeDet.arrivaltime, this.routeDet.departuretime, this.routeDet.fuel, this.routeDet.distance, this.routeDet.fplan).subscribe(data => {
-                  console.log('ROUTE ADDED ', data)
-                  console.log('DEPARTURE ROUTE ADDED ', this.departure_time)
-                  this.positionToDep = this.arrival_airport.icao
-                  this.positionToArr = this.baseLoc.icao
-                  this.positionToDepT = this.routeDet.departuretime
-                  this.positionToArrT = this.routeDet.arrivaltime
-                  this.adminService.getBriefing(this.routeId).subscribe(data => {
-                    console.log('briefing', data)
+          res.data.forEach(element => {
+            if (element.hasOwnProperty('aircraftid')) {
+              this.poll.unsubscribe();
+              this.adminService.getFplan(this.routeId).subscribe(data => {
+                // console.log(data)
+                this.routeDet.arrivaltime = data.data.arrivaltime;
+                this.splitB = data.data.departuretime - this.arrival_time
+                this.rotationEnd = data.data.arrivaltime
+                this.rotationLength = this.rotationEnd - this.rotationStart
+                var rotationStartHour = new Date(this.rotationStart*1000).getHours()
+                var rotationEndHour = new Date(this.rotationEnd*1000).getHours()
+                var wocle = this.wocle(rotationStartHour, rotationEndHour)
+                var splittime = this.splitA + this.splitB
+                var fdt = (this.rotationEnd - this.rotationStart) + 3600 + splittime
+                var actualTOR = this.rotationLength + (wocle * 2)
+                console.log('rotatStart ', this.rotationStart)
+                console.log('rotatEnd ', this.rotationEnd)
+                console.log('wocleS ', rotationStartHour)
+                console.log('wocleE ', rotationEndHour)
+                console.log('wocle ', wocle)
+                console.log('fdt ', fdt)
+                console.log('split ', splittime)
+                console.log('actualTOR ', actualTOR)
+                this.routeDet.departuretime = data.data.departuretime;
+                this.routeDet.fuel = data.data.fuelcalc.reqdfuel;
+                this.routeDet.distance = data.data.gcdist;
+                this.routeDet.fplan = { ...data.data.fplan };
+                console.log(this.routeDet)
+                this.result = JSON.stringify(this.routeDet, undefined, 2)
+                this.result = {
+                  "FDT": fdt,
+                  "TOR": actualTOR,
+                  "WOCLE": wocle,
+                  "SPLIT TIME": splittime
+                }
+                this.adminService.addRoute(this.reference_id,
+                  this.routeId,
+                  this.ops_crew._id,
+                  this.pic_crew._id,
+                  this.fo_crew._id,
+                  this.ops_crew.name,
+                  this.pic_crew.name,
+                  this.fo_crew.name,
+                  this.aircraft.aircraftId,
+                  this.arrival_airport.icao,
+                  this.baseLoc.icao,
+                  this.toHandler._id,
+                  this.dangerous,
+                  this.type,
+                  this.pax,
+                  this.cargo, 'positionTo', this.routeDet.arrivaltime, this.routeDet.departuretime, this.routeDet.fuel, this.routeDet.distance, this.routeDet.fplan).subscribe(data => {
+                    console.log('ROUTE ADDED ', data)
+                    console.log('DEPARTURE ROUTE ADDED ', this.departure_time)
+                    this.positionToDep = this.arrival_airport.icao
+                    this.positionToArr = this.baseLoc.icao
+                    this.positionToDepT = this.routeDet.departuretime
+                    this.positionToArrT = this.routeDet.arrivaltime
+                    this.adminService.getBriefing(this.routeId).subscribe(data => {
+                      console.log('briefing', data)
+                    })
+                    this.adminService.updateCrew(this.pic_crew._id, this.positionFromDepT, this.routeDet.arrivaltime).subscribe(data => {
+                      console.log('updated', data)
+                    })
+                    this.adminService.updateCrew(this.fo_crew._id, this.positionFromDepT, this.routeDet.arrivaltime).subscribe(data => {
+                      console.log('updated', data)
+                    })
+                    $('#suggested').addClass('is-active')
+                    this.positionTo = data.data._id
+                    // this.addFlight()
                   })
-                  this.adminService.updateCrew(this.pic_crew._id, this.positionFromDepT, this.routeDet.arrivaltime).subscribe(data => {
-                    console.log('updated', data)
-                  })
-                  this.adminService.updateCrew(this.fo_crew._id, this.positionFromDepT, this.routeDet.arrivaltime).subscribe(data => {
-                    console.log('updated', data)
-                  })
-                  $('#suggested').addClass('is-active')
-                  this.positionTo = data.data._id
-                  // this.addFlight()
-                })
-              $('#positionToBtn').removeClass('is-loading');
-              $('#position-to').removeClass('is-active');
-            });
-          }
+                $('#positionToBtn').removeClass('is-loading');
+                $('#position-to').removeClass('is-active');
+              });
+            }
+          })
           this.result = JSON.stringify(res.data, undefined, 2)
           console.log(res.data.length)
         });
@@ -607,5 +643,19 @@ export class NewFlightComponent implements OnInit {
     $('#positionBtn').removeClass('is-loading');
     $('#resetFrom').removeClass('is-hidden');
     $('#cancelFrom').addClass('is-hidden');
+  }
+  wocle(x, y) {
+    if (x >= 2 && x <= 6 && y >= 2 && y <= 6) {
+      return y - x
+    }
+    else if (x >= 2 && x <= 6 && y >= 2 && y > 6) {
+      return 6 - x
+    }
+    else if (x < 2 || x > 6 && y >= 2 && y <= 6) {
+      return y - 2
+    }
+    else {
+      return 0
+    }
   }
 }

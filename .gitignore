@@ -5,6 +5,7 @@
 /dist-server
 /tmp
 /out-tsc
+/server/routes/briefing
 
 # dependencies
 /node_modules

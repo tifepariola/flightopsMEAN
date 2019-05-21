@@ -333,7 +333,7 @@ export class AdminService {
       })
     });
   }
-  addAircraftDB(aircraft: string ): Observable<any> {
+  addAircraftDB(aircraft: number ): Observable<any> {
     return Observable.create(observer => {
       this.http.post('/api/aircraft', {
         aircraft

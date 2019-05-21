@@ -4334,59 +4334,61 @@ var NewFlightComponent = /** @class */ (function () {
             _this.routeId = data.data;
             console.log('response ', _this.routeId);
             _this.result = _this.routeId;
-            _this.poll = Object(rxjs__WEBPACK_IMPORTED_MODULE_4__["interval"])(5000)
+            _this.poll = Object(rxjs__WEBPACK_IMPORTED_MODULE_4__["interval"])(15000)
                 .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["startWith"])(0), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["switchMap"])(function () { return _this.adminService.longPoll(data.data); }))
                 .subscribe(function (res) {
                 console.log(res.data);
-                if (res.data.length >= 6) {
-                    _this.poll.unsubscribe();
-                    _this.adminService.getFplan(_this.routeId).subscribe(function (data) {
-                        console.log(data);
-                        _this.arrival_time = data.data.arrivaltime;
-                        _this.departure_time = data.data.departuretime;
-                        _this.routeDet.arrivaltime = data.data.arrivaltime;
-                        _this.routeDet.departuretime = data.data.departuretime;
-                        _this.routeDet.fuel = data.data.fuelcalc.reqdfuel;
-                        _this.routeDet.distance = data.data.gcdist;
-                        _this.routeDet.fplan = __assign({}, data.data.fplan);
-                        console.log('rou', _this.routeDet);
-                        _this.result = JSON.stringify(_this.routeDet, undefined, 2);
-                        // $('#addBtn').removeClass('is-loading');
-                        _this.adminService.getCrewByOccupation('PIC').subscribe(function (data) {
-                            console.log('crewPIC', data.data);
-                            data.data.some(function (element) {
-                                // console.log(Date.parse(this.departure_time) / 1000 - element.unavailable)
-                                var subtract = Date.parse(_this.departure_time) / 1000 - element.unavailableTo;
-                                _this.pic_crew = element;
-                                return subtract >= 0;
-                            });
-                            _this.adminService.getCrewByOccupation('FO').subscribe(function (data) {
-                                console.log('crewFO', data.data);
+                res.data.forEach(function (element) {
+                    if (element.hasOwnProperty('aircraftid')) {
+                        _this.poll.unsubscribe();
+                        _this.adminService.getFplan(_this.routeId).subscribe(function (data) {
+                            console.log(data);
+                            _this.arrival_time = data.data.arrivaltime;
+                            _this.departure_time = data.data.departuretime;
+                            _this.routeDet.arrivaltime = data.data.arrivaltime;
+                            _this.routeDet.departuretime = data.data.departuretime;
+                            _this.routeDet.fuel = data.data.fuelcalc.reqdfuel;
+                            _this.routeDet.distance = data.data.gcdist;
+                            _this.routeDet.fplan = __assign({}, data.data.fplan);
+                            console.log('rou', _this.routeDet);
+                            _this.result = JSON.stringify(_this.routeDet, undefined, 2);
+                            // $('#addBtn').removeClass('is-loading');
+                            _this.adminService.getCrewByOccupation('PIC').subscribe(function (data) {
+                                console.log('crewPIC', data.data);
                                 data.data.some(function (element) {
                                     // console.log(Date.parse(this.departure_time) / 1000 - element.unavailable)
                                     var subtract = Date.parse(_this.departure_time) / 1000 - element.unavailableTo;
-                                    _this.fo_crew = element;
+                                    _this.pic_crew = element;
                                     return subtract >= 0;
                                 });
-                                _this.adminService.addRoute(_this.reference_id, _this.routeId, _this.ops_crew._id, _this.pic_crew._id, _this.fo_crew._id, _this.ops_crew.name, _this.pic_crew.name, _this.fo_crew.name, _this.aircraft.aircraftId, _this.departure_airport.icao, _this.arrival_airport.icao, _this.handler._id, _this.dangerous, _this.type, _this.pax, _this.cargo, 'live', _this.routeDet.arrivaltime, _this.routeDet.departuretime, _this.routeDet.fuel, _this.routeDet.distance, _this.routeDet.fplan).subscribe(function (data) {
-                                    jquery__WEBPACK_IMPORTED_MODULE_1__('#position-from').addClass('is-active');
-                                    _this.lastLiveFlight();
-                                    _this.currentLoc = {};
-                                    _this.currentLoc.name = '';
-                                    console.log('ROUTE ADDED ', data);
-                                    _this.LiveDep = _this.departure_airport.icao;
-                                    _this.LiveArr = _this.arrival_airport.icao;
-                                    _this.LiveDepT = _this.routeDet.departuretime;
-                                    _this.LiveArr = _this.routeDet.arrivaltime;
-                                    _this.liveLeg = data.data._id;
-                                    _this.adminService.getBriefing(_this.routeId).subscribe(function (data) {
-                                        console.log('briefing', data);
+                                _this.adminService.getCrewByOccupation('FO').subscribe(function (data) {
+                                    console.log('crewFO', data.data);
+                                    data.data.some(function (element) {
+                                        // console.log(Date.parse(this.departure_time) / 1000 - element.unavailable)
+                                        var subtract = Date.parse(_this.departure_time) / 1000 - element.unavailableTo;
+                                        _this.fo_crew = element;
+                                        return subtract >= 0;
+                                    });
+                                    _this.adminService.addRoute(_this.reference_id, _this.routeId, _this.ops_crew._id, _this.pic_crew._id, _this.fo_crew._id, _this.ops_crew.name, _this.pic_crew.name, _this.fo_crew.name, _this.aircraft.aircraftId, _this.departure_airport.icao, _this.arrival_airport.icao, _this.handler._id, _this.dangerous, _this.type, _this.pax, _this.cargo, 'live', _this.routeDet.arrivaltime, _this.routeDet.departuretime, _this.routeDet.fuel, _this.routeDet.distance, _this.routeDet.fplan).subscribe(function (data) {
+                                        jquery__WEBPACK_IMPORTED_MODULE_1__('#position-from').addClass('is-active');
+                                        _this.lastLiveFlight();
+                                        _this.currentLoc = {};
+                                        _this.currentLoc.name = '';
+                                        console.log('ROUTE ADDED ', data);
+                                        _this.LiveDep = _this.departure_airport.icao;
+                                        _this.LiveArr = _this.arrival_airport.icao;
+                                        _this.LiveDepT = _this.routeDet.departuretime;
+                                        _this.LiveArr = _this.routeDet.arrivaltime;
+                                        _this.liveLeg = data.data._id;
+                                        _this.adminService.getBriefing(_this.routeId).subscribe(function (data) {
+                                            console.log('briefing', data);
+                                        });
                                     });
                                 });
                             });
                         });
-                    });
-                }
+                    }
+                });
                 _this.result = JSON.stringify(res.data, undefined, 2);
             });
         });
@@ -4409,43 +4411,47 @@ var NewFlightComponent = /** @class */ (function () {
             _this.routeId = data.data;
             console.log('response ', _this.routeId);
             _this.result = _this.routeId;
-            _this.poll = Object(rxjs__WEBPACK_IMPORTED_MODULE_4__["interval"])(5000)
+            _this.poll = Object(rxjs__WEBPACK_IMPORTED_MODULE_4__["interval"])(15000)
                 .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["startWith"])(0), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["switchMap"])(function () { return _this.adminService.longPoll(data.data); }))
                 .subscribe(function (res) {
                 console.log(res.data);
-                if (res.data.length >= 6) {
-                    _this.poll.unsubscribe();
-                    _this.adminService.getFplan(_this.routeId).subscribe(function (data) {
-                        // console.log(data)
-                        _this.routeDet.arrivaltime = data.data.arrivaltime;
-                        _this.departure_time = data.data.departuretime;
-                        _this.routeDet.departuretime = data.data.departuretime;
-                        _this.routeDet.fuel = data.data.fuelcalc.reqdfuel;
-                        _this.routeDet.distance = data.data.gcdist;
-                        _this.routeDet.fplan = __assign({}, data.data.fplan);
-                        console.log(_this.routeDet);
-                        _this.result = JSON.stringify(_this.routeDet, undefined, 2);
-                        _this.adminService.addRoute(_this.reference_id, _this.routeId, _this.ops_crew._id, _this.pic_crew._id, _this.fo_crew._id, _this.ops_crew.name, _this.pic_crew.name, _this.fo_crew.name, _this.aircraft.aircraftId, _this.currentLoc.icao, _this.departure_airport.icao, _this.fromHandler._id, _this.dangerous, _this.type, _this.pax, _this.cargo, 'positionFrom', _this.routeDet.arrivaltime, _this.routeDet.departuretime, _this.routeDet.fuel, _this.routeDet.distance, _this.routeDet.fplan).subscribe(function (data) {
-                            console.log('ROUTE ADDED ', data);
-                            _this.positionFromDep = _this.currentLoc.icao;
-                            _this.positionFromArr = _this.departure_airport.icao;
-                            _this.positionFromDepT = _this.routeDet.departuretime;
-                            _this.positionFromArrT = _this.routeDet.arrivaltime;
-                            _this.adminService.getBriefing(_this.routeId).subscribe(function (data) {
-                                console.log('briefing', data);
+                res.data.forEach(function (element) {
+                    if (element.hasOwnProperty('aircraftid')) {
+                        _this.poll.unsubscribe();
+                        _this.adminService.getFplan(_this.routeId).subscribe(function (data) {
+                            // console.log(data)
+                            _this.routeDet.arrivaltime = data.data.arrivaltime;
+                            _this.splitA = data.data.arrivaltime - _this.departure_time;
+                            _this.departure_time = data.data.departuretime;
+                            _this.rotationStart = data.data.departuretime;
+                            _this.routeDet.departuretime = data.data.departuretime;
+                            _this.routeDet.fuel = data.data.fuelcalc.reqdfuel;
+                            _this.routeDet.distance = data.data.gcdist;
+                            _this.routeDet.fplan = __assign({}, data.data.fplan);
+                            console.log(_this.routeDet);
+                            _this.result = JSON.stringify(_this.routeDet, undefined, 2);
+                            _this.adminService.addRoute(_this.reference_id, _this.routeId, _this.ops_crew._id, _this.pic_crew._id, _this.fo_crew._id, _this.ops_crew.name, _this.pic_crew.name, _this.fo_crew.name, _this.aircraft.aircraftId, _this.currentLoc.icao, _this.departure_airport.icao, _this.fromHandler._id, _this.dangerous, _this.type, _this.pax, _this.cargo, 'positionFrom', _this.routeDet.arrivaltime, _this.routeDet.departuretime, _this.routeDet.fuel, _this.routeDet.distance, _this.routeDet.fplan).subscribe(function (data) {
+                                console.log('ROUTE ADDED ', data);
+                                _this.positionFromDep = _this.currentLoc.icao;
+                                _this.positionFromArr = _this.departure_airport.icao;
+                                _this.positionFromDepT = _this.routeDet.departuretime;
+                                _this.positionFromArrT = _this.routeDet.arrivaltime;
+                                _this.adminService.getBriefing(_this.routeId).subscribe(function (data) {
+                                    console.log('briefing', data);
+                                });
+                                _this.adminService.updateCrew(_this.pic_crew._id, _this.routeDet.departuretime, _this.routeDet.arrivaltime).subscribe(function (data) {
+                                    console.log('updated', data);
+                                });
+                                _this.adminService.updateCrew(_this.fo_crew._id, _this.routeDet.departuretime, _this.routeDet.arrivaltime).subscribe(function (data) {
+                                    console.log('updated', data);
+                                });
+                                jquery__WEBPACK_IMPORTED_MODULE_1__('#positionBtn').removeClass('is-loading');
+                                jquery__WEBPACK_IMPORTED_MODULE_1__('#position-from').removeClass('is-active');
+                                jquery__WEBPACK_IMPORTED_MODULE_1__('#position-to').addClass('is-active');
                             });
-                            _this.adminService.updateCrew(_this.pic_crew._id, _this.routeDet.departuretime, _this.routeDet.arrivaltime).subscribe(function (data) {
-                                console.log('updated', data);
-                            });
-                            _this.adminService.updateCrew(_this.fo_crew._id, _this.routeDet.departuretime, _this.routeDet.arrivaltime).subscribe(function (data) {
-                                console.log('updated', data);
-                            });
-                            jquery__WEBPACK_IMPORTED_MODULE_1__('#positionBtn').removeClass('is-loading');
-                            jquery__WEBPACK_IMPORTED_MODULE_1__('#position-from').removeClass('is-active');
-                            jquery__WEBPACK_IMPORTED_MODULE_1__('#position-to').addClass('is-active');
                         });
-                    });
-                }
+                    }
+                });
                 _this.result = JSON.stringify(res.data, undefined, 2);
                 console.log(res.data.length);
             });
@@ -4469,45 +4475,70 @@ var NewFlightComponent = /** @class */ (function () {
             _this.routeId = data.data;
             console.log('response ', _this.routeId);
             _this.result = _this.routeId;
-            _this.poll = Object(rxjs__WEBPACK_IMPORTED_MODULE_4__["interval"])(5000)
+            _this.poll = Object(rxjs__WEBPACK_IMPORTED_MODULE_4__["interval"])(15000)
                 .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["startWith"])(0), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["switchMap"])(function () { return _this.adminService.longPoll(data.data); }))
                 .subscribe(function (res) {
                 console.log(res.data);
-                if (res.data.length >= 6) {
-                    _this.poll.unsubscribe();
-                    _this.adminService.getFplan(_this.routeId).subscribe(function (data) {
-                        // console.log(data)
-                        _this.routeDet.arrivaltime = data.data.arrivaltime;
-                        _this.routeDet.departuretime = data.data.departuretime;
-                        _this.routeDet.fuel = data.data.fuelcalc.reqdfuel;
-                        _this.routeDet.distance = data.data.gcdist;
-                        _this.routeDet.fplan = __assign({}, data.data.fplan);
-                        console.log(_this.routeDet);
-                        _this.result = JSON.stringify(_this.routeDet, undefined, 2);
-                        _this.adminService.addRoute(_this.reference_id, _this.routeId, _this.ops_crew._id, _this.pic_crew._id, _this.fo_crew._id, _this.ops_crew.name, _this.pic_crew.name, _this.fo_crew.name, _this.aircraft.aircraftId, _this.arrival_airport.icao, _this.baseLoc.icao, _this.toHandler._id, _this.dangerous, _this.type, _this.pax, _this.cargo, 'positionTo', _this.routeDet.arrivaltime, _this.routeDet.departuretime, _this.routeDet.fuel, _this.routeDet.distance, _this.routeDet.fplan).subscribe(function (data) {
-                            console.log('ROUTE ADDED ', data);
-                            console.log('DEPARTURE ROUTE ADDED ', _this.departure_time);
-                            _this.positionToDep = _this.arrival_airport.icao;
-                            _this.positionToArr = _this.baseLoc.icao;
-                            _this.positionToDepT = _this.routeDet.departuretime;
-                            _this.positionToArrT = _this.routeDet.arrivaltime;
-                            _this.adminService.getBriefing(_this.routeId).subscribe(function (data) {
-                                console.log('briefing', data);
+                res.data.forEach(function (element) {
+                    if (element.hasOwnProperty('aircraftid')) {
+                        _this.poll.unsubscribe();
+                        _this.adminService.getFplan(_this.routeId).subscribe(function (data) {
+                            // console.log(data)
+                            _this.routeDet.arrivaltime = data.data.arrivaltime;
+                            _this.splitB = data.data.departuretime - _this.arrival_time;
+                            _this.rotationEnd = data.data.arrivaltime;
+                            _this.rotationLength = _this.rotationEnd - _this.rotationStart;
+                            var rotationStartHour = new Date(_this.rotationStart * 1000).getHours();
+                            var rotationEndHour = new Date(_this.rotationEnd * 1000).getHours();
+                            var wocle = _this.wocle(rotationStartHour, rotationEndHour);
+                            var splittime = _this.splitA + _this.splitB;
+                            var fdt = (_this.rotationEnd - _this.rotationStart) + 3600 + splittime;
+                            var actualTOR = _this.rotationLength + (wocle * 2);
+                            console.log('rotatStart ', _this.rotationStart);
+                            console.log('rotatEnd ', _this.rotationEnd);
+                            console.log('wocleS ', rotationStartHour);
+                            console.log('wocleE ', rotationEndHour);
+                            console.log('wocle ', wocle);
+                            console.log('fdt ', fdt);
+                            console.log('split ', splittime);
+                            console.log('actualTOR ', actualTOR);
+                            _this.routeDet.departuretime = data.data.departuretime;
+                            _this.routeDet.fuel = data.data.fuelcalc.reqdfuel;
+                            _this.routeDet.distance = data.data.gcdist;
+                            _this.routeDet.fplan = __assign({}, data.data.fplan);
+                            console.log(_this.routeDet);
+                            _this.result = JSON.stringify(_this.routeDet, undefined, 2);
+                            _this.result = {
+                                "FDT": fdt,
+                                "TOR": actualTOR,
+                                "WOCLE": wocle,
+                                "SPLIT TIME": splittime
+                            };
+                            _this.adminService.addRoute(_this.reference_id, _this.routeId, _this.ops_crew._id, _this.pic_crew._id, _this.fo_crew._id, _this.ops_crew.name, _this.pic_crew.name, _this.fo_crew.name, _this.aircraft.aircraftId, _this.arrival_airport.icao, _this.baseLoc.icao, _this.toHandler._id, _this.dangerous, _this.type, _this.pax, _this.cargo, 'positionTo', _this.routeDet.arrivaltime, _this.routeDet.departuretime, _this.routeDet.fuel, _this.routeDet.distance, _this.routeDet.fplan).subscribe(function (data) {
+                                console.log('ROUTE ADDED ', data);
+                                console.log('DEPARTURE ROUTE ADDED ', _this.departure_time);
+                                _this.positionToDep = _this.arrival_airport.icao;
+                                _this.positionToArr = _this.baseLoc.icao;
+                                _this.positionToDepT = _this.routeDet.departuretime;
+                                _this.positionToArrT = _this.routeDet.arrivaltime;
+                                _this.adminService.getBriefing(_this.routeId).subscribe(function (data) {
+                                    console.log('briefing', data);
+                                });
+                                _this.adminService.updateCrew(_this.pic_crew._id, _this.positionFromDepT, _this.routeDet.arrivaltime).subscribe(function (data) {
+                                    console.log('updated', data);
+                                });
+                                _this.adminService.updateCrew(_this.fo_crew._id, _this.positionFromDepT, _this.routeDet.arrivaltime).subscribe(function (data) {
+                                    console.log('updated', data);
+                                });
+                                jquery__WEBPACK_IMPORTED_MODULE_1__('#suggested').addClass('is-active');
+                                _this.positionTo = data.data._id;
+                                // this.addFlight()
                             });
-                            _this.adminService.updateCrew(_this.pic_crew._id, _this.positionFromDepT, _this.routeDet.arrivaltime).subscribe(function (data) {
-                                console.log('updated', data);
-                            });
-                            _this.adminService.updateCrew(_this.fo_crew._id, _this.positionFromDepT, _this.routeDet.arrivaltime).subscribe(function (data) {
-                                console.log('updated', data);
-                            });
-                            jquery__WEBPACK_IMPORTED_MODULE_1__('#suggested').addClass('is-active');
-                            _this.positionTo = data.data._id;
-                            // this.addFlight()
+                            jquery__WEBPACK_IMPORTED_MODULE_1__('#positionToBtn').removeClass('is-loading');
+                            jquery__WEBPACK_IMPORTED_MODULE_1__('#position-to').removeClass('is-active');
                         });
-                        jquery__WEBPACK_IMPORTED_MODULE_1__('#positionToBtn').removeClass('is-loading');
-                        jquery__WEBPACK_IMPORTED_MODULE_1__('#position-to').removeClass('is-active');
-                    });
-                }
+                    }
+                });
                 _this.result = JSON.stringify(res.data, undefined, 2);
                 console.log(res.data.length);
             });
@@ -4532,6 +4563,20 @@ var NewFlightComponent = /** @class */ (function () {
         jquery__WEBPACK_IMPORTED_MODULE_1__('#positionBtn').removeClass('is-loading');
         jquery__WEBPACK_IMPORTED_MODULE_1__('#resetFrom').removeClass('is-hidden');
         jquery__WEBPACK_IMPORTED_MODULE_1__('#cancelFrom').addClass('is-hidden');
+    };
+    NewFlightComponent.prototype.wocle = function (x, y) {
+        if (x >= 2 && x <= 6 && y >= 2 && y <= 6) {
+            return y - x;
+        }
+        else if (x >= 2 && x <= 6 && y >= 2 && y > 6) {
+            return 6 - x;
+        }
+        else if (x < 2 || x > 6 && y >= 2 && y <= 6) {
+            return y - 2;
+        }
+        else {
+            return 0;
+        }
     };
     NewFlightComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({

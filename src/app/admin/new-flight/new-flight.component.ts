@@ -494,6 +494,8 @@ export class NewFlightComponent implements OnInit {
                   this.pax,
                   this.cargo, 'positionFrom', this.routeDet.arrivaltime, this.routeDet.departuretime, this.routeDet.fuel, this.routeDet.distance, this.routeDet.fplan).subscribe(data => {
                     console.log('ROUTE ADDED ', data)
+                    this.baseLoc = {}
+                    this.baseLoc.name = ''
                     this.positionFromDep = this.currentLoc.icao
                     this.positionFromArr = this.departure_airport.icao
                     this.positionFromDepT = this.routeDet.departuretime

@@ -276,18 +276,26 @@
           <p class="modal-card-title">Position To</p>
         </header>
         <section class="modal-card-body">
-          <div class="columns">
+          <div class="columns" id="chooseTo" *ngIf="baseLoc">
             <div class="column is-5">
               <div class="field">
                 <label class="label">Base Location</label>
                 <div class="control">
-                  <div class="select">
-
-                    <select (ngModelChange)="getHandler($event)" [(ngModel)]="baseLoc" name="baseLoc">
-                      <option>Suggested Base Aiport</option>
-                      <option *ngFor="let airport of airports" [ngValue]="airport">{{airport.name}}
-                      </option>
-                    </select>
+                  <div class="dropdown" id="dptToAir">
+                    <div class="dropdown-trigger">
+                      <input class="input" name="baseLoc" id="baseLoc" autocomplete="off"
+                        [(ngModel)]="baseLoc.name" (input)="getAirports($event.target.value, 'dptToAir')"
+                        type="text" placeholder="Enter Departure Airport" aria-haspopup="true">
+                    </div>
+                    <div class="dropdown-menu" role="menu">
+                      <div class="dropdown-content">
+                        <a (click)="baseLoc = airport;getHandler(airport);hideSearch()" class="dropdown-item"
+                          *ngFor="let airport of airports">
+                          {{airport.name}} ({{airport.icao}})
+                        </a>
+                        <span *ngIf="!airports">Loading...</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

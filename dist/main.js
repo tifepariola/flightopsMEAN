@@ -4338,8 +4338,9 @@ var NewFlightComponent = /** @class */ (function () {
                 .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["startWith"])(0), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["switchMap"])(function () { return _this.adminService.longPoll(data.data); }))
                 .subscribe(function (res) {
                 console.log(res.data);
-                res.data.forEach(function (element) {
-                    if (element.hasOwnProperty('aircraftid')) {
+                for (var _i = 0, _a = res.data; _i < _a.length; _i++) {
+                    var el = _a[_i];
+                    if (el.hasOwnProperty('aircraftid')) {
                         _this.poll.unsubscribe();
                         _this.adminService.getFplan(_this.routeId).subscribe(function (data) {
                             console.log(data);
@@ -4387,8 +4388,9 @@ var NewFlightComponent = /** @class */ (function () {
                                 });
                             });
                         });
+                        break;
                     }
-                });
+                }
                 _this.result = JSON.stringify(res.data, undefined, 2);
             });
         });
@@ -4415,13 +4417,14 @@ var NewFlightComponent = /** @class */ (function () {
                 .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["startWith"])(0), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["switchMap"])(function () { return _this.adminService.longPoll(data.data); }))
                 .subscribe(function (res) {
                 console.log(res.data);
-                res.data.forEach(function (element) {
-                    if (element.hasOwnProperty('aircraftid')) {
+                for (var _i = 0, _a = res.data; _i < _a.length; _i++) {
+                    var el = _a[_i];
+                    if (el.hasOwnProperty('aircraftid')) {
                         _this.poll.unsubscribe();
                         _this.adminService.getFplan(_this.routeId).subscribe(function (data) {
                             // console.log(data)
                             _this.routeDet.arrivaltime = data.data.arrivaltime;
-                            _this.splitA = data.data.arrivaltime - _this.departure_time;
+                            _this.splitA = _this.departure_time - data.data.arrivaltime;
                             _this.departure_time = data.data.departuretime;
                             _this.rotationStart = data.data.departuretime;
                             _this.routeDet.departuretime = data.data.departuretime;
@@ -4429,6 +4432,7 @@ var NewFlightComponent = /** @class */ (function () {
                             _this.routeDet.distance = data.data.gcdist;
                             _this.routeDet.fplan = __assign({}, data.data.fplan);
                             console.log(_this.routeDet);
+                            console.log('split A', _this.splitA);
                             _this.result = JSON.stringify(_this.routeDet, undefined, 2);
                             _this.adminService.addRoute(_this.reference_id, _this.routeId, _this.ops_crew._id, _this.pic_crew._id, _this.fo_crew._id, _this.ops_crew.name, _this.pic_crew.name, _this.fo_crew.name, _this.aircraft.aircraftId, _this.currentLoc.icao, _this.departure_airport.icao, _this.fromHandler._id, _this.dangerous, _this.type, _this.pax, _this.cargo, 'positionFrom', _this.routeDet.arrivaltime, _this.routeDet.departuretime, _this.routeDet.fuel, _this.routeDet.distance, _this.routeDet.fplan).subscribe(function (data) {
                                 console.log('ROUTE ADDED ', data);
@@ -4452,8 +4456,9 @@ var NewFlightComponent = /** @class */ (function () {
                                 jquery__WEBPACK_IMPORTED_MODULE_1__('#position-to').addClass('is-active');
                             });
                         });
+                        break;
                     }
-                });
+                }
                 _this.result = JSON.stringify(res.data, undefined, 2);
                 console.log(res.data.length);
             });
@@ -4465,7 +4470,7 @@ var NewFlightComponent = /** @class */ (function () {
         jquery__WEBPACK_IMPORTED_MODULE_1__('#resetTo').addClass('is-hidden');
         jquery__WEBPACK_IMPORTED_MODULE_1__('#cancelTo').removeClass('is-hidden');
         var layToTime = this.toLayOver * 60;
-        var departTime = this.departure_time + layToTime;
+        var departTime = this.arrival_time + layToTime;
         console.log(departTime);
         var data = {
             aircraftid: this.aircraft.aircraftId,
@@ -4481,13 +4486,15 @@ var NewFlightComponent = /** @class */ (function () {
                 .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["startWith"])(0), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["switchMap"])(function () { return _this.adminService.longPoll(data.data); }))
                 .subscribe(function (res) {
                 console.log(res.data);
-                res.data.forEach(function (element) {
-                    if (element.hasOwnProperty('aircraftid')) {
+                for (var _i = 0, _a = res.data; _i < _a.length; _i++) {
+                    var el = _a[_i];
+                    if (el.hasOwnProperty('aircraftid')) {
                         _this.poll.unsubscribe();
                         _this.adminService.getFplan(_this.routeId).subscribe(function (data) {
                             // console.log(data)
                             _this.routeDet.arrivaltime = data.data.arrivaltime;
                             _this.splitB = data.data.departuretime - _this.arrival_time;
+                            console.log('split B', _this.splitB);
                             _this.rotationEnd = data.data.arrivaltime;
                             _this.rotationLength = _this.rotationEnd - _this.rotationStart;
                             var rotationStartHour = new Date(_this.rotationStart * 1000).getHours();
@@ -4539,8 +4546,9 @@ var NewFlightComponent = /** @class */ (function () {
                             jquery__WEBPACK_IMPORTED_MODULE_1__('#positionToBtn').removeClass('is-loading');
                             jquery__WEBPACK_IMPORTED_MODULE_1__('#position-to').removeClass('is-active');
                         });
+                        break;
                     }
-                });
+                }
                 _this.result = JSON.stringify(res.data, undefined, 2);
                 console.log(res.data.length);
             });

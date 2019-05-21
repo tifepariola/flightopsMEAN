@@ -362,8 +362,8 @@ export class NewFlightComponent implements OnInit {
         )
         .subscribe(res => {
           console.log(res.data);
-          res.data.forEach(element => {
-            if (element.hasOwnProperty('aircraftid')) {
+          for (const el of res.data) {
+            if (el.hasOwnProperty('aircraftid')) {
               this.poll.unsubscribe();
               this.adminService.getFplan(this.routeId).subscribe(data => {
                 console.log(data);
@@ -429,8 +429,9 @@ export class NewFlightComponent implements OnInit {
                   });
                 });
               });
+              break;
             }
-          });
+          }
           this.result = JSON.stringify(res.data, undefined, 2);
         });
     });
@@ -461,13 +462,13 @@ export class NewFlightComponent implements OnInit {
         )
         .subscribe(res => {
           console.log(res.data);
-          res.data.forEach(element => {
-            if (element.hasOwnProperty('aircraftid')) {
+          for (const el of res.data) {
+            if (el.hasOwnProperty('aircraftid')) {
               this.poll.unsubscribe();
               this.adminService.getFplan(this.routeId).subscribe(data => {
                 // console.log(data)
                 this.routeDet.arrivaltime = data.data.arrivaltime;
-                this.splitA = data.data.arrivaltime - this.departure_time;
+                this.splitA = this.departure_time - data.data.arrivaltime;
                 this.departure_time = data.data.departuretime;
                 this.rotationStart = data.data.departuretime;
                 this.routeDet.departuretime = data.data.departuretime;
@@ -475,6 +476,7 @@ export class NewFlightComponent implements OnInit {
                 this.routeDet.distance = data.data.gcdist;
                 this.routeDet.fplan = { ...data.data.fplan };
                 console.log(this.routeDet);
+                console.log('split A', this.splitA);
                 this.result = JSON.stringify(this.routeDet, undefined, 2);
                 this.adminService.addRoute(this.reference_id,
                   this.routeId,
@@ -513,8 +515,9 @@ export class NewFlightComponent implements OnInit {
                     $('#position-to').addClass('is-active');
                   });
               });
+              break;
             }
-          });
+          }
           this.result = JSON.stringify(res.data, undefined, 2);
           console.log(res.data.length);
         });
@@ -526,7 +529,7 @@ export class NewFlightComponent implements OnInit {
     $('#cancelTo').removeClass('is-hidden');
     const layToTime = this.toLayOver * 60;
 
-    const departTime = this.departure_time + layToTime;
+    const departTime = this.arrival_time + layToTime;
     console.log(departTime);
     const data = {
       aircraftid: this.aircraft.aircraftId,
@@ -545,13 +548,14 @@ export class NewFlightComponent implements OnInit {
         )
         .subscribe(res => {
           console.log(res.data);
-          res.data.forEach(element => {
-            if (element.hasOwnProperty('aircraftid')) {
+          for (const el of res.data) {
+            if (el.hasOwnProperty('aircraftid')) {
               this.poll.unsubscribe();
               this.adminService.getFplan(this.routeId).subscribe(data => {
                 // console.log(data)
                 this.routeDet.arrivaltime = data.data.arrivaltime;
                 this.splitB = data.data.departuretime - this.arrival_time;
+                console.log('split B', this.splitB);
                 this.rotationEnd = data.data.arrivaltime;
                 this.rotationLength = this.rotationEnd - this.rotationStart;
                 const rotationStartHour = new Date(this.rotationStart * 1000).getHours();
@@ -618,8 +622,9 @@ export class NewFlightComponent implements OnInit {
                 $('#positionToBtn').removeClass('is-loading');
                 $('#position-to').removeClass('is-active');
               });
+              break;
             }
-          });
+          }
           this.result = JSON.stringify(res.data, undefined, 2);
           console.log(res.data.length);
         });

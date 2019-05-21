@@ -1,9 +1,9 @@
 import { Component, OnInit, Renderer2, Inject } from '@angular/core';
 import * as $ from 'jquery';
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute } from '@angular/router';
 import { AdminService } from '../admin.service';
 import { interval } from 'rxjs';
-import { startWith, switchMap, single } from "rxjs/operators";
+import { startWith, switchMap, single } from 'rxjs/operators';
 import { FlatpickrOptions } from 'ng2-flatpickr';
 import { DOCUMENT } from '@angular/platform-browser';
 
@@ -26,7 +26,7 @@ export class NewFlightComponent implements OnInit {
   exampleOptions: FlatpickrOptions = {
     enableTime: true,
     defaultDate: this.departure_time,
-    mode: "single"
+    mode: 'single'
   };
   result: any;
   aircraft: any;
@@ -73,7 +73,7 @@ export class NewFlightComponent implements OnInit {
   LiveDep: any;
   LiveArr: any;
   LiveDepT: number;
-  flightRoute: any
+  flightRoute: any;
   poll: any;
   airportss: any;
   airport: never[];
@@ -93,15 +93,15 @@ export class NewFlightComponent implements OnInit {
   sale: {};
   id: string;
   ngOnInit() {
-    this.departure_airport = {}
-    this.departure_airport.name = ''
-    this.arrival_airport = {}
-    this.arrival_airport.name = ''
-    this.id = this.route.snapshot.paramMap.get("id")
+    this.departure_airport = {};
+    this.departure_airport.name = '';
+    this.arrival_airport = {};
+    this.arrival_airport.name = '';
+    this.id = this.route.snapshot.paramMap.get('id');
     console.log(this.id);
     $('.delete').on('click', function () {
       $('#suggested').removeClass('is-active');
-    })
+    });
 
     this.getAircrafts();
     // this.sendMail();
@@ -109,7 +109,7 @@ export class NewFlightComponent implements OnInit {
       this.getSale();
     } else {
       this.sale = 'new';
-      $('.ng2-flatpickr-input').addClass('input')
+      $('.ng2-flatpickr-input').addClass('input');
 
     }
     $('#tabs li').on('click', function () {
@@ -121,13 +121,13 @@ export class NewFlightComponent implements OnInit {
       $('#tab-content div').removeClass('is-active');
       $('div[data-content="' + tab + '"]').addClass('is-active');
     });
-    this.getCrewByOccupation()
+    this.getCrewByOccupation();
   }
   getAircrafts(): void {
     this.adminService.getAircrafts().subscribe(data => {
       this.aircrafts = data.data;
-      console.log('aircrafts ', this.aircrafts)
-    })
+      console.log('aircrafts ', this.aircrafts);
+    });
   }
   distance(lat1, lon1, lat2, lon2, unit) {
     if ((lat1 == lat2) && (lon1 == lon2)) {
@@ -145,19 +145,19 @@ export class NewFlightComponent implements OnInit {
       dist = Math.acos(dist);
       dist = dist * 180 / Math.PI;
       dist = dist * 60 * 1.1515;
-      if (unit == "K") { dist = dist * 1.609344 }
-      if (unit == "N") { dist = dist * 0.8684 }
+      if (unit == 'K') { dist = dist * 1.609344; }
+      if (unit == 'N') { dist = dist * 0.8684; }
       return dist;
     }
   }
   getAirports(keyword, type): void {
     if (keyword.length > 2) {
-      this.airports = []
-      $('#' + type).addClass('is-active')
+      this.airports = [];
+      $('#' + type).addClass('is-active');
       this.adminService.findAirports(keyword).subscribe(data => {
-        console.log('search ', data.data)
-        this.airports = data.data
-      })
+        console.log('search ', data.data);
+        this.airports = data.data;
+      });
     }
   }
   hideSearch(): void {
@@ -171,80 +171,80 @@ export class NewFlightComponent implements OnInit {
       this.departure_time = new Date(data.data.departure);
       this.departure_airport = data.data.origin_airport;
       this.arrival_airport = data.data.destination_airport;
-      console.log('sale ', this.departure_time)
-      $('ng2-flatpickr').addClass('input')
-    })
+      console.log('sale ', this.departure_time);
+      $('ng2-flatpickr').addClass('input');
+    });
   }
   lastLiveFlight(): void {
     this.adminService.lastLiveFlight(this.aircraft.aircraftId).subscribe(data => {
-      this.lastFlight = data.data[0]
-      console.log('last flight', this.lastFlight)
-      this.handleChange('arrival')
-    })
+      this.lastFlight = data.data[0];
+      console.log('last flight', this.lastFlight);
+      this.handleChange('arrival');
+    });
   }
   handleChange(val) {
     if (val === 'arrival') {
-      this.currentLoc = {}
-      this.currentLoc.icao = this.lastFlight.arrival_airport
-      this.currentLoc.name = this.lastFlight.arrival_airport
-      this.fromHandler = {}
-      this.fromHandler._id = this.lastFlight.handler
-      $('#currentLoc').prop("disabled", true);
-      $('#fromHandler').prop("disabled", true);
+      this.currentLoc = {};
+      this.currentLoc.icao = this.lastFlight.arrival_airport;
+      this.currentLoc.name = this.lastFlight.arrival_airport;
+      this.fromHandler = {};
+      this.fromHandler._id = this.lastFlight.handler;
+      $('#currentLoc').prop('disabled', true);
+      $('#fromHandler').prop('disabled', true);
 
     } else {
-      $('#currentLoc').prop("disabled", false);
-      $('#fromHandler').prop("disabled", false);
+      $('#currentLoc').prop('disabled', false);
+      $('#fromHandler').prop('disabled', false);
     }
   }
   createMail(): void {
-    console.log('sending mail')
-    this.sendCrewMail(this.ops_crew.name, 'OPS', this.positionFromDep, this.positionFromArr, this.positionFromDepT)
-    this.sendCrewMail(this.ops_crew.name, 'OPS', this.LiveDep, this.LiveArr, this.LiveDepT)
-    this.sendCrewMail(this.ops_crew.name, 'OPS', this.positionToDep, this.positionToArr, this.positionToDepT)
-    this.sendCrewMail(this.pic_crew.name, 'PIC', this.positionFromDep, this.positionFromArr, this.positionFromDepT)
-    this.sendCrewMail(this.pic_crew.name, 'PIC', this.LiveDep, this.LiveArr, this.LiveDepT)
-    this.sendCrewMail(this.pic_crew.name, 'PIC', this.positionToDep, this.positionToArr, this.positionToDepT)
-    this.sendCrewMail(this.fo_crew.name, 'FO', this.positionFromDep, this.positionFromArr, this.positionFromDepT)
-    this.sendCrewMail(this.fo_crew.name, 'FO', this.LiveDep, this.LiveArr, this.LiveDepT)
-    this.sendCrewMail(this.fo_crew.name, 'FO', this.positionToDep, this.positionToArr, this.positionToDepT)
+    console.log('sending mail');
+    this.sendCrewMail(this.ops_crew.name, 'OPS', this.positionFromDep, this.positionFromArr, this.positionFromDepT);
+    this.sendCrewMail(this.ops_crew.name, 'OPS', this.LiveDep, this.LiveArr, this.LiveDepT);
+    this.sendCrewMail(this.ops_crew.name, 'OPS', this.positionToDep, this.positionToArr, this.positionToDepT);
+    this.sendCrewMail(this.pic_crew.name, 'PIC', this.positionFromDep, this.positionFromArr, this.positionFromDepT);
+    this.sendCrewMail(this.pic_crew.name, 'PIC', this.LiveDep, this.LiveArr, this.LiveDepT);
+    this.sendCrewMail(this.pic_crew.name, 'PIC', this.positionToDep, this.positionToArr, this.positionToDepT);
+    this.sendCrewMail(this.fo_crew.name, 'FO', this.positionFromDep, this.positionFromArr, this.positionFromDepT);
+    this.sendCrewMail(this.fo_crew.name, 'FO', this.LiveDep, this.LiveArr, this.LiveDepT);
+    this.sendCrewMail(this.fo_crew.name, 'FO', this.positionToDep, this.positionToArr, this.positionToDepT);
   }
   createHandlerMail(): void {
-    console.log('sending handler mail')
-    this.sendHandlerMail(this.fromHandler.email_primary, this.fromHandler.name, 'Handler', this.positionFromDep, this.positionFromArr, this.positionFromDepT)
-    this.sendHandlerMail(this.handler.email_primary, this.handler.name, 'Handler', this.LiveDep, this.LiveArr, this.LiveDepT)
-    this.sendHandlerMail(this.toHandler.email_primary, this.toHandler.name, 'Handler', this.positionToDep, this.positionToArr, this.positionToDepT)
+    console.log('sending handler mail');
+    this.sendHandlerMail(this.fromHandler.email_primary, this.fromHandler.name, 'Handler', this.positionFromDep, this.positionFromArr, this.positionFromDepT);
+    this.sendHandlerMail(this.handler.email_primary, this.handler.name, 'Handler', this.LiveDep, this.LiveArr, this.LiveDepT);
+    this.sendHandlerMail(this.toHandler.email_primary, this.toHandler.name, 'Handler', this.positionToDep, this.positionToArr, this.positionToDepT);
   }
   sendCrewMail(name, role, beginning, end, departTime): void {
     this.adminService.getTemplates().subscribe(data => {
-      this.crewTemplate = data.data[0]
-      this.handlerTemplate = data.data[1]
-      var find = ["%crewname%", "%role%", "%flightID%", "%aircraftID%", "%aircraftname%", "%date%", "%time%", "%airportdeparture%", "%airportarrival%", "%link%"];
+      this.crewTemplate = data.data[0];
+      this.handlerTemplate = data.data[1];
+      var find = ['%crewname%', '%role%', '%flightID%', '%aircraftID%', '%aircraftname%', '%date%', '%time%', '%airportdeparture%', '%airportarrival%', '%link%'];
       var replace = [name, role, this.reference_id, this.aircraft.aircraftId, this.aircraft.registration, new Date(departTime * 1000).getDate() + '-' + new Date(departTime * 1000).getMonth() + '-' + new Date(departTime * 1000).getFullYear(), new Date(departTime * 1000).getHours() + ':' + new Date(departTime * 1000).getMinutes() + ':' + new Date(departTime * 1000).getSeconds(), beginning, end, this.reference_id];
-      this.crewTemplate.subject = this.replaceArray(this.crewTemplate.subject, find, replace)
-      this.crewTemplate.message = this.replaceArray(this.crewTemplate.message, find, replace)
+      this.crewTemplate.subject = this.replaceArray(this.crewTemplate.subject, find, replace);
+      this.crewTemplate.message = this.replaceArray(this.crewTemplate.message, find, replace);
       this.adminService.sendMail(this.ops_crew.p_email, this.crewTemplate.subject, this.crewTemplate.message).subscribe(data => {
-        console.log('hello ', data)
-      })
-    })
+        console.log('hello ', data);
+      });
+    });
   }
   sendHandlerMail(email, name, role, beginning, end, departTime): void {
     this.adminService.getTemplates().subscribe(data => {
-      this.handlerTemplate = data.data[1]
-      var find = ["%handlername%", "%role%", "%flightID%", "%aircraftID%", "%aircraftname%", "%date%", "%time%", "%airportdeparture%", "%airportarrival%", "%link%"];
+      this.handlerTemplate = data.data[1];
+      var find = ['%handlername%', '%role%', '%flightID%', '%aircraftID%', '%aircraftname%', '%date%', '%time%', '%airportdeparture%', '%airportarrival%', '%link%'];
       var replace = [name, role, this.reference_id, this.aircraft.aircraftId, this.aircraft.registration, new Date(departTime * 1000).getDate() + '-' + new Date(departTime * 1000).getMonth() + '-' + new Date(departTime * 1000).getFullYear(), new Date(departTime * 1000).getHours() + ':' + new Date(departTime * 1000).getMinutes() + ':' + new Date(departTime * 1000).getSeconds(), beginning, end, this.reference_id];
-      this.handlerTemplate.subject = this.replaceArray(this.handlerTemplate.subject, find, replace)
-      this.handlerTemplate.message = this.replaceArray(this.handlerTemplate.message, find, replace)
+      this.handlerTemplate.subject = this.replaceArray(this.handlerTemplate.subject, find, replace);
+      this.handlerTemplate.message = this.replaceArray(this.handlerTemplate.message, find, replace);
       this.adminService.sendMail('kininteractivesolutions@gmail.com', this.handlerTemplate.subject, this.handlerTemplate.message).subscribe(data => {
-        console.log('hello ', data)
-      })
-    })
+        console.log('hello ', data);
+      });
+    });
   }
   replaceArray = function (text, find, replace) {
     var replaceString = text;
     var regex;
     for (var i = 0; i < find.length; i++) {
-      regex = new RegExp(find[i], "g");
+      regex = new RegExp(find[i], 'g');
       replaceString = replaceString.replace(regex, replace[i]);
     }
     return replaceString;
@@ -252,55 +252,55 @@ export class NewFlightComponent implements OnInit {
   getHandler(airport): void {
     this.adminService.getHandler(airport.icao).subscribe(data => {
       this.handlers = data.data;
-      console.log('handlers ', this.handlers)
-    })
+      console.log('handlers ', this.handlers);
+    });
   }
   paxCargo(choice): void {
     if (choice === 'pax') {
-      $('#cargo').hide()
-      $('#pax').show()
+      $('#cargo').hide();
+      $('#pax').show();
     } else {
-      $('#pax').hide()
-      $('#cargo').show()
+      $('#pax').hide();
+      $('#cargo').show();
     }
   }
   getCrewByOccupation(): void {
     this.adminService.getCrewByOccupation('OPS').subscribe(data => {
       this.ops_crews = data.data;
-      console.log('crews ', this.ops_crews)
-    })
+      console.log('crews ', this.ops_crews);
+    });
   }
   addFlight(): void {
-    console.log(Date.parse(this.departure_time) / 1000)
+    console.log(Date.parse(this.departure_time) / 1000);
     this.adminService.getCrewByOccupation('PIC').subscribe(data => {
-      console.log('crewPIC', data.data)
+      console.log('crewPIC', data.data);
       data.data.some(element => {
         // console.log(Date.parse(this.departure_time) / 1000 - element.unavailable)
         var subtract = Date.parse(this.departure_time) / 1000 - element.unavailableTo;
-        this.pic_crew = element._id
-        this.pic_crew_name = element.name
-        this.pic_crew_email = element.p_email
-        return subtract >= 0
+        this.pic_crew = element._id;
+        this.pic_crew_name = element.name;
+        this.pic_crew_email = element.p_email;
+        return subtract >= 0;
 
       });
       this.adminService.getCrewByOccupation('FO').subscribe(data => {
-        console.log('crewFO', data.data)
+        console.log('crewFO', data.data);
         data.data.some(element => {
           // console.log(Date.parse(this.departure_time) / 1000 - element.unavailable)
           var subtract = Date.parse(this.departure_time) / 1000 - element.unavailableTo;
-          this.fo_crew = element._id
-          this.fo_crew_name = element.name
-          this.fo_crew_email = element.p_email
-          return subtract >= 0
+          this.fo_crew = element._id;
+          this.fo_crew_name = element.name;
+          this.fo_crew_email = element.p_email;
+          return subtract >= 0;
 
         });
         this.adminService.getHandlerDetails(this.handler).subscribe(data => {
-          this.handler_email = data.data.email_primary
+          this.handler_email = data.data.email_primary;
           this.adminService.getCrew(this.ops_crew._id).subscribe(data => {
-            this.ops_crew_name = data.data.name
-            this.ops_crew_email = data.data.p_email
-            console.log('checkOPS', this.ops_crew_name)
-            console.log('checkFO', this.fo_crew)
+            this.ops_crew_name = data.data.name;
+            this.ops_crew_email = data.data.p_email;
+            console.log('checkOPS', this.ops_crew_name);
+            console.log('checkFO', this.fo_crew);
             this.adminService.addFlight(
               this.reference_id,
               this.ops_crew,
@@ -322,26 +322,26 @@ export class NewFlightComponent implements OnInit {
               this.positionFrom,
               this.positionTo
             ).subscribe(data => {
-              console.log('resp ', data.data)
-              this.flight_id = data.data._id
-              console.log('flight id ', this.flight_id)
+              console.log('resp ', data.data);
+              this.flight_id = data.data._id;
+              console.log('flight id ', this.flight_id);
               this.adminService.updateCrew(this.pic_crew, this.departure_time, this.routeDet.arrivaltime).subscribe(data => {
-                console.log('updated', data)
-              })
+                console.log('updated', data);
+              });
               this.adminService.updateCrew(this.fo_crew, this.departure_time, this.routeDet.arrivaltime).subscribe(data => {
-                $('#suggested').addClass('is-active')
-                console.log('updated', data)
-              })
-            })
-          })
+                $('#suggested').addClass('is-active');
+                console.log('updated', data);
+              });
+            });
+          });
         });
 
-      })
+      });
 
-    })
+    });
   }
   doRoute(): void {
-    console.log('DISTANCE ', this.distance(this.departure_airport.latitude, this.departure_airport.longitude, this.arrival_airport.latitude, this.arrival_airport.longitude, 'K'))
+    console.log('DISTANCE ', this.distance(this.departure_airport.latitude, this.departure_airport.longitude, this.arrival_airport.latitude, this.arrival_airport.longitude, 'K'));
 
     $('#addBtn').addClass('is-loading');
     $('#reset').addClass('is-hidden');
@@ -351,23 +351,23 @@ export class NewFlightComponent implements OnInit {
       departure: this.departure_airport.icao,
       destination: this.arrival_airport.icao,
       departuretime: Date.parse(this.departure_time) / 1000
-    }
+    };
     this.adminService.route(data).subscribe(data => {
       this.routeId = data.data;
-      console.log('response ', this.routeId)
-      this.result = this.routeId
+      console.log('response ', this.routeId);
+      this.result = this.routeId;
       this.poll = interval(15000)
         .pipe(
           startWith(0),
           switchMap(() => this.adminService.longPoll(data.data))
         )
         .subscribe(res => {
-          console.log(res.data)
+          console.log(res.data);
           res.data.forEach(element => {
             if (element.hasOwnProperty('aircraftid')) {
               this.poll.unsubscribe();
               this.adminService.getFplan(this.routeId).subscribe(data => {
-                console.log(data)
+                console.log(data);
                 this.arrival_time = data.data.arrivaltime;
                 this.departure_time = data.data.departuretime;
                 this.routeDet.arrivaltime = data.data.arrivaltime;
@@ -375,25 +375,25 @@ export class NewFlightComponent implements OnInit {
                 this.routeDet.fuel = data.data.fuelcalc.reqdfuel;
                 this.routeDet.distance = data.data.gcdist;
                 this.routeDet.fplan = { ...data.data.fplan };
-                console.log('rou', this.routeDet)
-                this.result = JSON.stringify(this.routeDet, undefined, 2)
+                console.log('rou', this.routeDet);
+                this.result = JSON.stringify(this.routeDet, undefined, 2);
                 // $('#addBtn').removeClass('is-loading');
                 this.adminService.getCrewByOccupation('PIC').subscribe(data => {
-                  console.log('crewPIC', data.data)
+                  console.log('crewPIC', data.data);
                   data.data.some(element => {
                     // console.log(Date.parse(this.departure_time) / 1000 - element.unavailable)
                     var subtract = Date.parse(this.departure_time) / 1000 - element.unavailableTo;
-                    this.pic_crew = element
-                    return subtract >= 0
+                    this.pic_crew = element;
+                    return subtract >= 0;
 
                   });
                   this.adminService.getCrewByOccupation('FO').subscribe(data => {
-                    console.log('crewFO', data.data)
+                    console.log('crewFO', data.data);
                     data.data.some(element => {
                       // console.log(Date.parse(this.departure_time) / 1000 - element.unavailable)
                       var subtract = Date.parse(this.departure_time) / 1000 - element.unavailableTo;
-                      this.fo_crew = element
-                      return subtract >= 0
+                      this.fo_crew = element;
+                      return subtract >= 0;
 
                     });
                     this.adminService.addRoute(this.reference_id,
@@ -415,68 +415,68 @@ export class NewFlightComponent implements OnInit {
                         $('#position-from').addClass('is-active');
 
                         this.lastLiveFlight();
-                        this.currentLoc = {}
-                        this.currentLoc.name = ''
-                        console.log('ROUTE ADDED ', data)
-                        this.LiveDep = this.departure_airport.icao
-                        this.LiveArr = this.arrival_airport.icao
-                        this.LiveDepT = this.routeDet.departuretime
-                        this.LiveArr = this.routeDet.arrivaltime
-                        this.liveLeg = data.data._id
+                        this.currentLoc = {};
+                        this.currentLoc.name = '';
+                        console.log('ROUTE ADDED ', data);
+                        this.LiveDep = this.departure_airport.icao;
+                        this.LiveArr = this.arrival_airport.icao;
+                        this.LiveDepT = this.routeDet.departuretime;
+                        this.LiveArr = this.routeDet.arrivaltime;
+                        this.liveLeg = data.data._id;
                         this.adminService.getBriefing(this.routeId).subscribe(data => {
-                          console.log('briefing', data)
-                        })
-                      })
-                  })
+                          console.log('briefing', data);
+                        });
+                      });
+                  });
                 });
               });
             }
           });
-          this.result = JSON.stringify(res.data, undefined, 2)
+          this.result = JSON.stringify(res.data, undefined, 2);
         });
-    })
+    });
   }
   doPositionFrom(): void {
     $('#positionBtn').addClass('is-loading');
     $('#resetFrom').addClass('is-hidden');
     $('#cancelFrom').removeClass('is-hidden');
 
-    var layToTime = this.fromLayOver * 60
+    var layToTime = this.fromLayOver * 60;
 
     var arrivalTime = this.departure_time - layToTime;
-    console.log(arrivalTime)
+    console.log(arrivalTime);
     let data = {
       aircraftid: this.aircraft.aircraftId,
       departure: this.currentLoc.icao,
       destination: this.departure_airport.icao,
       arrivaltime: arrivalTime
-    }
+    };
     this.adminService.route(data).subscribe(data => {
       this.routeId = data.data;
-      console.log('response ', this.routeId)
-      this.result = this.routeId
+      console.log('response ', this.routeId);
+      this.result = this.routeId;
       this.poll = interval(15000)
         .pipe(
           startWith(0),
           switchMap(() => this.adminService.longPoll(data.data))
         )
         .subscribe(res => {
-          console.log(res.data)
+          console.log(res.data);
           res.data.forEach(element => {
             if (element.hasOwnProperty('aircraftid')) {
               this.poll.unsubscribe();
               this.adminService.getFplan(this.routeId).subscribe(data => {
                 // console.log(data)
                 this.routeDet.arrivaltime = data.data.arrivaltime;
-                this.splitA = data.data.arrivaltime - this.departure_time
+                this.splitA = data.data.arrivaltime - this.departure_time;
                 this.departure_time = data.data.departuretime;
                 this.rotationStart = data.data.departuretime;
                 this.routeDet.departuretime = data.data.departuretime;
                 this.routeDet.fuel = data.data.fuelcalc.reqdfuel;
                 this.routeDet.distance = data.data.gcdist;
                 this.routeDet.fplan = { ...data.data.fplan };
-                console.log(this.routeDet)
-                this.result = JSON.stringify(this.routeDet, undefined, 2)
+                console.log(this.routeDet);
+                this.result = JSON.stringify(this.routeDet, undefined, 2);
                 this.adminService.addRoute(this.reference_id,
                   this.routeId,
                   this.ops_crew._id,
@@ -493,94 +493,94 @@ export class NewFlightComponent implements OnInit {
                   this.type,
                   this.pax,
                   this.cargo, 'positionFrom', this.routeDet.arrivaltime, this.routeDet.departuretime, this.routeDet.fuel, this.routeDet.distance, this.routeDet.fplan).subscribe(data => {
-                    console.log('ROUTE ADDED ', data)
-                    this.baseLoc = {}
-                    this.baseLoc.name = ''
-                    this.positionFromDep = this.currentLoc.icao
-                    this.positionFromArr = this.departure_airport.icao
-                    this.positionFromDepT = this.routeDet.departuretime
-                    this.positionFromArrT = this.routeDet.arrivaltime
+                    console.log('ROUTE ADDED ', data);
+                    this.baseLoc = {};
+                    this.baseLoc.name = '';
+                    this.positionFromDep = this.currentLoc.icao;
+                    this.positionFromArr = this.departure_airport.icao;
+                    this.positionFromDepT = this.routeDet.departuretime;
+                    this.positionFromArrT = this.routeDet.arrivaltime;
                     this.adminService.getBriefing(this.routeId).subscribe(data => {
-                      console.log('briefing', data)
-                    })
+                      console.log('briefing', data);
+                    });
                     this.adminService.updateCrew(this.pic_crew._id, this.routeDet.departuretime, this.routeDet.arrivaltime).subscribe(data => {
-                      console.log('updated', data)
-                    })
+                      console.log('updated', data);
+                    });
                     this.adminService.updateCrew(this.fo_crew._id, this.routeDet.departuretime, this.routeDet.arrivaltime).subscribe(data => {
-                      console.log('updated', data)
-                    })
+                      console.log('updated', data);
+                    });
                     $('#positionBtn').removeClass('is-loading');
                     $('#position-from').removeClass('is-active');
                     $('#position-to').addClass('is-active');
-                  })
+                  });
               });
             }
-          })
-          this.result = JSON.stringify(res.data, undefined, 2)
-          console.log(res.data.length)
+          });
+          this.result = JSON.stringify(res.data, undefined, 2);
+          console.log(res.data.length);
         });
-    })
+    });
   }
   doPositionTo(): void {
     $('#positionToBtn').addClass('is-loading');
     $('#resetTo').addClass('is-hidden');
     $('#cancelTo').removeClass('is-hidden');
-    var layToTime = this.toLayOver * 60
+    var layToTime = this.toLayOver * 60;
 
     var departTime = this.departure_time + layToTime;
-    console.log(departTime)
+    console.log(departTime);
     let data = {
       aircraftid: this.aircraft.aircraftId,
       departure: this.arrival_airport.icao,
       destination: this.baseLoc.icao,
       departuretime: departTime
-    }
+    };
     this.adminService.route(data).subscribe(data => {
       this.routeId = data.data;
-      console.log('response ', this.routeId)
-      this.result = this.routeId
+      console.log('response ', this.routeId);
+      this.result = this.routeId;
       this.poll = interval(15000)
         .pipe(
           startWith(0),
           switchMap(() => this.adminService.longPoll(data.data))
         )
         .subscribe(res => {
-          console.log(res.data)
+          console.log(res.data);
           res.data.forEach(element => {
             if (element.hasOwnProperty('aircraftid')) {
               this.poll.unsubscribe();
               this.adminService.getFplan(this.routeId).subscribe(data => {
                 // console.log(data)
                 this.routeDet.arrivaltime = data.data.arrivaltime;
-                this.splitB = data.data.departuretime - this.arrival_time
-                this.rotationEnd = data.data.arrivaltime
-                this.rotationLength = this.rotationEnd - this.rotationStart
-                var rotationStartHour = new Date(this.rotationStart*1000).getHours()
-                var rotationEndHour = new Date(this.rotationEnd*1000).getHours()
-                var wocle = this.wocle(rotationStartHour, rotationEndHour)
-                var splittime = this.splitA + this.splitB
-                var fdt = (this.rotationEnd - this.rotationStart) + 3600 + splittime
-                var actualTOR = this.rotationLength + (wocle * 2)
-                console.log('rotatStart ', this.rotationStart)
-                console.log('rotatEnd ', this.rotationEnd)
-                console.log('wocleS ', rotationStartHour)
-                console.log('wocleE ', rotationEndHour)
-                console.log('wocle ', wocle)
-                console.log('fdt ', fdt)
-                console.log('split ', splittime)
-                console.log('actualTOR ', actualTOR)
+                this.splitB = data.data.departuretime - this.arrival_time;
+                this.rotationEnd = data.data.arrivaltime;
+                this.rotationLength = this.rotationEnd - this.rotationStart;
+                var rotationStartHour = new Date(this.rotationStart*1000).getHours();
+                var rotationEndHour = new Date(this.rotationEnd*1000).getHours();
+                var wocle = this.wocle(rotationStartHour, rotationEndHour);
+                var splittime = this.splitA + this.splitB;
+                var fdt = (this.rotationEnd - this.rotationStart) + 3600 + splittime;
+                var actualTOR = this.rotationLength + (wocle * 2);
+                console.log('rotatStart ', this.rotationStart);
+                console.log('rotatEnd ', this.rotationEnd);
+                console.log('wocleS ', rotationStartHour);
+                console.log('wocleE ', rotationEndHour);
+                console.log('wocle ', wocle);
+                console.log('fdt ', fdt);
+                console.log('split ', splittime);
+                console.log('actualTOR ', actualTOR);
                 this.routeDet.departuretime = data.data.departuretime;
                 this.routeDet.fuel = data.data.fuelcalc.reqdfuel;
                 this.routeDet.distance = data.data.gcdist;
                 this.routeDet.fplan = { ...data.data.fplan };
-                console.log(this.routeDet)
-                this.result = JSON.stringify(this.routeDet, undefined, 2)
-                this.result = {
-                  "FDT": fdt,
-                  "TOR": actualTOR,
-                  "WOCLE": wocle,
-                  "SPLIT TIME": splittime
-                }
+                console.log(this.routeDet);
+                this.result = JSON.stringify(this.routeDet, undefined, 2);
+                this.result = JSON.stringify({
+                  'FDT': fdt,
+                  'TOR': actualTOR,
+                  'WOCLE': wocle,
+                  'SPLIT TIME': splittime
+                }, undefined, 2);
                 this.adminService.addRoute(this.reference_id,
                   this.routeId,
                   this.ops_crew._id,
@@ -597,67 +597,67 @@ export class NewFlightComponent implements OnInit {
                   this.type,
                   this.pax,
                   this.cargo, 'positionTo', this.routeDet.arrivaltime, this.routeDet.departuretime, this.routeDet.fuel, this.routeDet.distance, this.routeDet.fplan).subscribe(data => {
-                    console.log('ROUTE ADDED ', data)
-                    console.log('DEPARTURE ROUTE ADDED ', this.departure_time)
-                    this.positionToDep = this.arrival_airport.icao
-                    this.positionToArr = this.baseLoc.icao
-                    this.positionToDepT = this.routeDet.departuretime
-                    this.positionToArrT = this.routeDet.arrivaltime
+                    console.log('ROUTE ADDED ', data);
+                    console.log('DEPARTURE ROUTE ADDED ', this.departure_time);
+                    this.positionToDep = this.arrival_airport.icao;
+                    this.positionToArr = this.baseLoc.icao;
+                    this.positionToDepT = this.routeDet.departuretime;
+                    this.positionToArrT = this.routeDet.arrivaltime;
                     this.adminService.getBriefing(this.routeId).subscribe(data => {
-                      console.log('briefing', data)
-                    })
+                      console.log('briefing', data);
+                    });
                     this.adminService.updateCrew(this.pic_crew._id, this.positionFromDepT, this.routeDet.arrivaltime).subscribe(data => {
-                      console.log('updated', data)
-                    })
+                      console.log('updated', data);
+                    });
                     this.adminService.updateCrew(this.fo_crew._id, this.positionFromDepT, this.routeDet.arrivaltime).subscribe(data => {
-                      console.log('updated', data)
-                    })
-                    $('#suggested').addClass('is-active')
-                    this.positionTo = data.data._id
+                      console.log('updated', data);
+                    });
+                    $('#suggested').addClass('is-active');
+                    this.positionTo = data.data._id;
                     // this.addFlight()
-                  })
+                  });
                 $('#positionToBtn').removeClass('is-loading');
                 $('#position-to').removeClass('is-active');
               });
             }
-          })
-          this.result = JSON.stringify(res.data, undefined, 2)
-          console.log(res.data.length)
+          });
+          this.result = JSON.stringify(res.data, undefined, 2);
+          console.log(res.data.length);
         });
-    })
+    });
   }
   ngOnDestroy() {
   }
   cancel() {
-    this.poll.unsubscribe()
+    this.poll.unsubscribe();
     $('#addBtn').removeClass('is-loading');
     $('#reset').removeClass('is-hidden');
     $('#cancel').addClass('is-hidden');
   }
   cancelTo() {
-    this.poll.unsubscribe()
+    this.poll.unsubscribe();
     $('#positionToBtn').removeClass('is-loading');
     $('#resetTo').removeClass('is-hidden');
     $('#cancelTo').addClass('is-hidden');
   }
   cancelFrom() {
-    this.poll.unsubscribe()
+    this.poll.unsubscribe();
     $('#positionBtn').removeClass('is-loading');
     $('#resetFrom').removeClass('is-hidden');
     $('#cancelFrom').addClass('is-hidden');
   }
   wocle(x, y) {
     if (x >= 2 && x <= 6 && y >= 2 && y <= 6) {
-      return y - x
+      return y - x;
     }
     else if (x >= 2 && x <= 6 && y >= 2 && y > 6) {
-      return 6 - x
+      return 6 - x;
     }
     else if (x < 2 || x > 6 && y >= 2 && y <= 6) {
-      return y - 2
+      return y - 2;
     }
     else {
-      return 0
+      return 0;
     }
   }
 }

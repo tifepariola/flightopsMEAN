@@ -4081,13 +4081,13 @@ var NewFlightComponent = /** @class */ (function () {
         this.exampleOptions = {
             enableTime: true,
             defaultDate: this.departure_time,
-            mode: "single"
+            mode: 'single'
         };
         this.replaceArray = function (text, find, replace) {
             var replaceString = text;
             var regex;
             for (var i = 0; i < find.length; i++) {
-                regex = new RegExp(find[i], "g");
+                regex = new RegExp(find[i], 'g');
                 replaceString = replaceString.replace(regex, replace[i]);
             }
             return replaceString;
@@ -4098,7 +4098,7 @@ var NewFlightComponent = /** @class */ (function () {
         this.departure_airport.name = '';
         this.arrival_airport = {};
         this.arrival_airport.name = '';
-        this.id = this.route.snapshot.paramMap.get("id");
+        this.id = this.route.snapshot.paramMap.get('id');
         console.log(this.id);
         jquery__WEBPACK_IMPORTED_MODULE_1__('.delete').on('click', function () {
             jquery__WEBPACK_IMPORTED_MODULE_1__('#suggested').removeClass('is-active');
@@ -4144,10 +4144,10 @@ var NewFlightComponent = /** @class */ (function () {
             dist = Math.acos(dist);
             dist = dist * 180 / Math.PI;
             dist = dist * 60 * 1.1515;
-            if (unit == "K") {
+            if (unit == 'K') {
                 dist = dist * 1.609344;
             }
-            if (unit == "N") {
+            if (unit == 'N') {
                 dist = dist * 0.8684;
             }
             return dist;
@@ -4194,12 +4194,12 @@ var NewFlightComponent = /** @class */ (function () {
             this.currentLoc.name = this.lastFlight.arrival_airport;
             this.fromHandler = {};
             this.fromHandler._id = this.lastFlight.handler;
-            jquery__WEBPACK_IMPORTED_MODULE_1__('#currentLoc').prop("disabled", true);
-            jquery__WEBPACK_IMPORTED_MODULE_1__('#fromHandler').prop("disabled", true);
+            jquery__WEBPACK_IMPORTED_MODULE_1__('#currentLoc').prop('disabled', true);
+            jquery__WEBPACK_IMPORTED_MODULE_1__('#fromHandler').prop('disabled', true);
         }
         else {
-            jquery__WEBPACK_IMPORTED_MODULE_1__('#currentLoc').prop("disabled", false);
-            jquery__WEBPACK_IMPORTED_MODULE_1__('#fromHandler').prop("disabled", false);
+            jquery__WEBPACK_IMPORTED_MODULE_1__('#currentLoc').prop('disabled', false);
+            jquery__WEBPACK_IMPORTED_MODULE_1__('#fromHandler').prop('disabled', false);
         }
     };
     NewFlightComponent.prototype.createMail = function () {
@@ -4225,7 +4225,7 @@ var NewFlightComponent = /** @class */ (function () {
         this.adminService.getTemplates().subscribe(function (data) {
             _this.crewTemplate = data.data[0];
             _this.handlerTemplate = data.data[1];
-            var find = ["%crewname%", "%role%", "%flightID%", "%aircraftID%", "%aircraftname%", "%date%", "%time%", "%airportdeparture%", "%airportarrival%", "%link%"];
+            var find = ['%crewname%', '%role%', '%flightID%', '%aircraftID%', '%aircraftname%', '%date%', '%time%', '%airportdeparture%', '%airportarrival%', '%link%'];
             var replace = [name, role, _this.reference_id, _this.aircraft.aircraftId, _this.aircraft.registration, new Date(departTime * 1000).getDate() + '-' + new Date(departTime * 1000).getMonth() + '-' + new Date(departTime * 1000).getFullYear(), new Date(departTime * 1000).getHours() + ':' + new Date(departTime * 1000).getMinutes() + ':' + new Date(departTime * 1000).getSeconds(), beginning, end, _this.reference_id];
             _this.crewTemplate.subject = _this.replaceArray(_this.crewTemplate.subject, find, replace);
             _this.crewTemplate.message = _this.replaceArray(_this.crewTemplate.message, find, replace);
@@ -4238,7 +4238,7 @@ var NewFlightComponent = /** @class */ (function () {
         var _this = this;
         this.adminService.getTemplates().subscribe(function (data) {
             _this.handlerTemplate = data.data[1];
-            var find = ["%handlername%", "%role%", "%flightID%", "%aircraftID%", "%aircraftname%", "%date%", "%time%", "%airportdeparture%", "%airportarrival%", "%link%"];
+            var find = ['%handlername%', '%role%', '%flightID%', '%aircraftID%', '%aircraftname%', '%date%', '%time%', '%airportdeparture%', '%airportarrival%', '%link%'];
             var replace = [name, role, _this.reference_id, _this.aircraft.aircraftId, _this.aircraft.registration, new Date(departTime * 1000).getDate() + '-' + new Date(departTime * 1000).getMonth() + '-' + new Date(departTime * 1000).getFullYear(), new Date(departTime * 1000).getHours() + ':' + new Date(departTime * 1000).getMinutes() + ':' + new Date(departTime * 1000).getSeconds(), beginning, end, _this.reference_id];
             _this.handlerTemplate.subject = _this.replaceArray(_this.handlerTemplate.subject, find, replace);
             _this.handlerTemplate.message = _this.replaceArray(_this.handlerTemplate.message, find, replace);
@@ -4510,12 +4510,12 @@ var NewFlightComponent = /** @class */ (function () {
                             _this.routeDet.fplan = __assign({}, data.data.fplan);
                             console.log(_this.routeDet);
                             _this.result = JSON.stringify(_this.routeDet, undefined, 2);
-                            _this.result = {
-                                "FDT": fdt,
-                                "TOR": actualTOR,
-                                "WOCLE": wocle,
-                                "SPLIT TIME": splittime
-                            };
+                            _this.result = JSON.stringify({
+                                'FDT': fdt,
+                                'TOR': actualTOR,
+                                'WOCLE': wocle,
+                                'SPLIT TIME': splittime
+                            }, undefined, 2);
                             _this.adminService.addRoute(_this.reference_id, _this.routeId, _this.ops_crew._id, _this.pic_crew._id, _this.fo_crew._id, _this.ops_crew.name, _this.pic_crew.name, _this.fo_crew.name, _this.aircraft.aircraftId, _this.arrival_airport.icao, _this.baseLoc.icao, _this.toHandler._id, _this.dangerous, _this.type, _this.pax, _this.cargo, 'positionTo', _this.routeDet.arrivaltime, _this.routeDet.departuretime, _this.routeDet.fuel, _this.routeDet.distance, _this.routeDet.fplan).subscribe(function (data) {
                                 console.log('ROUTE ADDED ', data);
                                 console.log('DEPARTURE ROUTE ADDED ', _this.departure_time);

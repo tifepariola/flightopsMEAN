@@ -39,9 +39,20 @@ router.get('/fetchAircraft/:aircraftid', function (req, res) {
         }
     })
 });
-router.get('/lastLiveFlight/:aircraftid', function (req, res) {
+router.get('/lastLiveFlight/:aircraftid/:date', function (req, res) {
     var cutoff = new Date();
-    Route.find({ aircraft: req.params.aircraftid, type: 'live', arrivaltime: {$lte: cutoff/1000} }, {}, { limit: 1, sort: {'arrivaltime': -1} }, function (err, route) {
+    Route.find({ aircraft: req.params.aircraftid, type: 'live', arrivaltime: {$lte: req.params.date} }, {}, { limit: 1, sort: {'arrivaltime': -1} }, function (err, route) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(cutoff)
+            res.json(route);
+        }
+    })
+});
+router.get('/nextLiveFlight/:aircraftid/:date', function (req, res) {
+    var cutoff = new Date();
+    Route.find({ aircraft: req.params.aircraftid, type: 'live', departuretime: {$gte: req.params.date} }, {}, { limit: 1, sort: {'departuretime': 1} }, function (err, route) {
         if (err) {
             console.log(err);
         } else {

@@ -85,6 +85,7 @@ export class NewFlightComponent implements OnInit {
   rotationLength: any;
   splitA: any;
   splitB: number;
+  nextFlight: any;
 
   constructor(private adminService: AdminService, private route: ActivatedRoute, private renderer: Renderer2,
     @Inject(DOCUMENT) private document: any, ) { }
@@ -174,14 +175,21 @@ export class NewFlightComponent implements OnInit {
       $('ng2-flatpickr').addClass('input');
     });
   }
-  lastLiveFlight(): void {
-    this.adminService.lastLiveFlight(this.aircraft.aircraftId).subscribe(data => {
+  lastLiveFlight(date): void {
+    this.adminService.lastLiveFlight(this.aircraft.aircraftId, date).subscribe(data => {
       this.lastFlight = data.data[0];
       console.log('last flight', this.lastFlight);
-      this.handleChange('arrival');
+      this.handleLFChange('arrival');
     });
   }
-  handleChange(val) {
+  nextLiveFlight(date): void {
+    this.adminService.nextLiveFlight(this.aircraft.aircraftId, date).subscribe(data => {
+      this.nextFlight = data.data[0];
+      console.log('next flight', this.nextFlight);
+      this.handleNFChange('arrival');
+    });
+  }
+  handleLFChange(val) {
     if (val === 'arrival') {
       this.currentLoc = {};
       this.currentLoc.icao = this.lastFlight.arrival_airport;
@@ -194,6 +202,21 @@ export class NewFlightComponent implements OnInit {
     } else {
       $('#currentLoc').prop('disabled', false);
       $('#fromHandler').prop('disabled', false);
+    }
+  }
+  handleNFChange(val) {
+    if (val === 'arrival') {
+      this.baseLoc = {};
+      this.baseLoc.icao = this.nextFlight.arrival_airport;
+      this.baseLoc.name = this.nextFlight.arrival_airport;
+      this.toHandler = {};
+      this.toHandler._id = this.nextFlight.handler;
+      $('#baseLoc').prop('disabled', true);
+      $('#toHandler').prop('disabled', true);
+
+    } else {
+      $('#baseLoc').prop('disabled', false);
+      $('#toHandler').prop('disabled', false);
     }
   }
   createMail(): void {
@@ -413,7 +436,8 @@ export class NewFlightComponent implements OnInit {
                       this.cargo, 'live', this.routeDet.arrivaltime, this.routeDet.departuretime, this.routeDet.fuel, this.routeDet.distance, this.routeDet.fplan).subscribe(data => {
                         $('#position-from').addClass('is-active');
 
-                        this.lastLiveFlight();
+                        this.lastLiveFlight(this.routeDet.departuretime);
+                        this.nextLiveFlight(this.routeDet.arrivaltime);
                         this.currentLoc = {};
                         this.currentLoc.name = '';
                         console.log('ROUTE ADDED ', data);
@@ -494,9 +518,7 @@ export class NewFlightComponent implements OnInit {
                   this.type,
                   this.pax,
                   this.cargo, 'positionFrom', this.routeDet.arrivaltime, this.routeDet.departuretime, this.routeDet.fuel, this.routeDet.distance, this.routeDet.fplan).subscribe(data => {
-                    console.log('ROUTE ADDED ', data);
-                    this.baseLoc = {};
-                    this.baseLoc.name = '';
+                        console.log('ROUTE ADDED ', data);
                     this.positionFromDep = this.currentLoc.icao;
                     this.positionFromArr = this.departure_airport.icao;
                     this.positionFromDepT = this.routeDet.departuretime;
@@ -562,7 +584,7 @@ export class NewFlightComponent implements OnInit {
                 const rotationEndHour = new Date(this.rotationEnd * 1000).getHours();
                 const wocle = this.wocle(rotationStartHour, rotationEndHour);
                 const splittime = this.splitA + this.splitB;
-                const fdt = (this.rotationEnd - this.rotationStart) + 3600 + splittime;
+                const fdt = this.rotationLength + 3600 + splittime;
                 const actualTOR = this.rotationLength + (wocle * 2);
                 console.log('rotatStart ', this.rotationStart);
                 console.log('rotatEnd ', this.rotationEnd);

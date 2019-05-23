@@ -45,7 +45,7 @@ export class AdminService {
           });
         }
       );
-    })
+    });
   }
 
   private saveFileData(fileUpload: FileUpload) {
@@ -95,7 +95,7 @@ export class AdminService {
       }).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
 
@@ -110,7 +110,7 @@ export class AdminService {
       }).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   updateCrew(id: string,
@@ -123,7 +123,7 @@ export class AdminService {
       }).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   updateCrewData(id: string,
@@ -146,7 +146,7 @@ export class AdminService {
       }).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   sendMail(email: string,
@@ -160,7 +160,7 @@ export class AdminService {
       }).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   updateTemplate(id: string,
@@ -173,7 +173,7 @@ export class AdminService {
       }).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   addRoute(reference_id: string,
@@ -225,7 +225,7 @@ export class AdminService {
       }).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   addCrew(name: string,
@@ -257,7 +257,7 @@ export class AdminService {
       }).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   addSale(company_name: string,
@@ -293,7 +293,7 @@ export class AdminService {
       }).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   updateSale(id: string,
@@ -330,7 +330,7 @@ export class AdminService {
       }).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   addAircraftDB(aircraft: number ): Observable<any> {
@@ -340,7 +340,7 @@ export class AdminService {
       }).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   addAircraft(
@@ -421,7 +421,7 @@ export class AdminService {
       }).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   updateAircraft(id: string,
@@ -448,7 +448,7 @@ export class AdminService {
       }).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   addLicence(
@@ -463,7 +463,7 @@ export class AdminService {
       }).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   addAirport(
@@ -500,7 +500,7 @@ export class AdminService {
       }).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   updateAirport(
@@ -538,7 +538,7 @@ export class AdminService {
       }).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   addHandler(
@@ -589,7 +589,7 @@ export class AdminService {
       }).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   getAircrafts(): Observable<any> {
@@ -597,7 +597,7 @@ export class AdminService {
       this.http.get('/api/aircraft/fetch').subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   deleteCrew(id): Observable<any> {
@@ -605,7 +605,7 @@ export class AdminService {
       this.http.delete('/api/crew/delete/' + id).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   deleteUser(id): Observable<any> {
@@ -613,7 +613,7 @@ export class AdminService {
       this.http.delete('/api/auth/delete/' + id).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   deleteAirport(id): Observable<any> {
@@ -621,7 +621,7 @@ export class AdminService {
       this.http.delete('/api/airport/delete/' + id).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   deleteAircraft(id): Observable<any> {
@@ -629,7 +629,7 @@ export class AdminService {
       this.http.delete('/api/aircraft/delete/' + id).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   getAirports(pageNo, size): Observable<any> {
@@ -637,7 +637,7 @@ export class AdminService {
       this.http.get('/api/airport/fetch/' + pageNo + '/' + size).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   findAirports(keyword): Observable<any> {
@@ -645,7 +645,7 @@ export class AdminService {
       this.http.get('/api/airport/find/' + keyword).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   getHandlers(): Observable<any> {
@@ -653,7 +653,7 @@ export class AdminService {
       this.http.get('/api/handler/fetch').subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   getCrews(): Observable<any> {
@@ -661,7 +661,7 @@ export class AdminService {
       this.http.get('/api/crew/fetch').subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   getSale(id): Observable<any> {
@@ -669,15 +669,23 @@ export class AdminService {
       this.http.get('/api/sale/fetch/' + id).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
-  lastLiveFlight(aircraft): Observable<any> {
+  lastLiveFlight(aircraft, date): Observable<any> {
     return Observable.create(observer => {
-      this.http.get('/api/route/lastLiveFlight/' + aircraft).subscribe((data: any) => {
+      this.http.get('/api/route/lastLiveFlight/' + aircraft + '/' + date).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
+    });
+  }
+  nextLiveFlight(aircraft, date): Observable<any> {
+    return Observable.create(observer => {
+      this.http.get('/api/route/nextLiveFlight/' + aircraft + '/' + date).subscribe((data: any) => {
+        observer.next({ data: data });
+        observer.complete();
+      });
     });
   }
   getBriefing(route): Observable<any> {
@@ -685,7 +693,7 @@ export class AdminService {
       this.http.get('/api/aircraft/getBriefing/' + route).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   getCrew(id): Observable<any> {
@@ -693,7 +701,7 @@ export class AdminService {
       this.http.get('/api/crew/fetch/' + id).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   getCrewByUser(id): Observable<any> {
@@ -701,7 +709,7 @@ export class AdminService {
       this.http.get('/api/crew/fetchUser/' + id).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   getNOTAM(id): Observable<any> {
@@ -709,7 +717,7 @@ export class AdminService {
       this.http.get('/api/aircraft/getNOTAM/' + id).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   getCrewByOccupation(occupation): Observable<any> {
@@ -717,7 +725,7 @@ export class AdminService {
       this.http.get('/api/crew/fetchType/' + occupation).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   getAircraft(id): Observable<any> {
@@ -725,7 +733,7 @@ export class AdminService {
       this.http.get('/api/aircraft/fetch/' + id).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   getAirport(icao): Observable<any> {
@@ -733,7 +741,7 @@ export class AdminService {
       this.http.get('/api/airport/fetch/' + icao).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   getAirportDetails(icao): Observable<any> {
@@ -741,7 +749,7 @@ export class AdminService {
       this.http.get('/api/airport/fetchAirport/' + icao).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   getLicences(crew_id): Observable<any> {
@@ -749,7 +757,7 @@ export class AdminService {
       this.http.get('/api/licence/fetch/' + crew_id).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   getHandler(airport): Observable<any> {
@@ -757,7 +765,7 @@ export class AdminService {
       this.http.get('/api/handler/fetch/' + airport).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   getHandlerDetails(handler): Observable<any> {
@@ -765,7 +773,7 @@ export class AdminService {
       this.http.get('/api/handler/fetchDetails/' + handler).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   getSales(): Observable<any> {
@@ -773,7 +781,7 @@ export class AdminService {
       this.http.get('/api/sale/fetch').subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   getUsers(): Observable<any> {
@@ -781,7 +789,7 @@ export class AdminService {
       this.http.get('/api/auth/fetch').subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   getUser(id): Observable<any> {
@@ -789,7 +797,7 @@ export class AdminService {
       this.http.get('/api/auth/fetch/' + id).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   addUser(fullname: string, email: string, password: string, repeatPassword: string, role: string, occupation: string): Observable<any> {
@@ -804,7 +812,7 @@ export class AdminService {
       }).subscribe((data: any) => {
         observer.next({ data: data.user });
         observer.complete();
-      })
+      });
     });
   }
   updateUser(id: string, fullname: string, email: string, password: string, repeatPassword: string, role: string, occupation: string): Observable<any> {
@@ -819,7 +827,7 @@ export class AdminService {
       }).subscribe((data: any) => {
         observer.next({ data: data.user });
         observer.complete();
-      })
+      });
     });
   }
   route(data): Observable<any> {
@@ -828,7 +836,7 @@ export class AdminService {
       this.http.post('/api/aircraft/createRoute', data).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   getFplan(routeId): Observable<any> {
@@ -837,7 +845,7 @@ export class AdminService {
       this.http.get('/api/aircraft/getFplan/' + routeId).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   getFlight(): Observable<any> {
@@ -846,7 +854,7 @@ export class AdminService {
       this.http.get('/api/flight/fetch').subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   getMovements(): Observable<any> {
@@ -855,7 +863,7 @@ export class AdminService {
       this.http.get('/api/route/fetch').subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   getMovement(id): Observable<any> {
@@ -864,23 +872,23 @@ export class AdminService {
       this.http.get('/api/route/fetch/' + id).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   downloadBriefing(route): Observable<any> {
 
     return Observable.create(observer => {
-      var mediaType = 'application/pdf';
+      const mediaType = 'application/pdf';
       this.http.get('/api/aircraft/downloadBriefing/' + route, {
         responseType: 'blob'
       }).subscribe((data: any) => {
-        console.log(data)
-        var blob = new Blob([data], { type: mediaType });
+        console.log(data);
+        const blob = new Blob([data], { type: mediaType });
         saveAs(blob, route + '.pdf');
         observer.next({ data: data });
         observer.complete();
-        console.log('not found')
-      })
+        console.log('not found');
+      });
     });
   }
   getAircraftSchedule(aircraftId): Observable<any> {
@@ -889,7 +897,7 @@ export class AdminService {
       this.http.get('/api/route/fetchAircraft/' + aircraftId).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   getOPSSchedule(ops): Observable<any> {
@@ -898,7 +906,7 @@ export class AdminService {
       this.http.get('/api/route/fetchOPS/' + ops).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   getPICSchedule(pic): Observable<any> {
@@ -907,7 +915,7 @@ export class AdminService {
       this.http.get('/api/route/fetchPIC/' + pic).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   getFOSchedule(fo): Observable<any> {
@@ -916,7 +924,7 @@ export class AdminService {
       this.http.get('/api/route/fetchFO/' + fo).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   getAdminSchedule(): Observable<any> {
@@ -925,7 +933,7 @@ export class AdminService {
       this.http.get('/api/route/fetch').subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   getTemplates(): Observable<any> {
@@ -934,7 +942,7 @@ export class AdminService {
       this.http.get('/api/mail/fetch').subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   longPoll(routeId): Observable<any> {
@@ -943,7 +951,7 @@ export class AdminService {
       this.http.get('/api/aircraft/longpoll/' + routeId).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   getChatByRoom(room) {
@@ -951,7 +959,7 @@ export class AdminService {
       this.http.get('/api/chat/' + room).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   getMboard(route) {
@@ -959,7 +967,7 @@ export class AdminService {
       this.http.get('/api/mboard/fetch/' + route).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   getManufacturers() {
@@ -967,7 +975,7 @@ export class AdminService {
       this.http.get('/api/aircraft/getManufacturers').subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   getAircraftTypes(manufacturer) {
@@ -975,7 +983,7 @@ export class AdminService {
       this.http.get('/api/aircraft/getAircraftTypes/' + manufacturer).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   getLocation(icao24) {
@@ -983,7 +991,7 @@ export class AdminService {
       this.http.get('https://kininteractivesolutions:KinSolutions123@opensky-network.org/api/tracks/all?icao24=' + icao24 + '&time=0').subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   updateFiled(id, filed) {
@@ -993,7 +1001,7 @@ export class AdminService {
       }).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   fileFPL(route) {
@@ -1001,7 +1009,7 @@ export class AdminService {
       this.http.get('/api/aircraft/fileFPL/' + route).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
   cancelFPL(flightid) {
@@ -1009,7 +1017,7 @@ export class AdminService {
       this.http.get('/api/aircraft/cancelFPL/' + flightid).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
 
@@ -1018,7 +1026,7 @@ export class AdminService {
       this.http.post('/api/chat', data).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
-      })
+      });
     });
   }
 }

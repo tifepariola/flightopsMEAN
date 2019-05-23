@@ -195,16 +195,17 @@
           <p class="modal-card-title">Position From</p>
         </header>
         <section class="modal-card-body">
-          <h4 *ngIf="lastFlight">Flight {{lastFlight.reference_id}} arrives at {{lastFlight.arrivaltime*1000 | date :  "short"}} at
+          <h4 *ngIf="lastFlight">Flight {{lastFlight.reference_id}} arrives at
+            {{lastFlight.arrivaltime*1000 | date :  "short"}} at
             {{lastFlight.arrival_airport}}. Where would you like to plan the positioning flight from?</h4>
           <div class="field">
             <div class="control">
               <label class="radio">
-                <input type="radio" name="question" checked (change)="handleChange('arrival')">
+                <input type="radio" name="question" checked (change)="handleLFChange('arrival')">
                 Arrival Location
               </label>
               <label class="radio">
-                <input type="radio" name="question" (change)="handleChange('choose')">
+                <input type="radio" name="question" (change)="handleLFChange('choose')">
                 Choose
               </label>
             </div>
@@ -214,23 +215,23 @@
               <div class="field">
                 <label class="label">Position From</label>
                 <div class="control">
-                    <div class="dropdown" id="dptFromAir">
-                      <div class="dropdown-trigger">
-                        <input class="input" name="currentLoc" id="currentLoc" autocomplete="off"
-                          [(ngModel)]="currentLoc.name" (input)="getAirports($event.target.value, 'dptFromAir')"
-                          type="text" placeholder="Enter Departure Airport" aria-haspopup="true">
-                      </div>
-                      <div class="dropdown-menu" role="menu">
-                        <div class="dropdown-content">
-                          <a (click)="currentLoc = airport;getHandler(airport);hideSearch()" class="dropdown-item"
-                            *ngFor="let airport of airports">
-                            {{airport.name}} ({{airport.icao}})
-                          </a>
-                          <span *ngIf="!airports">Loading...</span>
-                        </div>
+                  <div class="dropdown" id="dptFromAir">
+                    <div class="dropdown-trigger">
+                      <input class="input" name="currentLoc" id="currentLoc" autocomplete="off"
+                        [(ngModel)]="currentLoc.name" (input)="getAirports($event.target.value, 'dptFromAir')"
+                        type="text" placeholder="Enter Departure Airport" aria-haspopup="true">
+                    </div>
+                    <div class="dropdown-menu" role="menu">
+                      <div class="dropdown-content">
+                        <a (click)="currentLoc = airport;getHandler(airport);hideSearch()" class="dropdown-item"
+                          *ngFor="let airport of airports">
+                          {{airport.name}} ({{airport.icao}})
+                        </a>
+                        <span *ngIf="!airports">Loading...</span>
                       </div>
                     </div>
                   </div>
+                </div>
               </div>
             </div>
             <div class="column is-5">
@@ -259,7 +260,7 @@
 
 
         </section>
-          
+
         <footer class="modal-card-foot">
           <button class="button is-success" id="positionBtn" (click)="doPositionFrom()">Position</button>
           <button class="button is-text" type="reset" id="resetFrom">Reset</button>
@@ -276,6 +277,20 @@
           <p class="modal-card-title">Position To</p>
         </header>
         <section class="modal-card-body">
+          <h4 *ngIf="nextFlight">Next flight will be on {{nextFlight.departuretime*1000 | date :  "short"}} for aircraft {{nextFlight.reference_id}}, where would you
+                  like to position the aircraft to?</h4>
+          <div class="field">
+            <div class="control">
+              <label class="radio">
+                <input type="radio" name="question" checked (change)="handleNFChange('arrival')">
+                Arrival Location
+              </label>
+              <label class="radio">
+                <input type="radio" name="question" (change)="handleNFChange('choose')">
+                Choose
+              </label>
+            </div>
+          </div>
           <div class="columns" id="chooseTo" *ngIf="baseLoc">
             <div class="column is-5">
               <div class="field">
@@ -283,9 +298,9 @@
                 <div class="control">
                   <div class="dropdown" id="dptToAir">
                     <div class="dropdown-trigger">
-                      <input class="input" name="baseLoc" id="baseLoc" autocomplete="off"
-                        [(ngModel)]="baseLoc.name" (input)="getAirports($event.target.value, 'dptToAir')"
-                        type="text" placeholder="Enter Departure Airport" aria-haspopup="true">
+                      <input class="input" name="baseLoc" id="baseLoc" autocomplete="off" [(ngModel)]="baseLoc.name"
+                        (input)="getAirports($event.target.value, 'dptToAir')" type="text"
+                        placeholder="Enter Departure Airport" aria-haspopup="true">
                     </div>
                     <div class="dropdown-menu" role="menu">
                       <div class="dropdown-content">
@@ -305,7 +320,7 @@
                 <label class="label">Handler</label>
                 <div class="control">
                   <div class="select">
-                    <select [(ngModel)]="toHandler" name="toHandler">
+                    <select [(ngModel)]="toHandler" id="toHandler" name="toHandler">
                       <option>Handler Values</option>
                       <option *ngFor="let handler of handlers" [ngValue]="handler">{{handler.name}}</option>
                     </select>
@@ -354,8 +369,9 @@
     </div>
   </div>
 </div>
-<script type="text/javascript" src="/node_modules/bulma-extensions/bulma-accordion/dist/bulma-accordion.min.js"></script>
+<script type="text/javascript"
+  src="/node_modules/bulma-extensions/bulma-accordion/dist/bulma-accordion.min.js"></script>
 <script type="text/javascript">
-var accordions = bulmaAccordion.attach();
+  var accordions = bulmaAccordion.attach();
 </script>
 <app-chat></app-chat>

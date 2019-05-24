@@ -187,6 +187,27 @@
       <pre>{{result}}</pre>
     </div>
   </div>
+  <div class="modal" id="flight-overlap">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <form *ngIf="overlapFlight">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Flight Overlap</p>
+        </header>
+        <section class="modal-card-body">
+          <h4>Flight {{overlapFlight.reference_id}}, {{overlapFlight.departure_airport}} to 
+            {{overlapFlight.arrival_airport}} on {{overlapFlight.departuretime*1000 | date : "short"}}, overlaps 
+            with {{reference_id}}, {{departure_airport.icao}} to {{arrival_airport.icao}} on {{departure_time*1000 | date : "short"}} 
+            at for aircraft {{aircraft.aircraft}}. How would you like to resolve?</h4>
+        </section>
+
+        <footer class="modal-card-foot">
+            <button class="button is-success" id="cancelFlight" (click)="cancelFlight(overlapFlight.reference_id)">Cancel Flight {{overlapFlight.reference_id}}</button>
+            <button class="button is-success" (click)="changeAircraft()">Cancel Flight/Change Aircraft</button>
+        </footer>
+      </form>
+    </div>
+  </div>
   <div class="modal" id="position-from">
     <div class="modal-background"></div>
     <div class="modal-card">

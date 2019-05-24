@@ -608,6 +608,14 @@ export class AdminService {
       });
     });
   }
+  deleteRoute(id): Observable<any> {
+    return Observable.create(observer => {
+      this.http.delete('/api/route/delete/' + id).subscribe((data: any) => {
+        observer.next({ data: data });
+        observer.complete();
+      });
+    });
+  }
   deleteUser(id): Observable<any> {
     return Observable.create(observer => {
       this.http.delete('/api/auth/delete/' + id).subscribe((data: any) => {
@@ -683,6 +691,14 @@ export class AdminService {
   nextLiveFlight(aircraft, date): Observable<any> {
     return Observable.create(observer => {
       this.http.get('/api/route/nextLiveFlight/' + aircraft + '/' + date).subscribe((data: any) => {
+        observer.next({ data: data });
+        observer.complete();
+      });
+    });
+  }
+  checkOverlap(aircraft, departure, arrival): Observable<any> {
+    return Observable.create(observer => {
+      this.http.get('/api/route/checkOverlap/' + aircraft + '/' + departure + '/' + arrival).subscribe((data: any) => {
         observer.next({ data: data });
         observer.complete();
       });

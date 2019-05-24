@@ -50,6 +50,27 @@ router.get('/lastLiveFlight/:aircraftid/:date', function (req, res) {
         }
     })
 });
+router.delete('/delete/:id', function (req, res) {
+    Route.find({ reference_id: req.params.id }, function (err, doc) {
+        doc.remove();
+        if (err) {
+            console.log(err);
+        } else {
+            res.json("deleted");
+        }
+    });
+});
+router.get('/checkOverlap/:aircraftid/:departure/:arrival', function (req, res) {
+    var cutoff = new Date();
+    Route.find({ aircraft: req.params.aircraftid, $or: [{departuretime: {$gte: req.params.departure, $lte: req.params.arrival}}, {arrivaltime: {$gte: req.params.departure, $lte: req.params.arrival}}]}, {}, { limit: 1, sort: {'departuretime': 1} }, function (err, route) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(cutoff)
+            res.json(route);
+        }
+    })
+});
 router.get('/nextLiveFlight/:aircraftid/:date', function (req, res) {
     var cutoff = new Date();
     Route.find({ aircraft: req.params.aircraftid, type: 'live', departuretime: {$gte: req.params.date} }, {}, { limit: 1, sort: {'departuretime': 1} }, function (err, route) {

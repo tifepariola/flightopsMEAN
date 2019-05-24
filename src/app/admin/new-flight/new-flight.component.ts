@@ -51,7 +51,6 @@ export class NewFlightComponent implements OnInit {
   ops_crew_name: string;
   pic_crew_name: string;
   fo_crew_name: string;
-  liveLeg: any;
   positionFrom: any;
   positionTo: any;
   ops_crew_email: string;
@@ -86,6 +85,7 @@ export class NewFlightComponent implements OnInit {
   splitA: any;
   splitB: number;
   nextFlight: any;
+  overlapFlight: any;
 
   constructor(private adminService: AdminService, private route: ActivatedRoute, private renderer: Renderer2,
     @Inject(DOCUMENT) private document: any, ) { }
@@ -233,16 +233,24 @@ export class NewFlightComponent implements OnInit {
   }
   createHandlerMail(): void {
     console.log('sending handler mail');
-    this.sendHandlerMail(this.fromHandler.email_primary, this.fromHandler.name, 'Handler', this.positionFromDep, this.positionFromArr, this.positionFromDepT);
-    this.sendHandlerMail(this.handler.email_primary, this.handler.name, 'Handler', this.LiveDep, this.LiveArr, this.LiveDepT);
-    this.sendHandlerMail(this.toHandler.email_primary, this.toHandler.name, 'Handler', this.positionToDep, this.positionToArr, this.positionToDepT);
+    this.sendHandlerMail(this.fromHandler.email_primary, this.fromHandler.name, 'Handler', this.positionFromDep,
+      this.positionFromArr, this.positionFromDepT);
+    this.sendHandlerMail(this.handler.email_primary, this.handler.name, 'Handler', this.LiveDep, this.LiveArr,
+      this.LiveDepT);
+    this.sendHandlerMail(this.toHandler.email_primary, this.toHandler.name, 'Handler', this.positionToDep,
+      this.positionToArr, this.positionToDepT);
   }
   sendCrewMail(name, role, beginning, end, departTime): void {
     this.adminService.getTemplates().subscribe(data => {
       this.crewTemplate = data.data[0];
       this.handlerTemplate = data.data[1];
-      const find = ['%crewname%', '%role%', '%flightID%', '%aircraftID%', '%aircraftname%', '%date%', '%time%', '%airportdeparture%', '%airportarrival%', '%link%'];
-      const replace = [name, role, this.reference_id, this.aircraft.aircraftId, this.aircraft.registration, new Date(departTime * 1000).getDate() + '-' + new Date(departTime * 1000).getMonth() + '-' + new Date(departTime * 1000).getFullYear(), new Date(departTime * 1000).getHours() + ':' + new Date(departTime * 1000).getMinutes() + ':' + new Date(departTime * 1000).getSeconds(), beginning, end, this.reference_id];
+      const find = ['%crewname%', '%role%', '%flightID%', '%aircraftID%', '%aircraftname%', '%date%', '%time%',
+        '%airportdeparture%', '%airportarrival%', '%link%'];
+      const replace = [name, role, this.reference_id, this.aircraft.aircraftId, this.aircraft.registration,
+        new Date(departTime * 1000).getDate() + '-' + new Date(departTime * 1000).getMonth() + '-' +
+        new Date(departTime * 1000).getFullYear(), new Date(departTime * 1000).getHours() + ':' +
+        new Date(departTime * 1000).getMinutes() + ':' + new Date(departTime * 1000).getSeconds(),
+        beginning, end, this.reference_id];
       this.crewTemplate.subject = this.replaceArray(this.crewTemplate.subject, find, replace);
       this.crewTemplate.message = this.replaceArray(this.crewTemplate.message, find, replace);
       this.adminService.sendMail(this.ops_crew.p_email, this.crewTemplate.subject, this.crewTemplate.message).subscribe(data => {
@@ -253,13 +261,19 @@ export class NewFlightComponent implements OnInit {
   sendHandlerMail(email, name, role, beginning, end, departTime): void {
     this.adminService.getTemplates().subscribe(data => {
       this.handlerTemplate = data.data[1];
-      const find = ['%handlername%', '%role%', '%flightID%', '%aircraftID%', '%aircraftname%', '%date%', '%time%', '%airportdeparture%', '%airportarrival%', '%link%'];
-      const replace = [name, role, this.reference_id, this.aircraft.aircraftId, this.aircraft.registration, new Date(departTime * 1000).getDate() + '-' + new Date(departTime * 1000).getMonth() + '-' + new Date(departTime * 1000).getFullYear(), new Date(departTime * 1000).getHours() + ':' + new Date(departTime * 1000).getMinutes() + ':' + new Date(departTime * 1000).getSeconds(), beginning, end, this.reference_id];
+      const find = ['%handlername%', '%role%', '%flightID%', '%aircraftID%', '%aircraftname%', '%date%',
+        '%time%', '%airportdeparture%', '%airportarrival%', '%link%'];
+      const replace = [name, role, this.reference_id, this.aircraft.aircraftId, this.aircraft.registration,
+        new Date(departTime * 1000).getDate() + '-' + new Date(departTime * 1000).getMonth() + '-' +
+        new Date(departTime * 1000).getFullYear(), new Date(departTime * 1000).getHours() + ':' +
+        new Date(departTime * 1000).getMinutes() + ':' + new Date(departTime * 1000).getSeconds(), beginning,
+        end, this.reference_id];
       this.handlerTemplate.subject = this.replaceArray(this.handlerTemplate.subject, find, replace);
       this.handlerTemplate.message = this.replaceArray(this.handlerTemplate.message, find, replace);
-      this.adminService.sendMail('kininteractivesolutions@gmail.com', this.handlerTemplate.subject, this.handlerTemplate.message).subscribe(data => {
-        console.log('hello ', data);
-      });
+      this.adminService.sendMail('kininteractivesolutions@gmail.com', this.handlerTemplate.subject,
+        this.handlerTemplate.message).subscribe(data => {
+          console.log('hello ', data);
+        });
     });
   }
   replaceArray = function (text, find, replace) {
@@ -292,78 +306,9 @@ export class NewFlightComponent implements OnInit {
       console.log('crews ', this.ops_crews);
     });
   }
-  addFlight(): void {
-    console.log(Date.parse(this.departure_time) / 1000);
-    this.adminService.getCrewByOccupation('PIC').subscribe(data => {
-      console.log('crewPIC', data.data);
-      data.data.some(element => {
-        // console.log(Date.parse(this.departure_time) / 1000 - element.unavailable)
-        const subtract = Date.parse(this.departure_time) / 1000 - element.unavailableTo;
-        this.pic_crew = element._id;
-        this.pic_crew_name = element.name;
-        this.pic_crew_email = element.p_email;
-        return subtract >= 0;
-
-      });
-      this.adminService.getCrewByOccupation('FO').subscribe(data => {
-        console.log('crewFO', data.data);
-        data.data.some(element => {
-          // console.log(Date.parse(this.departure_time) / 1000 - element.unavailable)
-          const subtract = Date.parse(this.departure_time) / 1000 - element.unavailableTo;
-          this.fo_crew = element._id;
-          this.fo_crew_name = element.name;
-          this.fo_crew_email = element.p_email;
-          return subtract >= 0;
-
-        });
-        this.adminService.getHandlerDetails(this.handler).subscribe(data => {
-          this.handler_email = data.data.email_primary;
-          this.adminService.getCrew(this.ops_crew._id).subscribe(data => {
-            this.ops_crew_name = data.data.name;
-            this.ops_crew_email = data.data.p_email;
-            console.log('checkOPS', this.ops_crew_name);
-            console.log('checkFO', this.fo_crew);
-            this.adminService.addFlight(
-              this.reference_id,
-              this.ops_crew,
-              this.pic_crew,
-              this.fo_crew,
-              this.ops_crew_name,
-              this.pic_crew_name,
-              this.fo_crew_name,
-              this.aircraft.aircraftId,
-              this.departure_airport.icao,
-              this.arrival_airport,
-              this.departure_time,
-              this.handler,
-              this.dangerous,
-              this.type,
-              this.pax,
-              this.cargo,
-              this.liveLeg,
-              this.positionFrom,
-              this.positionTo
-            ).subscribe(data => {
-              console.log('resp ', data.data);
-              this.flight_id = data.data._id;
-              console.log('flight id ', this.flight_id);
-              this.adminService.updateCrew(this.pic_crew, this.departure_time, this.routeDet.arrivaltime).subscribe(data => {
-                console.log('updated', data);
-              });
-              this.adminService.updateCrew(this.fo_crew, this.departure_time, this.routeDet.arrivaltime).subscribe(data => {
-                $('#suggested').addClass('is-active');
-                console.log('updated', data);
-              });
-            });
-          });
-        });
-
-      });
-
-    });
-  }
   doRoute(): void {
-    console.log('DISTANCE ', this.distance(this.departure_airport.latitude, this.departure_airport.longitude, this.arrival_airport.latitude, this.arrival_airport.longitude, 'K'));
+    console.log('DISTANCE ', this.distance(this.departure_airport.latitude, this.departure_airport.longitude,
+      this.arrival_airport.latitude, this.arrival_airport.longitude, 'K'));
 
     $('#addBtn').addClass('is-loading');
     $('#reset').addClass('is-hidden');
@@ -399,59 +344,27 @@ export class NewFlightComponent implements OnInit {
                 this.routeDet.fplan = { ...data.data.fplan };
                 console.log('rou', this.routeDet);
                 this.result = JSON.stringify(this.routeDet, undefined, 2);
+                this.adminService.checkOverlap(this.aircraft.aircraftId, this.routeDet.departuretime,
+                  this.routeDet.arrivaltime).subscribe(data => {
+                    console.log('overlap ', data);
+                    if (data.data.length === 0) {
+                      this.getCrew();
+                      this.lastLiveFlight(this.routeDet.departuretime);
+                      this.nextLiveFlight(this.routeDet.arrivaltime);
+                      this.currentLoc = {};
+                      this.currentLoc.name = '';
+                      this.LiveDep = this.departure_airport.icao;
+                      this.LiveArr = this.arrival_airport.icao;
+                      this.LiveDepT = this.routeDet.departuretime;
+                      this.LiveArr = this.routeDet.arrivaltime;
+                      $('#position-from').addClass('is-active');
+                    } else {
+                      this.overlapFlight = data.data[0];
+                      $('#flight-overlap').addClass('is-active');
+                    }
+                  });
                 // $('#addBtn').removeClass('is-loading');
-                this.adminService.getCrewByOccupation('PIC').subscribe(data => {
-                  console.log('crewPIC', data.data);
-                  data.data.some(element => {
-                    // console.log(Date.parse(this.departure_time) / 1000 - element.unavailable)
-                    const subtract = Date.parse(this.departure_time) / 1000 - element.unavailableTo;
-                    this.pic_crew = element;
-                    return subtract >= 0;
 
-                  });
-                  this.adminService.getCrewByOccupation('FO').subscribe(data => {
-                    console.log('crewFO', data.data);
-                    data.data.some(element => {
-                      // console.log(Date.parse(this.departure_time) / 1000 - element.unavailable)
-                      const subtract = Date.parse(this.departure_time) / 1000 - element.unavailableTo;
-                      this.fo_crew = element;
-                      return subtract >= 0;
-
-                    });
-                    this.adminService.addRoute(this.reference_id,
-                      this.routeId,
-                      this.ops_crew._id,
-                      this.pic_crew._id,
-                      this.fo_crew._id,
-                      this.ops_crew.name,
-                      this.pic_crew.name,
-                      this.fo_crew.name,
-                      this.aircraft.aircraftId,
-                      this.departure_airport.icao,
-                      this.arrival_airport.icao,
-                      this.handler._id,
-                      this.dangerous,
-                      this.type,
-                      this.pax,
-                      this.cargo, 'live', this.routeDet.arrivaltime, this.routeDet.departuretime, this.routeDet.fuel, this.routeDet.distance, this.routeDet.fplan).subscribe(data => {
-                        $('#position-from').addClass('is-active');
-
-                        this.lastLiveFlight(this.routeDet.departuretime);
-                        this.nextLiveFlight(this.routeDet.arrivaltime);
-                        this.currentLoc = {};
-                        this.currentLoc.name = '';
-                        console.log('ROUTE ADDED ', data);
-                        this.LiveDep = this.departure_airport.icao;
-                        this.LiveArr = this.arrival_airport.icao;
-                        this.LiveDepT = this.routeDet.departuretime;
-                        this.LiveArr = this.routeDet.arrivaltime;
-                        this.liveLeg = data.data._id;
-                        this.adminService.getBriefing(this.routeId).subscribe(data => {
-                          console.log('briefing', data);
-                        });
-                      });
-                  });
-                });
               });
               break;
             }
@@ -459,6 +372,53 @@ export class NewFlightComponent implements OnInit {
           this.result = JSON.stringify(res.data, undefined, 2);
         });
     });
+  }
+  getCrew() {
+    this.adminService.getCrewByOccupation('PIC').subscribe(data => {
+      console.log('crewPIC', data.data);
+      data.data.some(element => {
+        // console.log(Date.parse(this.departure_time) / 1000 - element.unavailable)
+        const subtract = Date.parse(this.departure_time) / 1000 - element.unavailableTo;
+        this.pic_crew = element;
+        return subtract >= 0;
+
+      });
+      this.adminService.getCrewByOccupation('FO').subscribe(data => {
+        console.log('crewFO', data.data);
+        data.data.some(element => {
+          // console.log(Date.parse(this.departure_time) / 1000 - element.unavailable)
+          const subtract = Date.parse(this.departure_time) / 1000 - element.unavailableTo;
+          this.fo_crew = element;
+          return subtract >= 0;
+
+        });
+        this.addRoute('live', this.routeId);
+      });
+    });
+  }
+  addRoute(type, routeId) {
+    this.adminService.addRoute(this.reference_id,
+      routeId,
+      this.ops_crew._id,
+      this.pic_crew._id,
+      this.fo_crew._id,
+      this.ops_crew.name,
+      this.pic_crew.name,
+      this.fo_crew.name,
+      this.aircraft.aircraftId,
+      this.departure_airport.icao,
+      this.arrival_airport.icao,
+      this.handler._id,
+      this.dangerous,
+      this.type,
+      this.pax,
+      this.cargo, type, this.routeDet.arrivaltime, this.routeDet.departuretime,
+      this.routeDet.fuel, this.routeDet.distance, this.routeDet.fplan).subscribe(data => {
+        console.log('ROUTE ADDED ', data);
+        this.adminService.getBriefing(routeId).subscribe(data => {
+          console.log('briefing', data);
+        });
+      });
   }
   doPositionFrom(): void {
     $('#positionBtn').addClass('is-loading');
@@ -502,39 +462,30 @@ export class NewFlightComponent implements OnInit {
                 console.log(this.routeDet);
                 console.log('split A', this.splitA);
                 this.result = JSON.stringify(this.routeDet, undefined, 2);
-                this.adminService.addRoute(this.reference_id,
-                  this.routeId,
-                  this.ops_crew._id,
-                  this.pic_crew._id,
-                  this.fo_crew._id,
-                  this.ops_crew.name,
-                  this.pic_crew.name,
-                  this.fo_crew.name,
-                  this.aircraft.aircraftId,
-                  this.currentLoc.icao,
-                  this.departure_airport.icao,
-                  this.fromHandler._id,
-                  this.dangerous,
-                  this.type,
-                  this.pax,
-                  this.cargo, 'positionFrom', this.routeDet.arrivaltime, this.routeDet.departuretime, this.routeDet.fuel, this.routeDet.distance, this.routeDet.fplan).subscribe(data => {
-                        console.log('ROUTE ADDED ', data);
-                    this.positionFromDep = this.currentLoc.icao;
-                    this.positionFromArr = this.departure_airport.icao;
-                    this.positionFromDepT = this.routeDet.departuretime;
-                    this.positionFromArrT = this.routeDet.arrivaltime;
-                    this.adminService.getBriefing(this.routeId).subscribe(data => {
-                      console.log('briefing', data);
-                    });
-                    this.adminService.updateCrew(this.pic_crew._id, this.routeDet.departuretime, this.routeDet.arrivaltime).subscribe(data => {
-                      console.log('updated', data);
-                    });
-                    this.adminService.updateCrew(this.fo_crew._id, this.routeDet.departuretime, this.routeDet.arrivaltime).subscribe(data => {
-                      console.log('updated', data);
-                    });
-                    $('#positionBtn').removeClass('is-loading');
-                    $('#position-from').removeClass('is-active');
-                    $('#position-to').addClass('is-active');
+                this.adminService.checkOverlap(this.aircraft.aircraftId, this.routeDet.departuretime,
+                  this.routeDet.arrivaltime).subscribe(data => {
+
+                    if (data.data.length === 0) {
+                      this.addRoute('positionFrom', this.routeId);
+                      this.positionFromDep = this.currentLoc.icao;
+                      this.positionFromArr = this.departure_airport.icao;
+                      this.positionFromDepT = this.routeDet.departuretime;
+                      this.positionFromArrT = this.routeDet.arrivaltime;
+                      this.adminService.updateCrew(this.pic_crew._id, this.routeDet.departuretime,
+                        this.routeDet.arrivaltime).subscribe(data => {
+                          console.log('updated', data);
+                        });
+                      this.adminService.updateCrew(this.fo_crew._id, this.routeDet.departuretime,
+                        this.routeDet.arrivaltime).subscribe(data => {
+                          console.log('updated', data);
+                        });
+                      $('#positionBtn').removeClass('is-loading');
+                      $('#position-from').removeClass('is-active');
+                      $('#position-to').addClass('is-active');
+                    } else {
+                      this.overlapFlight = data.data[0];
+                      $('#flight-overlap').addClass('is-active');
+                    }
                   });
               });
               break;
@@ -606,43 +557,30 @@ export class NewFlightComponent implements OnInit {
                   'WOCLE': wocle,
                   'SPLIT TIME': splittime
                 }, undefined, 2);
-                this.adminService.addRoute(this.reference_id,
-                  this.routeId,
-                  this.ops_crew._id,
-                  this.pic_crew._id,
-                  this.fo_crew._id,
-                  this.ops_crew.name,
-                  this.pic_crew.name,
-                  this.fo_crew.name,
-                  this.aircraft.aircraftId,
-                  this.arrival_airport.icao,
-                  this.baseLoc.icao,
-                  this.toHandler._id,
-                  this.dangerous,
-                  this.type,
-                  this.pax,
-                  this.cargo, 'positionTo', this.routeDet.arrivaltime, this.routeDet.departuretime, this.routeDet.fuel, this.routeDet.distance, this.routeDet.fplan).subscribe(data => {
-                    console.log('ROUTE ADDED ', data);
-                    console.log('DEPARTURE ROUTE ADDED ', this.departure_time);
-                    this.positionToDep = this.arrival_airport.icao;
-                    this.positionToArr = this.baseLoc.icao;
-                    this.positionToDepT = this.routeDet.departuretime;
-                    this.positionToArrT = this.routeDet.arrivaltime;
-                    this.adminService.getBriefing(this.routeId).subscribe(data => {
-                      console.log('briefing', data);
-                    });
-                    this.adminService.updateCrew(this.pic_crew._id, this.positionFromDepT, this.routeDet.arrivaltime).subscribe(data => {
-                      console.log('updated', data);
-                    });
-                    this.adminService.updateCrew(this.fo_crew._id, this.positionFromDepT, this.routeDet.arrivaltime).subscribe(data => {
-                      console.log('updated', data);
-                    });
-                    $('#suggested').addClass('is-active');
-                    this.positionTo = data.data._id;
-                    // this.addFlight()
+                this.adminService.checkOverlap(this.aircraft.aircraftId, this.routeDet.departuretime,
+                  this.routeDet.arrivaltime).subscribe(data => {
+
+                    if (data.data.length === 0) {
+                      this.addRoute('positionTo', this.routeId);
+                      this.positionToDep = this.arrival_airport.icao;
+                      this.positionToArr = this.baseLoc.icao;
+                      this.positionToDepT = this.routeDet.departuretime;
+                      this.positionToArrT = this.routeDet.arrivaltime;
+                      this.adminService.updateCrew(this.pic_crew._id, this.positionFromDepT, this.routeDet.arrivaltime).subscribe(data => {
+                        console.log('updated', data);
+                      });
+                      this.adminService.updateCrew(this.fo_crew._id, this.positionFromDepT, this.routeDet.arrivaltime).subscribe(data => {
+                        console.log('updated', data);
+                      });
+                      $('#suggested').addClass('is-active');
+                      this.positionTo = data.data._id;
+                      $('#positionToBtn').removeClass('is-loading');
+                      $('#position-to').removeClass('is-active');
+                    } else {
+                      this.overlapFlight = data.data[0];
+                      $('#flight-overlap').addClass('is-active');
+                    }
                   });
-                $('#positionToBtn').removeClass('is-loading');
-                $('#position-to').removeClass('is-active');
               });
               break;
             }
@@ -669,6 +607,65 @@ export class NewFlightComponent implements OnInit {
     $('#positionBtn').removeClass('is-loading');
     $('#resetFrom').removeClass('is-hidden');
     $('#cancelFrom').addClass('is-hidden');
+  }
+  cancelFlight(id, type) {
+    this.adminService.deleteRoute(id).subscribe(data => {
+      console.log(data.data);
+      $('#cancelFlight').removeClass('is-loading');
+      $('#flight-overlap').removeClass('is-active');
+      if (type === 'live') {
+        this.getCrew();
+        this.lastLiveFlight(this.routeDet.departuretime);
+        this.nextLiveFlight(this.routeDet.arrivaltime);
+        this.currentLoc = {};
+        this.currentLoc.name = '';
+        this.LiveDep = this.departure_airport.icao;
+        this.LiveArr = this.arrival_airport.icao;
+        this.LiveDepT = this.routeDet.departuretime;
+        this.LiveArr = this.routeDet.arrivaltime;
+        $('#position-from').addClass('is-active');
+      }
+      if (type === 'positionFrom') {
+        this.addRoute(type, this.routeId);
+        this.positionFromDep = this.currentLoc.icao;
+        this.positionFromArr = this.departure_airport.icao;
+        this.positionFromDepT = this.routeDet.departuretime;
+        this.positionFromArrT = this.routeDet.arrivaltime;
+        this.adminService.getBriefing(this.routeId).subscribe(data => {
+          console.log('briefing', data);
+        });
+        this.adminService.updateCrew(this.pic_crew._id, this.routeDet.departuretime, this.routeDet.arrivaltime).subscribe(data => {
+          console.log('updated', data);
+        });
+        this.adminService.updateCrew(this.fo_crew._id, this.routeDet.departuretime, this.routeDet.arrivaltime).subscribe(data => {
+          console.log('updated', data);
+        });
+        $('#positionBtn').removeClass('is-loading');
+        $('#position-from').removeClass('is-active');
+        $('#position-to').addClass('is-active');
+      }
+      if (type === 'positionTo') {
+        this.addRoute(type, this.routeId);
+        this.positionToDep = this.arrival_airport.icao;
+        this.positionToArr = this.baseLoc.icao;
+        this.positionToDepT = this.routeDet.departuretime;
+        this.positionToArrT = this.routeDet.arrivaltime;
+        this.adminService.updateCrew(this.pic_crew._id, this.positionFromDepT, this.routeDet.arrivaltime).subscribe(data => {
+          console.log('updated', data);
+        });
+        this.adminService.updateCrew(this.fo_crew._id, this.positionFromDepT, this.routeDet.arrivaltime).subscribe(data => {
+          console.log('updated', data);
+        });
+        $('#suggested').addClass('is-active');
+        this.positionTo = data.data._id;
+        $('#positionToBtn').removeClass('is-loading');
+        $('#position-to').removeClass('is-active');
+      }
+    });
+  }
+  changeAircraft() {
+    $('#flight-overlap').removeClass('is-active');
+    this.cancel();
   }
   wocle(x, y) {
     if (x >= 2 && x <= 6 && y >= 2 && y <= 6) {

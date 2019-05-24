@@ -1022,6 +1022,15 @@ var AdminService = /** @class */ (function () {
             });
         });
     };
+    AdminService.prototype.deleteRoute = function (id) {
+        var _this = this;
+        return rxjs_Observable__WEBPACK_IMPORTED_MODULE_2__["Observable"].create(function (observer) {
+            _this.http.delete('/api/route/delete/' + id).subscribe(function (data) {
+                observer.next({ data: data });
+                observer.complete();
+            });
+        });
+    };
     AdminService.prototype.deleteUser = function (id) {
         var _this = this;
         return rxjs_Observable__WEBPACK_IMPORTED_MODULE_2__["Observable"].create(function (observer) {
@@ -1107,6 +1116,15 @@ var AdminService = /** @class */ (function () {
         var _this = this;
         return rxjs_Observable__WEBPACK_IMPORTED_MODULE_2__["Observable"].create(function (observer) {
             _this.http.get('/api/route/nextLiveFlight/' + aircraft + '/' + date).subscribe(function (data) {
+                observer.next({ data: data });
+                observer.complete();
+            });
+        });
+    };
+    AdminService.prototype.checkOverlap = function (aircraft, departure, arrival) {
+        var _this = this;
+        return rxjs_Observable__WEBPACK_IMPORTED_MODULE_2__["Observable"].create(function (observer) {
+            _this.http.get('/api/route/checkOverlap/' + aircraft + '/' + departure + '/' + arrival).subscribe(function (data) {
                 observer.next({ data: data });
                 observer.complete();
             });
@@ -4010,7 +4028,7 @@ var NewAirportComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-header></app-header>\n<div class=\"container\">\n  <div class=\"columns\">\n    <div class=\"column is-3\">\n      <app-side-nav></app-side-nav>\n    </div>\n    <div class=\"column is-9\">\n      <h3 class=\"title\">Add Flight</h3>\n      <form action=\"#\" *ngIf=\"sale\">\n        <section class=\"\">\n          <!-- <h3 class=\"title\">Live Leg</h3> -->\n          <div class=\"columns\">\n            <div class=\"column is-4\">\n              <div class=\"field\">\n                <label class=\"label\">Reference ID</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" [(ngModel)]=\"reference_id\" name=\"reference_id\">\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-4\">\n              <div class=\"field\">\n                <label class=\"label\">OPS Employee</label>\n                <div class=\"control\">\n                  <div class=\"select\">\n                    <select [(ngModel)]=\"ops_crew\" name=\"ops_crew\">\n                      <option>OPS Employees</option>\n                      <option *ngFor=\"let ops_crew of ops_crews\" [ngValue]=\"ops_crew\">{{ops_crew.name}}</option>\n                    </select>\n                  </div>\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-4\">\n              <div class=\"field\">\n                <label class=\"label\">Aircraft</label>\n                <div class=\"control\">\n                  <div class=\"select\">\n                    <select [(ngModel)]=\"aircraft\" name=\"aircraft\">\n                      <option>Suggested Aircraft</option>\n                      <option *ngFor=\"let aircraft of aircrafts\" [ngValue]=\"aircraft\">{{aircraft.registration}}\n                      </option>\n                    </select>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"columns\">\n            <div class=\"column is-4\">\n              <div class=\"field\">\n                <label class=\"label\">Departure Time</label>\n                <div class=\"control\">\n                  <ng2-flatpickr [config]=\"exampleOptions\" [(ngModel)]=\"departure_time\" name=\"departure_time\">\n                  </ng2-flatpickr>\n                  <!-- <input type=\"text\" [(ngModel)]=\"departure_time\" name=\"departure_time\"> -->\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-4\">\n              <div class=\"field\">\n                <label class=\"label\">Departure Airport</label>\n                <div class=\"control\">\n                  <div class=\"dropdown\" id=\"dptAir\">\n                    <div class=\"dropdown-trigger\">\n                      <input class=\"input\" name=\"departure_airport\" autocomplete=\"off\"\n                        [(ngModel)]=\"departure_airport.name\" (input)=\"getAirports($event.target.value, 'dptAir')\"\n                        type=\"text\" placeholder=\"Enter Departure Airport\" aria-haspopup=\"true\">\n                    </div>\n                    <div class=\"dropdown-menu\" role=\"menu\">\n                      <div class=\"dropdown-content\">\n                        <a (click)=\"departure_airport = airport;hideSearch()\" class=\"dropdown-item\"\n                          *ngFor=\"let airport of airports\">\n                          {{airport.name}} ({{airport.icao}})\n                        </a>\n                        <span *ngIf=\"!airports\">Loading...</span>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-4\">\n              <div class=\"field\">\n                <label class=\"label\">Arrival Airport</label>\n                <div class=\"control\">\n                  <div class=\"dropdown\" id=\"arrAir\">\n                    <div class=\"dropdown-trigger\">\n                      <input class=\"input\" name=\"arrival_airport\" autocomplete=\"off\" [(ngModel)]=\"arrival_airport.name\"\n                        (input)=\"getAirports($event.target.value, 'arrAir')\" type=\"text\"\n                        placeholder=\"Enter Arrival Airport\" aria-haspopup=\"true\">\n                    </div>\n                    <div class=\"dropdown-menu\" role=\"menu\">\n                      <div class=\"dropdown-content\">\n                        <a (click)=\"arrival_airport = airport;getHandler(airport);hideSearch();\" class=\"dropdown-item\"\n                          *ngFor=\"let airport of airports\">\n                          {{airport.name}} ({{airport.icao}})\n                        </a>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"columns\">\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Handler</label>\n                <div class=\"control\">\n                  <div class=\"select\">\n                    <select [(ngModel)]=\"handler\" name=\"handler\">\n                      <option>Handler Values</option>\n                      <option *ngFor=\"let handler of handlers\" [ngValue]=\"handler\">{{handler.name}}</option>\n                    </select>\n                  </div>\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Dangerous Good?</label>\n                <div class=\"control\">\n                  <label class=\"radio\">\n                    <input type=\"radio\" name=\"answer\" [(ngModel)]=\"dangerous\" value=\"yes\" name=\"dangerous\">\n                    Yes\n                  </label>\n                  <label class=\"radio\">\n                    <input type=\"radio\" name=\"answer\" [(ngModel)]=\"dangerous\" value=\"no\" name=\"dangerous\">\n                    No\n                  </label>\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"columns\">\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Pax/Cargo</label>\n                <div class=\"control\">\n                  <div class=\"select\">\n                    <select #paxCargo1 [(ngModel)]=\"type\" name=\"type\" (change)=\"paxCargo(paxCargo1.value)\">\n                      <option value=\"pax\">Pax.</option>\n                      <option value=\"cargo\">Cargo</option>\n                    </select>\n                  </div>\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-6\">\n              <div class=\"field\" id=\"pax\">\n                <label class=\"label\">Number of Passengers</label>\n                <div class=\"control\">\n                  <input type=\"text\" [(ngModel)]=\"pax\" name=\"pax\" class=\"input\">\n                </div>\n              </div>\n              <div class=\"field\" id=\"cargo\" style=\"display: none;\">\n                <label class=\"label\">Weight of Cargo</label>\n                <div class=\"control\">\n                  <input type=\"text\" [(ngModel)]=\"cargo\" name=\"cargo\" class=\"input\">\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"columns\">\n            <div class=\"column is-6\">\n              <div class=\"field is-grouped\">\n                <div class=\"control\">\n                  <button class=\"button is-link\" (click)=\"doRoute()\" id=\"addBtn\">Submit</button>\n                </div>\n                <div class=\"control\">\n                  <button class=\"button is-text\" type=\"reset\" id=\"reset\">Reset</button>\n                  <button class=\"button is-text is-hidden\" type=\"button\" id=\"cancel\" (click)=\"cancel()\">Cancel</button>\n                </div>\n              </div>\n            </div>\n          </div>\n\n        </section>\n\n\n      </form>\n      <pre>{{result}}</pre>\n    </div>\n  </div>\n  <div class=\"modal\" id=\"position-from\">\n    <div class=\"modal-background\"></div>\n    <div class=\"modal-card\">\n      <form>\n        <header class=\"modal-card-head\">\n          <p class=\"modal-card-title\">Position From</p>\n        </header>\n        <section class=\"modal-card-body\">\n          <h4 *ngIf=\"lastFlight\">Flight {{lastFlight.reference_id}} arrives at\n            {{lastFlight.arrivaltime*1000 | date :  \"short\"}} at\n            {{lastFlight.arrival_airport}}. Where would you like to plan the positioning flight from?</h4>\n          <div class=\"field\">\n            <div class=\"control\">\n              <label class=\"radio\">\n                <input type=\"radio\" name=\"question\" checked (change)=\"handleLFChange('arrival')\">\n                Arrival Location\n              </label>\n              <label class=\"radio\">\n                <input type=\"radio\" name=\"question\" (change)=\"handleLFChange('choose')\">\n                Choose\n              </label>\n            </div>\n          </div>\n          <div class=\"columns\" id=\"choose\" *ngIf=\"currentLoc\">\n            <div class=\"column is-5\">\n              <div class=\"field\">\n                <label class=\"label\">Position From</label>\n                <div class=\"control\">\n                  <div class=\"dropdown\" id=\"dptFromAir\">\n                    <div class=\"dropdown-trigger\">\n                      <input class=\"input\" name=\"currentLoc\" id=\"currentLoc\" autocomplete=\"off\"\n                        [(ngModel)]=\"currentLoc.name\" (input)=\"getAirports($event.target.value, 'dptFromAir')\"\n                        type=\"text\" placeholder=\"Enter Departure Airport\" aria-haspopup=\"true\">\n                    </div>\n                    <div class=\"dropdown-menu\" role=\"menu\">\n                      <div class=\"dropdown-content\">\n                        <a (click)=\"currentLoc = airport;getHandler(airport);hideSearch()\" class=\"dropdown-item\"\n                          *ngFor=\"let airport of airports\">\n                          {{airport.name}} ({{airport.icao}})\n                        </a>\n                        <span *ngIf=\"!airports\">Loading...</span>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-5\">\n              <div class=\"field\">\n                <label class=\"label\">Handler</label>\n                <div class=\"control\">\n                  <div class=\"select\">\n                    <select [(ngModel)]=\"fromHandler\" name=\"fromHandler\" id=\"fromHandler\">\n                      <option>Handler Values</option>\n                      <option *ngFor=\"let handler of handlers\" [ngValue]=\"handler\">{{handler.name}}</option>\n                    </select>\n                  </div>\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-2\">\n              <div class=\"field\">\n                <label class=\"label\">Layover Time</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" name=\"fromLayOver\" [(ngModel)]=\"fromLayOver\">\n                </div>\n              </div>\n            </div>\n          </div>\n\n\n\n        </section>\n\n        <footer class=\"modal-card-foot\">\n          <button class=\"button is-success\" id=\"positionBtn\" (click)=\"doPositionFrom()\">Position</button>\n          <button class=\"button is-text\" type=\"reset\" id=\"resetFrom\">Reset</button>\n          <button class=\"button is-text is-hidden\" type=\"button\" id=\"cancelFrom\" (click)=\"cancelFrom()\">Cancel</button>\n        </footer>\n      </form>\n    </div>\n  </div>\n  <div class=\"modal\" id=\"position-to\">\n    <div class=\"modal-background\"></div>\n    <div class=\"modal-card\">\n      <form>\n        <header class=\"modal-card-head\">\n          <p class=\"modal-card-title\">Position To</p>\n        </header>\n        <section class=\"modal-card-body\">\n          <h4 *ngIf=\"nextFlight\">Next flight will be on {{nextFlight.departuretime*1000 | date :  \"short\"}} for aircraft {{nextFlight.reference_id}}, where would you\n                  like to position the aircraft to?</h4>\n          <div class=\"field\">\n            <div class=\"control\">\n              <label class=\"radio\">\n                <input type=\"radio\" name=\"question\" checked (change)=\"handleNFChange('arrival')\">\n                Arrival Location\n              </label>\n              <label class=\"radio\">\n                <input type=\"radio\" name=\"question\" (change)=\"handleNFChange('choose')\">\n                Choose\n              </label>\n            </div>\n          </div>\n          <div class=\"columns\" id=\"chooseTo\" *ngIf=\"baseLoc\">\n            <div class=\"column is-5\">\n              <div class=\"field\">\n                <label class=\"label\">Base Location</label>\n                <div class=\"control\">\n                  <div class=\"dropdown\" id=\"dptToAir\">\n                    <div class=\"dropdown-trigger\">\n                      <input class=\"input\" name=\"baseLoc\" id=\"baseLoc\" autocomplete=\"off\" [(ngModel)]=\"baseLoc.name\"\n                        (input)=\"getAirports($event.target.value, 'dptToAir')\" type=\"text\"\n                        placeholder=\"Enter Departure Airport\" aria-haspopup=\"true\">\n                    </div>\n                    <div class=\"dropdown-menu\" role=\"menu\">\n                      <div class=\"dropdown-content\">\n                        <a (click)=\"baseLoc = airport;getHandler(airport);hideSearch()\" class=\"dropdown-item\"\n                          *ngFor=\"let airport of airports\">\n                          {{airport.name}} ({{airport.icao}})\n                        </a>\n                        <span *ngIf=\"!airports\">Loading...</span>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-5\">\n              <div class=\"field\">\n                <label class=\"label\">Handler</label>\n                <div class=\"control\">\n                  <div class=\"select\">\n                    <select [(ngModel)]=\"toHandler\" id=\"toHandler\" name=\"toHandler\">\n                      <option>Handler Values</option>\n                      <option *ngFor=\"let handler of handlers\" [ngValue]=\"handler\">{{handler.name}}</option>\n                    </select>\n                  </div>\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-2\">\n              <div class=\"field\">\n                <label class=\"label\">Layover Time</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" name=\"toLayOver\" [(ngModel)]=\"toLayOver\">\n                </div>\n              </div>\n            </div>\n          </div>\n\n\n\n        </section>\n        <footer class=\"modal-card-foot\">\n          <button class=\"button is-success\" id=\"positionToBtn\" (click)=\"doPositionTo()\">Position</button>\n          <button class=\"button is-text\" type=\"reset\" id=\"resetTo\">Reset</button>\n          <button class=\"button is-text is-hidden\" type=\"button\" id=\"cancelTo\" (click)=\"cancelTo()\">Cancel</button>\n        </footer>\n      </form>\n    </div>\n  </div>\n  <div class=\"modal\" id=\"suggested\">\n    <div class=\"modal-background\"></div>\n    <div class=\"modal-card\">\n      <form>\n        <header class=\"modal-card-head\">\n          <p class=\"modal-card-title\">Suggested Actions</p>\n          <button class=\"delete\" aria-label=\"close\"></button>\n        </header>\n        <section class=\"modal-card-body\">\n\n          <button class=\"button is-success is-block\" (click)=\"createMail()\">Send Crew Notification</button>\n          <button class=\"button is-success is-block\" (click)=\"createHandlerMail()\">Send Handling Request</button>\n\n\n\n        </section>\n      </form>\n    </div>\n  </div>\n</div>\n<script type=\"text/javascript\"\n  src=\"/node_modules/bulma-extensions/bulma-accordion/dist/bulma-accordion.min.js\"></script>\n<script type=\"text/javascript\">\n  var accordions = bulmaAccordion.attach();\n</script>\n<app-chat></app-chat>"
+module.exports = "<app-header></app-header>\n<div class=\"container\">\n  <div class=\"columns\">\n    <div class=\"column is-3\">\n      <app-side-nav></app-side-nav>\n    </div>\n    <div class=\"column is-9\">\n      <h3 class=\"title\">Add Flight</h3>\n      <form action=\"#\" *ngIf=\"sale\">\n        <section class=\"\">\n          <!-- <h3 class=\"title\">Live Leg</h3> -->\n          <div class=\"columns\">\n            <div class=\"column is-4\">\n              <div class=\"field\">\n                <label class=\"label\">Reference ID</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" [(ngModel)]=\"reference_id\" name=\"reference_id\">\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-4\">\n              <div class=\"field\">\n                <label class=\"label\">OPS Employee</label>\n                <div class=\"control\">\n                  <div class=\"select\">\n                    <select [(ngModel)]=\"ops_crew\" name=\"ops_crew\">\n                      <option>OPS Employees</option>\n                      <option *ngFor=\"let ops_crew of ops_crews\" [ngValue]=\"ops_crew\">{{ops_crew.name}}</option>\n                    </select>\n                  </div>\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-4\">\n              <div class=\"field\">\n                <label class=\"label\">Aircraft</label>\n                <div class=\"control\">\n                  <div class=\"select\">\n                    <select [(ngModel)]=\"aircraft\" name=\"aircraft\">\n                      <option>Suggested Aircraft</option>\n                      <option *ngFor=\"let aircraft of aircrafts\" [ngValue]=\"aircraft\">{{aircraft.registration}}\n                      </option>\n                    </select>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"columns\">\n            <div class=\"column is-4\">\n              <div class=\"field\">\n                <label class=\"label\">Departure Time</label>\n                <div class=\"control\">\n                  <ng2-flatpickr [config]=\"exampleOptions\" [(ngModel)]=\"departure_time\" name=\"departure_time\">\n                  </ng2-flatpickr>\n                  <!-- <input type=\"text\" [(ngModel)]=\"departure_time\" name=\"departure_time\"> -->\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-4\">\n              <div class=\"field\">\n                <label class=\"label\">Departure Airport</label>\n                <div class=\"control\">\n                  <div class=\"dropdown\" id=\"dptAir\">\n                    <div class=\"dropdown-trigger\">\n                      <input class=\"input\" name=\"departure_airport\" autocomplete=\"off\"\n                        [(ngModel)]=\"departure_airport.name\" (input)=\"getAirports($event.target.value, 'dptAir')\"\n                        type=\"text\" placeholder=\"Enter Departure Airport\" aria-haspopup=\"true\">\n                    </div>\n                    <div class=\"dropdown-menu\" role=\"menu\">\n                      <div class=\"dropdown-content\">\n                        <a (click)=\"departure_airport = airport;hideSearch()\" class=\"dropdown-item\"\n                          *ngFor=\"let airport of airports\">\n                          {{airport.name}} ({{airport.icao}})\n                        </a>\n                        <span *ngIf=\"!airports\">Loading...</span>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-4\">\n              <div class=\"field\">\n                <label class=\"label\">Arrival Airport</label>\n                <div class=\"control\">\n                  <div class=\"dropdown\" id=\"arrAir\">\n                    <div class=\"dropdown-trigger\">\n                      <input class=\"input\" name=\"arrival_airport\" autocomplete=\"off\" [(ngModel)]=\"arrival_airport.name\"\n                        (input)=\"getAirports($event.target.value, 'arrAir')\" type=\"text\"\n                        placeholder=\"Enter Arrival Airport\" aria-haspopup=\"true\">\n                    </div>\n                    <div class=\"dropdown-menu\" role=\"menu\">\n                      <div class=\"dropdown-content\">\n                        <a (click)=\"arrival_airport = airport;getHandler(airport);hideSearch();\" class=\"dropdown-item\"\n                          *ngFor=\"let airport of airports\">\n                          {{airport.name}} ({{airport.icao}})\n                        </a>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"columns\">\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Handler</label>\n                <div class=\"control\">\n                  <div class=\"select\">\n                    <select [(ngModel)]=\"handler\" name=\"handler\">\n                      <option>Handler Values</option>\n                      <option *ngFor=\"let handler of handlers\" [ngValue]=\"handler\">{{handler.name}}</option>\n                    </select>\n                  </div>\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Dangerous Good?</label>\n                <div class=\"control\">\n                  <label class=\"radio\">\n                    <input type=\"radio\" name=\"answer\" [(ngModel)]=\"dangerous\" value=\"yes\" name=\"dangerous\">\n                    Yes\n                  </label>\n                  <label class=\"radio\">\n                    <input type=\"radio\" name=\"answer\" [(ngModel)]=\"dangerous\" value=\"no\" name=\"dangerous\">\n                    No\n                  </label>\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"columns\">\n            <div class=\"column is-6\">\n              <div class=\"field\">\n                <label class=\"label\">Pax/Cargo</label>\n                <div class=\"control\">\n                  <div class=\"select\">\n                    <select #paxCargo1 [(ngModel)]=\"type\" name=\"type\" (change)=\"paxCargo(paxCargo1.value)\">\n                      <option value=\"pax\">Pax.</option>\n                      <option value=\"cargo\">Cargo</option>\n                    </select>\n                  </div>\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-6\">\n              <div class=\"field\" id=\"pax\">\n                <label class=\"label\">Number of Passengers</label>\n                <div class=\"control\">\n                  <input type=\"text\" [(ngModel)]=\"pax\" name=\"pax\" class=\"input\">\n                </div>\n              </div>\n              <div class=\"field\" id=\"cargo\" style=\"display: none;\">\n                <label class=\"label\">Weight of Cargo</label>\n                <div class=\"control\">\n                  <input type=\"text\" [(ngModel)]=\"cargo\" name=\"cargo\" class=\"input\">\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"columns\">\n            <div class=\"column is-6\">\n              <div class=\"field is-grouped\">\n                <div class=\"control\">\n                  <button class=\"button is-link\" (click)=\"doRoute()\" id=\"addBtn\">Submit</button>\n                </div>\n                <div class=\"control\">\n                  <button class=\"button is-text\" type=\"reset\" id=\"reset\">Reset</button>\n                  <button class=\"button is-text is-hidden\" type=\"button\" id=\"cancel\" (click)=\"cancel()\">Cancel</button>\n                </div>\n              </div>\n            </div>\n          </div>\n\n        </section>\n\n\n      </form>\n      <pre>{{result}}</pre>\n    </div>\n  </div>\n  <div class=\"modal\" id=\"flight-overlap\">\n    <div class=\"modal-background\"></div>\n    <div class=\"modal-card\">\n      <form *ngIf=\"overlapFlight\">\n        <header class=\"modal-card-head\">\n          <p class=\"modal-card-title\">Flight Overlap</p>\n        </header>\n        <section class=\"modal-card-body\">\n          <h4>Flight {{overlapFlight.reference_id}}, {{overlapFlight.departure_airport}} to \n            {{overlapFlight.arrival_airport}} on {{overlapFlight.departuretime*1000 | date : \"short\"}}, overlaps \n            with {{reference_id}}, {{departure_airport.icao}} to {{arrival_airport.icao}} on {{departure_time*1000 | date : \"short\"}} \n            at for aircraft {{aircraft.aircraft}}. How would you like to resolve?</h4>\n        </section>\n\n        <footer class=\"modal-card-foot\">\n            <button class=\"button is-success\" id=\"cancelFlight\" (click)=\"cancelFlight(overlapFlight.reference_id)\">Cancel Flight {{overlapFlight.reference_id}}</button>\n            <button class=\"button is-success\" (click)=\"changeAircraft()\">Cancel Flight/Change Aircraft</button>\n        </footer>\n      </form>\n    </div>\n  </div>\n  <div class=\"modal\" id=\"position-from\">\n    <div class=\"modal-background\"></div>\n    <div class=\"modal-card\">\n      <form>\n        <header class=\"modal-card-head\">\n          <p class=\"modal-card-title\">Position From</p>\n        </header>\n        <section class=\"modal-card-body\">\n          <h4 *ngIf=\"lastFlight\">Flight {{lastFlight.reference_id}} arrives at\n            {{lastFlight.arrivaltime*1000 | date :  \"short\"}} at\n            {{lastFlight.arrival_airport}}. Where would you like to plan the positioning flight from?</h4>\n          <div class=\"field\">\n            <div class=\"control\">\n              <label class=\"radio\">\n                <input type=\"radio\" name=\"question\" checked (change)=\"handleLFChange('arrival')\">\n                Arrival Location\n              </label>\n              <label class=\"radio\">\n                <input type=\"radio\" name=\"question\" (change)=\"handleLFChange('choose')\">\n                Choose\n              </label>\n            </div>\n          </div>\n          <div class=\"columns\" id=\"choose\" *ngIf=\"currentLoc\">\n            <div class=\"column is-5\">\n              <div class=\"field\">\n                <label class=\"label\">Position From</label>\n                <div class=\"control\">\n                  <div class=\"dropdown\" id=\"dptFromAir\">\n                    <div class=\"dropdown-trigger\">\n                      <input class=\"input\" name=\"currentLoc\" id=\"currentLoc\" autocomplete=\"off\"\n                        [(ngModel)]=\"currentLoc.name\" (input)=\"getAirports($event.target.value, 'dptFromAir')\"\n                        type=\"text\" placeholder=\"Enter Departure Airport\" aria-haspopup=\"true\">\n                    </div>\n                    <div class=\"dropdown-menu\" role=\"menu\">\n                      <div class=\"dropdown-content\">\n                        <a (click)=\"currentLoc = airport;getHandler(airport);hideSearch()\" class=\"dropdown-item\"\n                          *ngFor=\"let airport of airports\">\n                          {{airport.name}} ({{airport.icao}})\n                        </a>\n                        <span *ngIf=\"!airports\">Loading...</span>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-5\">\n              <div class=\"field\">\n                <label class=\"label\">Handler</label>\n                <div class=\"control\">\n                  <div class=\"select\">\n                    <select [(ngModel)]=\"fromHandler\" name=\"fromHandler\" id=\"fromHandler\">\n                      <option>Handler Values</option>\n                      <option *ngFor=\"let handler of handlers\" [ngValue]=\"handler\">{{handler.name}}</option>\n                    </select>\n                  </div>\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-2\">\n              <div class=\"field\">\n                <label class=\"label\">Layover Time</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" name=\"fromLayOver\" [(ngModel)]=\"fromLayOver\">\n                </div>\n              </div>\n            </div>\n          </div>\n\n\n\n        </section>\n\n        <footer class=\"modal-card-foot\">\n          <button class=\"button is-success\" id=\"positionBtn\" (click)=\"doPositionFrom()\">Position</button>\n          <button class=\"button is-text\" type=\"reset\" id=\"resetFrom\">Reset</button>\n          <button class=\"button is-text is-hidden\" type=\"button\" id=\"cancelFrom\" (click)=\"cancelFrom()\">Cancel</button>\n        </footer>\n      </form>\n    </div>\n  </div>\n  <div class=\"modal\" id=\"position-to\">\n    <div class=\"modal-background\"></div>\n    <div class=\"modal-card\">\n      <form>\n        <header class=\"modal-card-head\">\n          <p class=\"modal-card-title\">Position To</p>\n        </header>\n        <section class=\"modal-card-body\">\n          <h4 *ngIf=\"nextFlight\">Next flight will be on {{nextFlight.departuretime*1000 | date :  \"short\"}} for aircraft {{nextFlight.reference_id}}, where would you\n                  like to position the aircraft to?</h4>\n          <div class=\"field\">\n            <div class=\"control\">\n              <label class=\"radio\">\n                <input type=\"radio\" name=\"question\" checked (change)=\"handleNFChange('arrival')\">\n                Arrival Location\n              </label>\n              <label class=\"radio\">\n                <input type=\"radio\" name=\"question\" (change)=\"handleNFChange('choose')\">\n                Choose\n              </label>\n            </div>\n          </div>\n          <div class=\"columns\" id=\"chooseTo\" *ngIf=\"baseLoc\">\n            <div class=\"column is-5\">\n              <div class=\"field\">\n                <label class=\"label\">Base Location</label>\n                <div class=\"control\">\n                  <div class=\"dropdown\" id=\"dptToAir\">\n                    <div class=\"dropdown-trigger\">\n                      <input class=\"input\" name=\"baseLoc\" id=\"baseLoc\" autocomplete=\"off\" [(ngModel)]=\"baseLoc.name\"\n                        (input)=\"getAirports($event.target.value, 'dptToAir')\" type=\"text\"\n                        placeholder=\"Enter Departure Airport\" aria-haspopup=\"true\">\n                    </div>\n                    <div class=\"dropdown-menu\" role=\"menu\">\n                      <div class=\"dropdown-content\">\n                        <a (click)=\"baseLoc = airport;getHandler(airport);hideSearch()\" class=\"dropdown-item\"\n                          *ngFor=\"let airport of airports\">\n                          {{airport.name}} ({{airport.icao}})\n                        </a>\n                        <span *ngIf=\"!airports\">Loading...</span>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-5\">\n              <div class=\"field\">\n                <label class=\"label\">Handler</label>\n                <div class=\"control\">\n                  <div class=\"select\">\n                    <select [(ngModel)]=\"toHandler\" id=\"toHandler\" name=\"toHandler\">\n                      <option>Handler Values</option>\n                      <option *ngFor=\"let handler of handlers\" [ngValue]=\"handler\">{{handler.name}}</option>\n                    </select>\n                  </div>\n                </div>\n              </div>\n            </div>\n            <div class=\"column is-2\">\n              <div class=\"field\">\n                <label class=\"label\">Layover Time</label>\n                <div class=\"control\">\n                  <input class=\"input\" type=\"text\" name=\"toLayOver\" [(ngModel)]=\"toLayOver\">\n                </div>\n              </div>\n            </div>\n          </div>\n\n\n\n        </section>\n        <footer class=\"modal-card-foot\">\n          <button class=\"button is-success\" id=\"positionToBtn\" (click)=\"doPositionTo()\">Position</button>\n          <button class=\"button is-text\" type=\"reset\" id=\"resetTo\">Reset</button>\n          <button class=\"button is-text is-hidden\" type=\"button\" id=\"cancelTo\" (click)=\"cancelTo()\">Cancel</button>\n        </footer>\n      </form>\n    </div>\n  </div>\n  <div class=\"modal\" id=\"suggested\">\n    <div class=\"modal-background\"></div>\n    <div class=\"modal-card\">\n      <form>\n        <header class=\"modal-card-head\">\n          <p class=\"modal-card-title\">Suggested Actions</p>\n          <button class=\"delete\" aria-label=\"close\"></button>\n        </header>\n        <section class=\"modal-card-body\">\n\n          <button class=\"button is-success is-block\" (click)=\"createMail()\">Send Crew Notification</button>\n          <button class=\"button is-success is-block\" (click)=\"createHandlerMail()\">Send Handling Request</button>\n\n\n\n        </section>\n      </form>\n    </div>\n  </div>\n</div>\n<script type=\"text/javascript\"\n  src=\"/node_modules/bulma-extensions/bulma-accordion/dist/bulma-accordion.min.js\"></script>\n<script type=\"text/javascript\">\n  var accordions = bulmaAccordion.attach();\n</script>\n<app-chat></app-chat>"
 
 /***/ }),
 
@@ -4256,8 +4274,13 @@ var NewFlightComponent = /** @class */ (function () {
         this.adminService.getTemplates().subscribe(function (data) {
             _this.crewTemplate = data.data[0];
             _this.handlerTemplate = data.data[1];
-            var find = ['%crewname%', '%role%', '%flightID%', '%aircraftID%', '%aircraftname%', '%date%', '%time%', '%airportdeparture%', '%airportarrival%', '%link%'];
-            var replace = [name, role, _this.reference_id, _this.aircraft.aircraftId, _this.aircraft.registration, new Date(departTime * 1000).getDate() + '-' + new Date(departTime * 1000).getMonth() + '-' + new Date(departTime * 1000).getFullYear(), new Date(departTime * 1000).getHours() + ':' + new Date(departTime * 1000).getMinutes() + ':' + new Date(departTime * 1000).getSeconds(), beginning, end, _this.reference_id];
+            var find = ['%crewname%', '%role%', '%flightID%', '%aircraftID%', '%aircraftname%', '%date%', '%time%',
+                '%airportdeparture%', '%airportarrival%', '%link%'];
+            var replace = [name, role, _this.reference_id, _this.aircraft.aircraftId, _this.aircraft.registration,
+                new Date(departTime * 1000).getDate() + '-' + new Date(departTime * 1000).getMonth() + '-' +
+                    new Date(departTime * 1000).getFullYear(), new Date(departTime * 1000).getHours() + ':' +
+                    new Date(departTime * 1000).getMinutes() + ':' + new Date(departTime * 1000).getSeconds(),
+                beginning, end, _this.reference_id];
             _this.crewTemplate.subject = _this.replaceArray(_this.crewTemplate.subject, find, replace);
             _this.crewTemplate.message = _this.replaceArray(_this.crewTemplate.message, find, replace);
             _this.adminService.sendMail(_this.ops_crew.p_email, _this.crewTemplate.subject, _this.crewTemplate.message).subscribe(function (data) {
@@ -4269,8 +4292,13 @@ var NewFlightComponent = /** @class */ (function () {
         var _this = this;
         this.adminService.getTemplates().subscribe(function (data) {
             _this.handlerTemplate = data.data[1];
-            var find = ['%handlername%', '%role%', '%flightID%', '%aircraftID%', '%aircraftname%', '%date%', '%time%', '%airportdeparture%', '%airportarrival%', '%link%'];
-            var replace = [name, role, _this.reference_id, _this.aircraft.aircraftId, _this.aircraft.registration, new Date(departTime * 1000).getDate() + '-' + new Date(departTime * 1000).getMonth() + '-' + new Date(departTime * 1000).getFullYear(), new Date(departTime * 1000).getHours() + ':' + new Date(departTime * 1000).getMinutes() + ':' + new Date(departTime * 1000).getSeconds(), beginning, end, _this.reference_id];
+            var find = ['%handlername%', '%role%', '%flightID%', '%aircraftID%', '%aircraftname%', '%date%',
+                '%time%', '%airportdeparture%', '%airportarrival%', '%link%'];
+            var replace = [name, role, _this.reference_id, _this.aircraft.aircraftId, _this.aircraft.registration,
+                new Date(departTime * 1000).getDate() + '-' + new Date(departTime * 1000).getMonth() + '-' +
+                    new Date(departTime * 1000).getFullYear(), new Date(departTime * 1000).getHours() + ':' +
+                    new Date(departTime * 1000).getMinutes() + ':' + new Date(departTime * 1000).getSeconds(), beginning,
+                end, _this.reference_id];
             _this.handlerTemplate.subject = _this.replaceArray(_this.handlerTemplate.subject, find, replace);
             _this.handlerTemplate.message = _this.replaceArray(_this.handlerTemplate.message, find, replace);
             _this.adminService.sendMail('kininteractivesolutions@gmail.com', _this.handlerTemplate.subject, _this.handlerTemplate.message).subscribe(function (data) {
@@ -4300,53 +4328,6 @@ var NewFlightComponent = /** @class */ (function () {
         this.adminService.getCrewByOccupation('OPS').subscribe(function (data) {
             _this.ops_crews = data.data;
             console.log('crews ', _this.ops_crews);
-        });
-    };
-    NewFlightComponent.prototype.addFlight = function () {
-        var _this = this;
-        console.log(Date.parse(this.departure_time) / 1000);
-        this.adminService.getCrewByOccupation('PIC').subscribe(function (data) {
-            console.log('crewPIC', data.data);
-            data.data.some(function (element) {
-                // console.log(Date.parse(this.departure_time) / 1000 - element.unavailable)
-                var subtract = Date.parse(_this.departure_time) / 1000 - element.unavailableTo;
-                _this.pic_crew = element._id;
-                _this.pic_crew_name = element.name;
-                _this.pic_crew_email = element.p_email;
-                return subtract >= 0;
-            });
-            _this.adminService.getCrewByOccupation('FO').subscribe(function (data) {
-                console.log('crewFO', data.data);
-                data.data.some(function (element) {
-                    // console.log(Date.parse(this.departure_time) / 1000 - element.unavailable)
-                    var subtract = Date.parse(_this.departure_time) / 1000 - element.unavailableTo;
-                    _this.fo_crew = element._id;
-                    _this.fo_crew_name = element.name;
-                    _this.fo_crew_email = element.p_email;
-                    return subtract >= 0;
-                });
-                _this.adminService.getHandlerDetails(_this.handler).subscribe(function (data) {
-                    _this.handler_email = data.data.email_primary;
-                    _this.adminService.getCrew(_this.ops_crew._id).subscribe(function (data) {
-                        _this.ops_crew_name = data.data.name;
-                        _this.ops_crew_email = data.data.p_email;
-                        console.log('checkOPS', _this.ops_crew_name);
-                        console.log('checkFO', _this.fo_crew);
-                        _this.adminService.addFlight(_this.reference_id, _this.ops_crew, _this.pic_crew, _this.fo_crew, _this.ops_crew_name, _this.pic_crew_name, _this.fo_crew_name, _this.aircraft.aircraftId, _this.departure_airport.icao, _this.arrival_airport, _this.departure_time, _this.handler, _this.dangerous, _this.type, _this.pax, _this.cargo, _this.liveLeg, _this.positionFrom, _this.positionTo).subscribe(function (data) {
-                            console.log('resp ', data.data);
-                            _this.flight_id = data.data._id;
-                            console.log('flight id ', _this.flight_id);
-                            _this.adminService.updateCrew(_this.pic_crew, _this.departure_time, _this.routeDet.arrivaltime).subscribe(function (data) {
-                                console.log('updated', data);
-                            });
-                            _this.adminService.updateCrew(_this.fo_crew, _this.departure_time, _this.routeDet.arrivaltime).subscribe(function (data) {
-                                jquery__WEBPACK_IMPORTED_MODULE_1__('#suggested').addClass('is-active');
-                                console.log('updated', data);
-                            });
-                        });
-                    });
-                });
-            });
         });
     };
     NewFlightComponent.prototype.doRoute = function () {
@@ -4384,46 +4365,62 @@ var NewFlightComponent = /** @class */ (function () {
                             _this.routeDet.fplan = __assign({}, data.data.fplan);
                             console.log('rou', _this.routeDet);
                             _this.result = JSON.stringify(_this.routeDet, undefined, 2);
-                            // $('#addBtn').removeClass('is-loading');
-                            _this.adminService.getCrewByOccupation('PIC').subscribe(function (data) {
-                                console.log('crewPIC', data.data);
-                                data.data.some(function (element) {
-                                    // console.log(Date.parse(this.departure_time) / 1000 - element.unavailable)
-                                    var subtract = Date.parse(_this.departure_time) / 1000 - element.unavailableTo;
-                                    _this.pic_crew = element;
-                                    return subtract >= 0;
-                                });
-                                _this.adminService.getCrewByOccupation('FO').subscribe(function (data) {
-                                    console.log('crewFO', data.data);
-                                    data.data.some(function (element) {
-                                        // console.log(Date.parse(this.departure_time) / 1000 - element.unavailable)
-                                        var subtract = Date.parse(_this.departure_time) / 1000 - element.unavailableTo;
-                                        _this.fo_crew = element;
-                                        return subtract >= 0;
-                                    });
-                                    _this.adminService.addRoute(_this.reference_id, _this.routeId, _this.ops_crew._id, _this.pic_crew._id, _this.fo_crew._id, _this.ops_crew.name, _this.pic_crew.name, _this.fo_crew.name, _this.aircraft.aircraftId, _this.departure_airport.icao, _this.arrival_airport.icao, _this.handler._id, _this.dangerous, _this.type, _this.pax, _this.cargo, 'live', _this.routeDet.arrivaltime, _this.routeDet.departuretime, _this.routeDet.fuel, _this.routeDet.distance, _this.routeDet.fplan).subscribe(function (data) {
-                                        jquery__WEBPACK_IMPORTED_MODULE_1__('#position-from').addClass('is-active');
-                                        _this.lastLiveFlight(_this.routeDet.departuretime);
-                                        _this.nextLiveFlight(_this.routeDet.arrivaltime);
-                                        _this.currentLoc = {};
-                                        _this.currentLoc.name = '';
-                                        console.log('ROUTE ADDED ', data);
-                                        _this.LiveDep = _this.departure_airport.icao;
-                                        _this.LiveArr = _this.arrival_airport.icao;
-                                        _this.LiveDepT = _this.routeDet.departuretime;
-                                        _this.LiveArr = _this.routeDet.arrivaltime;
-                                        _this.liveLeg = data.data._id;
-                                        _this.adminService.getBriefing(_this.routeId).subscribe(function (data) {
-                                            console.log('briefing', data);
-                                        });
-                                    });
-                                });
+                            _this.adminService.checkOverlap(_this.aircraft.aircraftId, _this.routeDet.departuretime, _this.routeDet.arrivaltime).subscribe(function (data) {
+                                console.log('overlap ', data);
+                                if (data.data.length === 0) {
+                                    _this.getCrew();
+                                    _this.lastLiveFlight(_this.routeDet.departuretime);
+                                    _this.nextLiveFlight(_this.routeDet.arrivaltime);
+                                    _this.currentLoc = {};
+                                    _this.currentLoc.name = '';
+                                    _this.LiveDep = _this.departure_airport.icao;
+                                    _this.LiveArr = _this.arrival_airport.icao;
+                                    _this.LiveDepT = _this.routeDet.departuretime;
+                                    _this.LiveArr = _this.routeDet.arrivaltime;
+                                    jquery__WEBPACK_IMPORTED_MODULE_1__('#position-from').addClass('is-active');
+                                }
+                                else {
+                                    _this.overlapFlight = data.data[0];
+                                    jquery__WEBPACK_IMPORTED_MODULE_1__('#flight-overlap').addClass('is-active');
+                                }
                             });
+                            // $('#addBtn').removeClass('is-loading');
                         });
                         break;
                     }
                 }
                 _this.result = JSON.stringify(res.data, undefined, 2);
+            });
+        });
+    };
+    NewFlightComponent.prototype.getCrew = function () {
+        var _this = this;
+        this.adminService.getCrewByOccupation('PIC').subscribe(function (data) {
+            console.log('crewPIC', data.data);
+            data.data.some(function (element) {
+                // console.log(Date.parse(this.departure_time) / 1000 - element.unavailable)
+                var subtract = Date.parse(_this.departure_time) / 1000 - element.unavailableTo;
+                _this.pic_crew = element;
+                return subtract >= 0;
+            });
+            _this.adminService.getCrewByOccupation('FO').subscribe(function (data) {
+                console.log('crewFO', data.data);
+                data.data.some(function (element) {
+                    // console.log(Date.parse(this.departure_time) / 1000 - element.unavailable)
+                    var subtract = Date.parse(_this.departure_time) / 1000 - element.unavailableTo;
+                    _this.fo_crew = element;
+                    return subtract >= 0;
+                });
+                _this.addRoute('live', _this.routeId);
+            });
+        });
+    };
+    NewFlightComponent.prototype.addRoute = function (type, routeId) {
+        var _this = this;
+        this.adminService.addRoute(this.reference_id, routeId, this.ops_crew._id, this.pic_crew._id, this.fo_crew._id, this.ops_crew.name, this.pic_crew.name, this.fo_crew.name, this.aircraft.aircraftId, this.departure_airport.icao, this.arrival_airport.icao, this.handler._id, this.dangerous, this.type, this.pax, this.cargo, type, this.routeDet.arrivaltime, this.routeDet.departuretime, this.routeDet.fuel, this.routeDet.distance, this.routeDet.fplan).subscribe(function (data) {
+            console.log('ROUTE ADDED ', data);
+            _this.adminService.getBriefing(routeId).subscribe(function (data) {
+                console.log('briefing', data);
             });
         });
     };
@@ -4466,24 +4463,27 @@ var NewFlightComponent = /** @class */ (function () {
                             console.log(_this.routeDet);
                             console.log('split A', _this.splitA);
                             _this.result = JSON.stringify(_this.routeDet, undefined, 2);
-                            _this.adminService.addRoute(_this.reference_id, _this.routeId, _this.ops_crew._id, _this.pic_crew._id, _this.fo_crew._id, _this.ops_crew.name, _this.pic_crew.name, _this.fo_crew.name, _this.aircraft.aircraftId, _this.currentLoc.icao, _this.departure_airport.icao, _this.fromHandler._id, _this.dangerous, _this.type, _this.pax, _this.cargo, 'positionFrom', _this.routeDet.arrivaltime, _this.routeDet.departuretime, _this.routeDet.fuel, _this.routeDet.distance, _this.routeDet.fplan).subscribe(function (data) {
-                                console.log('ROUTE ADDED ', data);
-                                _this.positionFromDep = _this.currentLoc.icao;
-                                _this.positionFromArr = _this.departure_airport.icao;
-                                _this.positionFromDepT = _this.routeDet.departuretime;
-                                _this.positionFromArrT = _this.routeDet.arrivaltime;
-                                _this.adminService.getBriefing(_this.routeId).subscribe(function (data) {
-                                    console.log('briefing', data);
-                                });
-                                _this.adminService.updateCrew(_this.pic_crew._id, _this.routeDet.departuretime, _this.routeDet.arrivaltime).subscribe(function (data) {
-                                    console.log('updated', data);
-                                });
-                                _this.adminService.updateCrew(_this.fo_crew._id, _this.routeDet.departuretime, _this.routeDet.arrivaltime).subscribe(function (data) {
-                                    console.log('updated', data);
-                                });
-                                jquery__WEBPACK_IMPORTED_MODULE_1__('#positionBtn').removeClass('is-loading');
-                                jquery__WEBPACK_IMPORTED_MODULE_1__('#position-from').removeClass('is-active');
-                                jquery__WEBPACK_IMPORTED_MODULE_1__('#position-to').addClass('is-active');
+                            _this.adminService.checkOverlap(_this.aircraft.aircraftId, _this.routeDet.departuretime, _this.routeDet.arrivaltime).subscribe(function (data) {
+                                if (data.data.length === 0) {
+                                    _this.addRoute('positionFrom', _this.routeId);
+                                    _this.positionFromDep = _this.currentLoc.icao;
+                                    _this.positionFromArr = _this.departure_airport.icao;
+                                    _this.positionFromDepT = _this.routeDet.departuretime;
+                                    _this.positionFromArrT = _this.routeDet.arrivaltime;
+                                    _this.adminService.updateCrew(_this.pic_crew._id, _this.routeDet.departuretime, _this.routeDet.arrivaltime).subscribe(function (data) {
+                                        console.log('updated', data);
+                                    });
+                                    _this.adminService.updateCrew(_this.fo_crew._id, _this.routeDet.departuretime, _this.routeDet.arrivaltime).subscribe(function (data) {
+                                        console.log('updated', data);
+                                    });
+                                    jquery__WEBPACK_IMPORTED_MODULE_1__('#positionBtn').removeClass('is-loading');
+                                    jquery__WEBPACK_IMPORTED_MODULE_1__('#position-from').removeClass('is-active');
+                                    jquery__WEBPACK_IMPORTED_MODULE_1__('#position-to').addClass('is-active');
+                                }
+                                else {
+                                    _this.overlapFlight = data.data[0];
+                                    jquery__WEBPACK_IMPORTED_MODULE_1__('#flight-overlap').addClass('is-active');
+                                }
                             });
                         });
                         break;
@@ -4553,28 +4553,29 @@ var NewFlightComponent = /** @class */ (function () {
                                 'WOCLE': wocle,
                                 'SPLIT TIME': splittime
                             }, undefined, 2);
-                            _this.adminService.addRoute(_this.reference_id, _this.routeId, _this.ops_crew._id, _this.pic_crew._id, _this.fo_crew._id, _this.ops_crew.name, _this.pic_crew.name, _this.fo_crew.name, _this.aircraft.aircraftId, _this.arrival_airport.icao, _this.baseLoc.icao, _this.toHandler._id, _this.dangerous, _this.type, _this.pax, _this.cargo, 'positionTo', _this.routeDet.arrivaltime, _this.routeDet.departuretime, _this.routeDet.fuel, _this.routeDet.distance, _this.routeDet.fplan).subscribe(function (data) {
-                                console.log('ROUTE ADDED ', data);
-                                console.log('DEPARTURE ROUTE ADDED ', _this.departure_time);
-                                _this.positionToDep = _this.arrival_airport.icao;
-                                _this.positionToArr = _this.baseLoc.icao;
-                                _this.positionToDepT = _this.routeDet.departuretime;
-                                _this.positionToArrT = _this.routeDet.arrivaltime;
-                                _this.adminService.getBriefing(_this.routeId).subscribe(function (data) {
-                                    console.log('briefing', data);
-                                });
-                                _this.adminService.updateCrew(_this.pic_crew._id, _this.positionFromDepT, _this.routeDet.arrivaltime).subscribe(function (data) {
-                                    console.log('updated', data);
-                                });
-                                _this.adminService.updateCrew(_this.fo_crew._id, _this.positionFromDepT, _this.routeDet.arrivaltime).subscribe(function (data) {
-                                    console.log('updated', data);
-                                });
-                                jquery__WEBPACK_IMPORTED_MODULE_1__('#suggested').addClass('is-active');
-                                _this.positionTo = data.data._id;
-                                // this.addFlight()
+                            _this.adminService.checkOverlap(_this.aircraft.aircraftId, _this.routeDet.departuretime, _this.routeDet.arrivaltime).subscribe(function (data) {
+                                if (data.data.length === 0) {
+                                    _this.addRoute('positionTo', _this.routeId);
+                                    _this.positionToDep = _this.arrival_airport.icao;
+                                    _this.positionToArr = _this.baseLoc.icao;
+                                    _this.positionToDepT = _this.routeDet.departuretime;
+                                    _this.positionToArrT = _this.routeDet.arrivaltime;
+                                    _this.adminService.updateCrew(_this.pic_crew._id, _this.positionFromDepT, _this.routeDet.arrivaltime).subscribe(function (data) {
+                                        console.log('updated', data);
+                                    });
+                                    _this.adminService.updateCrew(_this.fo_crew._id, _this.positionFromDepT, _this.routeDet.arrivaltime).subscribe(function (data) {
+                                        console.log('updated', data);
+                                    });
+                                    jquery__WEBPACK_IMPORTED_MODULE_1__('#suggested').addClass('is-active');
+                                    _this.positionTo = data.data._id;
+                                    jquery__WEBPACK_IMPORTED_MODULE_1__('#positionToBtn').removeClass('is-loading');
+                                    jquery__WEBPACK_IMPORTED_MODULE_1__('#position-to').removeClass('is-active');
+                                }
+                                else {
+                                    _this.overlapFlight = data.data[0];
+                                    jquery__WEBPACK_IMPORTED_MODULE_1__('#flight-overlap').addClass('is-active');
+                                }
                             });
-                            jquery__WEBPACK_IMPORTED_MODULE_1__('#positionToBtn').removeClass('is-loading');
-                            jquery__WEBPACK_IMPORTED_MODULE_1__('#position-to').removeClass('is-active');
                         });
                         break;
                     }
@@ -4601,6 +4602,66 @@ var NewFlightComponent = /** @class */ (function () {
         jquery__WEBPACK_IMPORTED_MODULE_1__('#positionBtn').removeClass('is-loading');
         jquery__WEBPACK_IMPORTED_MODULE_1__('#resetFrom').removeClass('is-hidden');
         jquery__WEBPACK_IMPORTED_MODULE_1__('#cancelFrom').addClass('is-hidden');
+    };
+    NewFlightComponent.prototype.cancelFlight = function (id, type) {
+        var _this = this;
+        this.adminService.deleteRoute(id).subscribe(function (data) {
+            console.log(data.data);
+            jquery__WEBPACK_IMPORTED_MODULE_1__('#cancelFlight').removeClass('is-loading');
+            jquery__WEBPACK_IMPORTED_MODULE_1__('#flight-overlap').removeClass('is-active');
+            if (type === 'live') {
+                _this.getCrew();
+                _this.lastLiveFlight(_this.routeDet.departuretime);
+                _this.nextLiveFlight(_this.routeDet.arrivaltime);
+                _this.currentLoc = {};
+                _this.currentLoc.name = '';
+                _this.LiveDep = _this.departure_airport.icao;
+                _this.LiveArr = _this.arrival_airport.icao;
+                _this.LiveDepT = _this.routeDet.departuretime;
+                _this.LiveArr = _this.routeDet.arrivaltime;
+                jquery__WEBPACK_IMPORTED_MODULE_1__('#position-from').addClass('is-active');
+            }
+            if (type === 'positionFrom') {
+                _this.addRoute(type, _this.routeId);
+                _this.positionFromDep = _this.currentLoc.icao;
+                _this.positionFromArr = _this.departure_airport.icao;
+                _this.positionFromDepT = _this.routeDet.departuretime;
+                _this.positionFromArrT = _this.routeDet.arrivaltime;
+                _this.adminService.getBriefing(_this.routeId).subscribe(function (data) {
+                    console.log('briefing', data);
+                });
+                _this.adminService.updateCrew(_this.pic_crew._id, _this.routeDet.departuretime, _this.routeDet.arrivaltime).subscribe(function (data) {
+                    console.log('updated', data);
+                });
+                _this.adminService.updateCrew(_this.fo_crew._id, _this.routeDet.departuretime, _this.routeDet.arrivaltime).subscribe(function (data) {
+                    console.log('updated', data);
+                });
+                jquery__WEBPACK_IMPORTED_MODULE_1__('#positionBtn').removeClass('is-loading');
+                jquery__WEBPACK_IMPORTED_MODULE_1__('#position-from').removeClass('is-active');
+                jquery__WEBPACK_IMPORTED_MODULE_1__('#position-to').addClass('is-active');
+            }
+            if (type === 'positionTo') {
+                _this.addRoute(type, _this.routeId);
+                _this.positionToDep = _this.arrival_airport.icao;
+                _this.positionToArr = _this.baseLoc.icao;
+                _this.positionToDepT = _this.routeDet.departuretime;
+                _this.positionToArrT = _this.routeDet.arrivaltime;
+                _this.adminService.updateCrew(_this.pic_crew._id, _this.positionFromDepT, _this.routeDet.arrivaltime).subscribe(function (data) {
+                    console.log('updated', data);
+                });
+                _this.adminService.updateCrew(_this.fo_crew._id, _this.positionFromDepT, _this.routeDet.arrivaltime).subscribe(function (data) {
+                    console.log('updated', data);
+                });
+                jquery__WEBPACK_IMPORTED_MODULE_1__('#suggested').addClass('is-active');
+                _this.positionTo = data.data._id;
+                jquery__WEBPACK_IMPORTED_MODULE_1__('#positionToBtn').removeClass('is-loading');
+                jquery__WEBPACK_IMPORTED_MODULE_1__('#position-to').removeClass('is-active');
+            }
+        });
+    };
+    NewFlightComponent.prototype.changeAircraft = function () {
+        jquery__WEBPACK_IMPORTED_MODULE_1__('#flight-overlap').removeClass('is-active');
+        this.cancel();
     };
     NewFlightComponent.prototype.wocle = function (x, y) {
         if (x >= 2 && x <= 6 && y >= 2 && y <= 6) {

@@ -1,35 +1,297 @@
-<aside class="menu is-hidden-mobile">
-  <p class="menu-label">
-    General
-  </p>
-  <ul class="menu-list">
-    <li><a routerLink="/admin/dashboard" routerLinkActive="is-active">Dashboard</a></li>
-    <li><a routerLink="/admin/aircrafts" routerLinkActive="is-active">Aircrafts</a></li>
-    <li><a routerLink="/admin/airports/1" routerLinkActive="is-active">Airports</a></li>
-    <li><a routerLink="/admin/crews" routerLinkActive="is-active">Crews</a></li>
-    <li><a routerLink="/admin/movements" routerLinkActive="is-active">Movements</a></li>
-    <li><a routerLink="/admin/sales" routerLinkActive="is-active">Sales</a></li>
-    <li><a routerLink="/admin/new-flight/new" routerLinkActive="is-active">New Flight</a></li>
-    <li><a routerLink="/admin/settings" routerLinkActive="is-active">Settings</a></li>
+<!--  Side-nav -->
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+  <ul class="nav">
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/admin/dashboard" routerLinkActive="active">
+        <i class="menu-icon flaticon-dashboard"></i>
+        <span class="menu-title">Dashboard</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/admin/aircrafts" routerLinkActive="active">
+        <i class="menu-icon flaticon-plane"></i>
+        <span class="menu-title">Aircrafts</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/admin/airports/1" routerLinkActive="active">
+        <i class="menu-icon flaticon-takeoff-the-plane"></i>
+        <span class="menu-title">Airports</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/admin/crews" routerLinkActive="active">
+        <i class="menu-icon flaticon-man"></i>
+        <span class="menu-title">Crews</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/admin/movements" routerLinkActive="active">
+        <i class="menu-icon flaticon-box"></i>
+        <span class="menu-title">Movements</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/admin/sales" routerLinkActive="active">
+        <i class="menu-icon flaticon-money-bag-with-dollar-symbol"></i>
+        <span class="menu-title">Sales</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" (click)="newFlight()">
+        <i class="menu-icon flaticon-plane"></i>
+        <span class="menu-title">New Flight</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/admin/settings" routerLinkActive="active">
+        <i class="menu-icon flaticon-settings-work-tool"></i>
+        <span class="menu-title">Setting</span>
+      </a>
+    </li>
+    <li class="nav-item logout_item">
+      <a class="nav-link" (click)="logout()">
+        <i class="menu-icon flaticon-logout"></i>
+        <span class="menu-title">Logout</span>
+      </a>
+    </li>
   </ul>
-  <div class="box">
-    <article class="media">
-      <div class="media-content">
-        <div class="content has-text-centered	">
-          <h5 class="is-marginless">Zulu Time</h5>
-          <time datetime="2016-1-1">{{zuluTime}}</time>
+</nav>
+<!-- Side-nav -->
+
+<!-- The Create Flight Modal -->
+<div class="modal fade" id="createFlight">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="modal_head">
+          <h4 class="modal_heading">Create New Flight</h4>
+          <button type="button" class="close" (click)="close()"><i class="flaticon-close"></i></button>
         </div>
+        <form class="create_flight_process">
+          <div class="blue_box">
+            <h6>Basic Information</h6>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Reference</label>
+                  <input type="text" class="form-control" placeholder="e.g. XXAA11">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Aircraft</label>
+                  <input type="text" class="form-control" placeholder="e.g. ABC123">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Operations Lead</label>
+                  <input type="text" class="form-control" placeholder="e.g.John Smith">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- tabs -->
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation">
+              <a href="#flightTab" aria-controls="flightTab" class="active" role="tab" data-toggle="tab"
+                aria-expanded="true"><i class="tab-icon flaticon-plane"></i>Flight</a>
+            </li>
+            <li>
+              <a href="#payloadTab" aria-controls="payloadTab" role="tab" data-toggle="tab" aria-expanded="false"><i
+                  class="tab-icon flaticon-box"></i>Payload</a>
+            </li>
+            <li>
+              <a href="#documentTab" aria-controls="documentTab" role="tab" data-toggle="tab" aria-expanded="false"><i
+                  class="tab-icon flaticon-file"></i>Documents</a>
+            </li>
+          </ul><!-- /.tabs -->
+
+          <!-- tab content -->
+          <div class="tab-content blue_box">
+
+            <div role="tabpanel" class="tab-pane active" id="flightTab">
+              <div class="">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Origin</label>
+                      <input type="text" class="form-control" placeholder="e.g. London">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Destination</label>
+                      <input type="text" class="form-control" placeholder="e.g. New York">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Datetime</label>
+                      <input type="text" class="form-control" placeholder="e.g. 5:30PM IST">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group radio_input_group">
+                      <label class="radio_input">
+                        <input type="radio" name="d_a_daytime">
+                        <span>Depart daytime</span>
+                      </label>
+                      <label class="radio_input">
+                        <input type="radio" name="d_a_daytime" checked="checked">
+                        <span>Arrival daytime</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="text-center">
+                  <!-- <button type="submit" class="btn bg_blue done_btn">Next</button> -->
+                  <a class="btn bg_blue done_btn continue">Next</a>
+                </div>
+              </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="payloadTab">
+              <div class="form-group flight_type">
+                <label class="radio_input">
+                  <input type="radio" name="flightType" checked="checked">
+                  <span>Cargo</span>
+                </label>
+                <label class="radio_input">
+                  <input type="radio" name="flightType">
+                  <span>Passenger</span>
+                </label>
+              </div>
+              <div class="items_details">
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Item</label>
+                      <input type="text" class="form-control" placeholder="e.g. Kitchen Appliances">
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Weight</label>
+                      <input type="text" class="form-control" placeholder="e.g. 45 tons">
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Amount</label>
+                      <input type="text" class="form-control" placeholder="e.g. $4500">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="hidden-md-up">Item</label>
+                      <input type="text" class="form-control" placeholder="e.g. Kitchen Appliances">
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="hidden-md-up">Weight</label>
+                      <input type="text" class="form-control" placeholder="e.g. 45 tons">
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="hidden-md-up">Amount</label>
+                      <input type="text" class="form-control" placeholder="e.g. $4500">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="hidden-md-up">Item</label>
+                      <input type="text" class="form-control" placeholder="e.g. Kitchen Appliances">
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="hidden-md-up">Weight</label>
+                      <input type="text" class="form-control" placeholder="e.g. 45 tons">
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="hidden-md-up">Amount</label>
+                      <input type="text" class="form-control" placeholder="e.g. $4500">
+                    </div>
+                  </div>
+                </div>
+                <a href="#" class="btn add_new_item"><i class="flaticon-add"></i> Add New</a>
+              </div>
+              <div class="row">
+                <div class="col-md-5 order-2">
+                  <div class="total_payload">
+                    <span>Total Payload</span>
+                    <div class="payload_value">25000 Kg</div>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <a class="btn btn-primary back">Back</a>
+                  <a class="btn bg_blue done_btn continue">Next</a>
+                </div>
+
+              </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="documentTab">
+              <ul class="flight_documents_list">
+                <li>
+                  <div class="form-group">
+                    <label>Origin</label>
+                    <input type="text" class="form-control" placeholder="e.g. London">
+                  </div>
+                  <div class="form-group">
+                    <label>Type</label>
+                    <input type="text" class="form-control" placeholder="e.g. New York">
+                  </div>
+                  <a href="#" class="download_document"><i class="flaticon-download"></i></a>
+                </li>
+                <li>
+                  <div class="form-group">
+                    <label class="hidden-md-up">Origin</label>
+                    <input type="text" class="form-control" placeholder="e.g. London">
+                  </div>
+                  <div class="form-group">
+                    <label class="hidden-md-up">Type</label>
+                    <input type="text" class="form-control" placeholder="e.g. New York">
+                  </div>
+                  <a href="#" class="download_document"><i class="flaticon-download"></i></a>
+                </li>
+                <li>
+                  <div class="form-group">
+                    <label class="hidden-md-up">Origin</label>
+                    <input type="text" class="form-control" placeholder="e.g. London">
+                  </div>
+                  <div class="form-group">
+                    <label class="hidden-md-up">Type</label>
+                    <input type="text" class="form-control" placeholder="e.g. New York">
+                  </div>
+                  <a href="#" class="download_document"><i class="flaticon-download"></i></a>
+                </li>
+              </ul>
+              <div class="text-center">
+                <!-- <a class="btn btn-primary back">Back</a> -->
+                <a class="btn bg_blue done_btn continue">Next</a>
+              </div>
+            </div>
+          </div><!-- /. tab content -->
+
+        </form>
+
+
       </div>
-    </article>
+    </div>
   </div>
-  <div class="box">
-    <article class="media">
-      <div class="media-content">
-        <div class="content has-text-centered	">
-          <h5 class="is-marginless">Local Time</h5>
-          <time datetime="2016-1-1">{{localTime}}</time>
-        </div>
-      </div>
-    </article>
-  </div>
-</aside>
+</div><!-- /. create flight popup -->

@@ -1,39 +1,48 @@
 <app-header></app-header>
-<div class="container">
-  <div class="columns">
-    <div class="column is-3">
-      <app-side-nav></app-side-nav>
-    </div>
-    <div class="column is-9">
-      <h3 class="title is-pulled-left">Airport Overview</h3>
-      <button class="button is-primary is-outlined is-pulled-right" routerLink="/admin/new-airport">Add Airport</button>
-      <table class="table is-fullwidth">
-        <thead>
-          <th></th>
-          <th>Name</th>
-          <th>ICAO</th>
-          <th>Action</th>
-        </thead>
-        <tbody>
-          <tr *ngFor="let airport of airports">
-            <td>
-                <img src="{{airport.logo}}" class="aircraft-img" alt="">
-            </td>
-            <td>
-                <a routerLink="/admin/airport/{{airport.icao}}">{{airport.name}}</a>
-            </td>
-            <td>{{airport.icao}}</td>
-            <td>
-              <a class="is-link" routerLink="/admin/edit-airport/{{airport.icao}}">Edit</a> / 
-              <a class="is-danger" (click)="delete(airport._id)">Delete</a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <a (click)="prev()" class="is-link" *ngIf="pageNo > 1">&lt;&lt;&lt; Previous</a> - 
+<div class="container-fluid page-body-wrapper">
+  <app-side-nav></app-side-nav>
+  <!-- Main Content -->
+  <div class="main-panel">
+    <div class="content-wrapper">
+      <div class="page_header p_header_two d-flex">
+        <h4><strong>Airports Overview</strong></h4>
+        <div class="ml-auto">
+          <a href="#" class="btn bg_blue">Add Airport</a>
+        </div>
+      </div>
+      <div class="block table_block">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="c_l_name">Name</th>
+                <th class="c_l_movement">ICAO</th>
+                <th class="c_l_action">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let airport of airports">
+                <td class="c_l_name">
+                  <!-- <a routerLink="/admin/airport/{{airport.icao}}"> -->
+                    {{airport.name}}
+                  <!-- </a> -->
+                </td>
+                <td class="c_l_movement">{{airport.icao}}</td>
+                <td class="c_l_action">
+                  <div class="action_btns">
+                    <a class="edit_btn" routerLink="/admin/edit-airport/{{airport.icao}}"><i
+                        class="fa fa-edit"></i><span>Edit</span></a>
+                    <a href="#" class="delete_btn" (click)="delete(airport._id)"><i
+                        class="fa fa-trash"></i><span>Delete</span></a>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <a (click)="prev()" class="is-link" *ngIf="pageNo > 1">&lt;&lt;&lt; Previous</a> -
       <a (click)="next()" class="is-link">Next &gt;&gt;&gt;</a>
-      <app-chat></app-chat>
-
     </div>
   </div>
 </div>

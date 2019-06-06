@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { interval } from 'rxjs';
+import * as $ from 'jquery';
+import { Router } from '@angular/router';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-side-nav',
@@ -10,7 +13,10 @@ export class SideNavComponent implements OnInit {
   zuluTime: any;
   localTime: any;
 
-  constructor() { }
+  constructor(
+    private authService: AuthService,
+    private router: Router
+    ) { }
 
   ngOnInit() {
     setInterval(() => { this.startTime(); this.startZuluTime(); }, 1000);
@@ -18,43 +24,62 @@ export class SideNavComponent implements OnInit {
   }
   checkTime(i) {
     if (i < 10) {
-      i = "0" + i;
+      i = '0' + i;
     }
     return i;
   }
 
   startTime(): void {
-    var today = new Date();
-    var d = today.getDate();
-    var mm = today.getMonth();
-    var y = today.getFullYear();
-    var h = today.getHours();
-    var m = today.getMinutes();
-    var s = today.getSeconds();
+    const today = new Date();
+    let d = today.getDate();
+    let mm = today.getMonth();
+    const y = today.getFullYear();
+    let h = today.getHours();
+    let m = today.getMinutes();
+    let s = today.getSeconds();
     // add a zero in front of numbers<10
     d = this.checkTime(d);
     mm = this.checkTime(mm);
     h = this.checkTime(h);
     m = this.checkTime(m);
     s = this.checkTime(s);
-    this.localTime = d + "-" + mm + "-" + y + " " + h + ":" + m + ":" + s;
+    this.localTime = d + '-' + mm + '-' + y + ' ' + h + ':' + m + ':' + s;
   }
 
   startZuluTime(): void {
-    var today = new Date();
-    var d = today.getUTCDate();
-    var mm = today.getUTCMonth();
-    var y = today.getUTCFullYear();
-    var h = today.getUTCHours();
-    var m = today.getUTCMinutes();
-    var s = today.getUTCSeconds();
+    const today = new Date();
+    let d = today.getUTCDate();
+    let mm = today.getUTCMonth();
+    const y = today.getUTCFullYear();
+    let h = today.getUTCHours();
+    let m = today.getUTCMinutes();
+    let s = today.getUTCSeconds();
     // add a zero in front of numbers<10
     d = this.checkTime(d);
     mm = this.checkTime(mm);
     h = this.checkTime(h);
     m = this.checkTime(m);
     s = this.checkTime(s);
-    this.zuluTime = d + "-" + mm + "-" + y + " " + h + ":" + m + ":" + s;
+    this.zuluTime = d + '-' + mm + '-' + y + ' ' + h + ':' + m + ':' + s;
   }
 
+  logout(): void {
+    this.authService.signOut();
+    this.navigate('/auth/login');
+  }
+  newFlight(): void {
+    console.log('hello');
+    $('#createFlight').addClass('show');
+    $('body').addClass('modal-open');
+    $('body').append('<div class="modal-backdrop fade show"></div>');
+  }
+  close(): void {
+    $('#createFlight').removeClass('show');
+    $('body').removeClass('modal-open');
+    $('.modal-backdrop').remove();
+
+  }
+  navigate(link): void {
+    this.router.navigate([link]);
+  }
 }

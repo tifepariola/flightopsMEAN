@@ -4,6 +4,11 @@
 @import '~@angular/material/theming';
 @import '~dragula/dist/dragula.css';
 @import "../node_modules/angular-calendar/css/angular-calendar.css";
+@import '~@fullcalendar/core/main.css';
+@import '~@fullcalendar/daygrid/main.css';
+@import '~@fullcalendar/timegrid/main.css';
+@import '~@fullcalendar/list/main.css';
+@import "~datatables.net-bs4/css/dataTables.bootstrap4.css";
 
 $custom-typography: mat-typography-config(
     $font-family: 'Exo'

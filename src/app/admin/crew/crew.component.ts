@@ -1,25 +1,12 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef } from '@angular/core';
-import {
-  startOfDay,
-  endOfDay,
-  subDays,
-  addDays,
-  endOfMonth,
-  isSameDay,
-  isSameMonth,
-  addHours
-} from 'date-fns';
+
 import * as $ from 'jquery';
 
-import { Subject } from 'rxjs';
-import {
-  CalendarEvent,
-  CalendarEventAction,
-  CalendarEventTimesChangedEvent,
-  CalendarView
-} from 'angular-calendar';
 import { AdminService } from '../admin.service';
 import { ActivatedRoute } from '@angular/router';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
 const colors: any = {
   red: {
     primary: '#ad2121',
@@ -49,13 +36,24 @@ export class CrewComponent implements OnInit {
   currentTime: number;
   doRun: boolean;
   status: string;
+  events: any = [];
+  pastMove: any = [];
+  upMove: any = [];
+  calendarPlugins: any[];
+  calendarHeaders: { right: string; center: string; left: string; };
 
   constructor(private adminService: AdminService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.doRun = true
-    this.currentTime = new Date().getTime()
-    this.status = "On Ground";
+    this.doRun = true;
+    this.currentTime = new Date().getTime();
+    this.calendarPlugins = [dayGridPlugin, timeGridPlugin, listPlugin];
+    this.calendarHeaders = {
+      right: 'prev,title,next',
+      center: '',
+      left: 'dayGridMonth,dayGridWeek'
+    };
+    this.status = 'On Ground';
     console.log('click')
     $('#btn-add-licence').on('click', function () {
       console.log('click')
@@ -64,87 +62,25 @@ export class CrewComponent implements OnInit {
     $('.delete').on('click', function () {
       $('#add-licence').removeClass('is-active');
     })
-    this.id = this.route.snapshot.paramMap.get("id")
+    this.id = this.route.snapshot.paramMap.get('id');
     console.log(this.id)
     this.getCrew();
     this.getLicences();
   }
-  view: CalendarView = CalendarView.Month;
-
-  CalendarView = CalendarView;
-
-  viewDate: Date = new Date();
-
-  modalData: {
-    action: string;
-    event: CalendarEvent;
-  };
-
-  actions: CalendarEventAction[] = [
-    {
-      label: '<i class="fa fa-fw fa-pencil"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
-      }
-    },
-    {
-      label: '<i class="fa fa-fw fa-times"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter(iEvent => iEvent !== event);
-        this.handleEvent('Deleted', event);
-      }
-    }
-  ];
-
-  refresh: Subject<any> = new Subject();
-
-  events: CalendarEvent[] = [];
-
-  activeDayIsOpen: boolean = false;
 
 
-  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-    if (isSameMonth(date, this.viewDate)) {
-      this.viewDate = date;
-      if (
-        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
-        events.length === 0
-      ) {
-        this.activeDayIsOpen = false;
-      } else {
-        this.activeDayIsOpen = true;
-      }
-    }
-  }
   showAddLicence(): void {
     $('#add-licence').addClass('is-active');
   }
   hideAddLicence(): void {
     $('#add-licence').removeClass('is-active');
   }
-
-  eventTimesChanged({
-    event,
-    newStart,
-    newEnd
-  }: CalendarEventTimesChangedEvent): void {
-    event.start = newStart;
-    event.end = newEnd;
-    this.handleEvent('Dropped or resized', event);
-    this.refresh.next();
-  }
-
-  handleEvent(action: string, event: CalendarEvent): void {
-    this.modalData = { event, action };
-    // this.modal.open(this.modalContent, { size: 'lg' });
-  }
-
   getCrew(): void {
     this.adminService.getCrew(this.id).subscribe(data => {
       this.crew = data.data;
-      if (this.crew.occupation === 'OPS') this.getOPSSchedule()
-      if (this.crew.occupation === 'PIC') this.getPICSchedule()
-      if (this.crew.occupation === 'FO') this.getFOSchedule()
+      if (this.crew.occupation === 'OPS') { this.getOPSSchedule() }
+      if (this.crew.occupation === 'PIC') { this.getPICSchedule() }
+      if (this.crew.occupation === 'FO') { this.getFOSchedule() }
       console.log('crew ', this.crew)
     })
   }
@@ -158,9 +94,19 @@ export class CrewComponent implements OnInit {
     this.adminService.getFOSchedule(this.id).subscribe(data => {
       this.schedule = data.data;
       this.schedule.forEach(element => {
-        if (this.status === "On Ground") {
+        if (this.status === 'On Ground') {
           if (element.departuretime * 1000 < this.currentTime && element.arrivaltime > this.currentTime) {
-            this.status = "In Progress";
+            this.status = 'In Progress';
+          }
+        }
+
+        if (element.departuretime * 1000 < this.currentTime) {
+          if (this.pastMove.length < 4) {
+            this.pastMove.push(element);
+          }
+        } else {
+          if (this.upMove.length < 4) {
+            this.upMove.push(element);
           }
         }
         this.addEvent(element.departure_airport + ' ->' + element.arrival_airport, element.departuretime, element.arrivaltime);
@@ -172,9 +118,19 @@ export class CrewComponent implements OnInit {
     this.adminService.getOPSSchedule(this.id).subscribe(data => {
       this.schedule = data.data;
       this.schedule.forEach(element => {
-        if (this.status === "On Ground") {
+        if (this.status === 'On Ground') {
           if (element.departuretime * 1000 < this.currentTime && element.arrivaltime > this.currentTime) {
-            this.status = "In Progress";
+            this.status = 'In Progress';
+          }
+        }
+
+        if (element.departuretime * 1000 < this.currentTime) {
+          if (this.pastMove.length < 4) {
+            this.pastMove.push(element);
+          }
+        } else {
+          if (this.upMove.length < 4) {
+            this.upMove.push(element);
           }
         }
         this.addEvent(element.departure_airport + ' -> ' + element.arrival_airport, element.departuretime, element.arrivaltime);
@@ -186,9 +142,19 @@ export class CrewComponent implements OnInit {
     this.adminService.getPICSchedule(this.id).subscribe(data => {
       this.schedule = data.data;
       this.schedule.forEach(element => {
-        if (this.status === "On Ground") {
+        if (this.status === 'On Ground') {
           if (element.departuretime * 1000 < this.currentTime && element.arrivaltime > this.currentTime) {
-            this.status = "In Progress";
+            this.status = 'In Progress';
+          }
+        }
+
+        if (element.departuretime * 1000 < this.currentTime) {
+          if (this.pastMove.length < 4) {
+            this.pastMove.push(element);
+          }
+        } else {
+          if (this.upMove.length < 4) {
+            this.upMove.push(element);
           }
         }
         this.addEvent(element.departure_airport + ' -> ' + element.arrival_airport, element.departuretime, element.arrivaltime);
@@ -204,7 +170,7 @@ export class CrewComponent implements OnInit {
         .subscribe(data => {
           console.log('Licence Added ', data)
           this.getLicences();
-          $('form').trigger("reset");
+          $('form').trigger('reset');
           $('#addBtn').removeClass('is-loading');
           // $('#add-licence').removeClass('is-active');
           this.doRun = false
@@ -227,6 +193,5 @@ export class CrewComponent implements OnInit {
         afterEnd: true
       }
     });
-    this.refresh.next();
   }
 }

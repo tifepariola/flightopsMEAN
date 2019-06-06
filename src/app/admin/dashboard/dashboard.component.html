@@ -1,10 +1,268 @@
 <app-header></app-header>
-<div class="container">
-  <div class="columns">
-    <div class="column is-3">
-      <app-side-nav></app-side-nav>
+<div class="container-fluid page-body-wrapper">
+  <app-side-nav></app-side-nav>
+  <!-- Main Content -->
+  <div class="main-panel">
+    <div class="content-wrapper dashboard_page_wrap">
+
+      <div class="row">
+
+        <!-- Main Panel left -->
+        <div class="col-xl-7 main_panel_left">
+          <div class="page_header">
+            <h4><strong>Good Morning, John Smith</strong></h4>
+            <h6>11 Movements Today, 3 Aircraft active</h6>
+          </div>
+          <!-- Sales list Block -->
+          <div class="row text-center dash_card_list">
+            <div class="col-6 col-sm-6 col-md-3">
+              <a href="#">
+                <div class="card">
+                  <div class="card_icon blue_theme"><i class="menu-icon flaticon-plane"></i></div>
+                  <div class="count_value">12</div>
+                  <div class="card_name">Aircrafts</div>
+                </div>
+              </a>
+            </div>
+            <div class="col-6 col-sm-6 col-md-3">
+              <a href="#">
+                <div class="card">
+                  <div class="card_icon green_theme"><i class="menu-icon flaticon-man"></i></div>
+                  <div class="count_value">40</div>
+                  <div class="card_name">Crew</div>
+                </div>
+              </a>
+            </div>
+            <div class="col-6 col-sm-6 col-md-3">
+              <a href="#">
+                <div class="card">
+                  <div class="card_icon orange_theme"><i class="menu-icon flaticon-money-bag-with-dollar-symbol"></i>
+                  </div>
+                  <div class="count_value">150</div>
+                  <div class="card_name">Sales</div>
+                </div>
+              </a>
+            </div>
+            <div class="col-6 col-sm-6 col-md-3">
+              <a href="#">
+                <div class="card">
+                  <div class="card_icon purple_theme"><i class="menu-icon flaticon-box"></i></div>
+                  <div class="count_value">400</div>
+                  <div class="card_name">Movements</div>
+                </div>
+              </a>
+            </div>
+
+          </div><!-- /. Sales list Block -->
+
+          <div *ngIf="events.length != 0" class="block full_calender_wrap">
+            <!-- <div id="calendar"></div> -->
+            <full-calendar defaultView="dayGridMonth" [events]="events" [header]="calendarHeaders" navLinks="true" eventLimit="true" [plugins]="calendarPlugins"></full-calendar>
+
+          </div>
+
+          <div class="popup_btns">
+            <!-- Button to Open the Movement list popup -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#movementList">
+              Movement List Popup
+            </button>
+
+            <!-- Button to Open the Quote Request popup -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#quoteRequest">
+              Quote Request Popup
+            </button>
+          </div>
+
+        </div>
+        <!-- /. Main Panel left -->
+
+        <!-- Main Panel right -->
+        <div class="col-xl-5 main_panel_right">
+
+          <!--  D News list -->
+          <div class="d_news_list">
+            <div class="d_news_block">
+              <div class="d_n_head d-flex">
+                <h5><i class="menu-icon flaticon-plane"></i> D-EPHH Airborne</h5>
+                <span class="d_n_time">12/12/2019,07:15z</span>
+              </div>
+              <div class="d_n_foot d-flex">
+                <div class="m_i_destinations">
+                  <span>EDDS</span><i class="flaticon-right-arrow"></i><span>EDDV</span>
+                </div>
+                <span class="d_n_time">12/12/2019,07:15z</span>
+                <a href="#" class="btn btn-small-bordered">View</a>
+              </div>
+            </div>
+
+            <div class="today_news_head"><span>Today</span></div>
+
+            <div class="d_news_block">
+              <div class="d_n_head d-flex">
+                <h5><img src="images/crew1.png" alt="crew">John Smith Junior |||</h5>
+                <span class="d_n_time">12/12/2019,07:15z</span>
+              </div>
+              <div class="d_n_content">
+                <p>Who's ready for today? Pickup at 12:30 from EDDS and drop at EDLV as soon as possible.Contains
+                  Explosives.Beware fire.</p>
+              </div>
+              <div class="d_n_foot d-flex">
+                <div class="m_i_destinations">
+                  <span>EDDS</span><i class="flaticon-right-arrow"></i><span>EDDV</span>
+                </div>
+                <span class="d_n_time">12/12/2019,07:15z</span>
+                <a href="#" class="btn btn-small-bordered">View</a>
+              </div>
+            </div>
+
+            <div class="d_news_block">
+              <div class="d_n_head d-flex">
+                <a href="#" class="avi_btn">Aviation Services Ltd</a>
+                <h5>New Handler Quote</h5>
+                <span class="d_n_time">12/12/2019,07:15z</span>
+              </div>
+              <div class="d_n_content">
+                <ul class="quote_items">
+                  <li>
+                    <span>Catering</span><span>2</span><span>$33.25</span>
+                  </li>
+                  <li>
+                    <span>Catering</span><span>2</span><span>$33.25</span>
+                  </li>
+                  <li>
+                    <a href="#" class="btn btn-small-bordered bg_blue">Accept</a>
+                    <a href="#" class="btn btn-small-bordered bg_gray">Reject</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="d_n_foot d-flex">
+                <div class="m_i_destinations">
+                  <span>EDDS</span><i class="flaticon-right-arrow"></i><span>EDDV</span>
+                </div>
+                <span class="d_n_time">12/12/2019,07:15z</span>
+                <a href="#" class="btn btn-small-bordered">View</a>
+              </div>
+            </div>
+
+            <div class="d_news_block">
+              <div class="d_n_head d-flex">
+                <h5>Flightplan can now be filled</h5>
+                <span class="d_n_time">12/12/2019,07:15z</span>
+              </div>
+              <div class="d_n_content">
+                <div class="flight_plan_content d-flex">
+                  <p>EDDS 301100Z 30/12/0112 32007KT 9999 BKN013 BECMG 3012/3013 SCT0515 BECMG 3017/3019 VRB03KT<p>
+                      <a href="#" class="btn btn-small-bordered bg_blue">File</a>
+                </div>
+              </div>
+              <div class="d_n_foot d-flex">
+                <div class="m_i_destinations">
+                  <span>EDDS</span><i class="flaticon-right-arrow"></i><span>EDDV</span>
+                </div>
+                <span class="d_n_time">12/12/2019,07:15z</span>
+                <a href="#" class="btn btn-small-bordered">View</a>
+              </div>
+            </div>
+
+            <div class="d_news_block">
+              <div class="d_n_head d-flex">
+                <h5>New movement created </h5>
+                <span class="d_n_time">12/12/2019,07:15z</span>
+              </div>
+              <div class="d_n_foot d-flex">
+                <div class="m_i_destinations">
+                  <span>EDDS</span><i class="flaticon-right-arrow"></i><span>EDDV</span>
+                </div>
+                <span class="d_n_time">12/12/2019,07:15z</span>
+                <a href="#" class="btn btn-small-bordered">View</a>
+              </div>
+            </div>
+
+            <div class="d_news_block">
+              <div class="d_n_head d-flex">
+                <h5>Flightplan can now be filled</h5>
+                <span class="d_n_time">12/12/2019,07:15z</span>
+              </div>
+              <div class="d_n_content">
+                <ul class="flight_plans">
+                  <li>
+                    <span>EDDS</span><span>Stutgard Fuel Gmbh.</span><span>Fuel(500 litres)</span>
+                    <a href="#" class="btn btn-small-bordered">View</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="d_n_foot d-flex">
+                <div class="m_i_destinations">
+                  <span>EDDS</span><i class="flaticon-right-arrow"></i><span>EDDV</span>
+                </div>
+                <span class="d_n_time">12/12/2019,07:15z</span>
+                <a href="#" class="btn btn-small-bordered">View</a>
+              </div>
+            </div>
+          </div>
+          <!-- /. D News list -->
+
+
+        </div>
+        <!-- /. Main Panel right -->
+
+
+      </div>
+
+
+
+
+
+
+
+      <!-- search sidebar -->
+      <div class="search_sidebar">
+        <div class="search_sidebar_inner">
+
+          <div class="search_div">
+            <input type="text" class="form-control" placeholder="Search Downwind.io here...">
+            <span class="flaticon-magnifying-glass search_icon"></span>
+          </div>
+          <ul class="search_suggestions">
+            <li>
+              <div class="s_s_item d-flex">
+                <span class="ss_item_icon flaticon-plane"></span>
+                <div class="ss_i_main">
+                  <div class="m_i_destinations">
+                    <span>EDDS</span><i class="flaticon-right-arrow"></i><span>EDDV</span>
+                  </div>
+                  <div class="ss_date">05-12-2020,07:15Z</div>
+                </div>
+                <div class="ss_item_type">Movement</div>
+              </div>
+            </li>
+            <li>
+              <div class="s_s_item d-flex">
+                <span class="ss_item_icon flaticon-man"></span>
+                <div class="ss_i_main">
+                  Mr. James Johnson
+                </div>
+                <div class="ss_item_type">Pilot</div>
+              </div>
+            </li>
+            <li>
+              <div class="s_s_item d-flex">
+                <span class="ss_item_icon flaticon-plane"></span>
+                <div class="ss_i_main">
+                  D-EPHH
+                  <div class="ss_item_sub">ATR 72-500</div>
+                </div>
+                <div class="ss_item_type">Aircraft</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="search_overlay"></div>
+      <!-- /. search sidebar -->
     </div>
-    <div class="column is-9">
+  </div>
+  <!-- <div class="column is-9">
       <div class="container">
         <div class="columns is-multiline">
           <div class="column is-9">
@@ -75,6 +333,5 @@
 <app-chat></app-chat>
         </div>
       </div>
-    </div>
-  </div>
+    </div> -->
 </div>

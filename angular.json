@@ -22,9 +22,16 @@
             ],
             "styles": [
               "src/styles.scss",
-              "node_modules/flatpickr/dist/flatpickr.min.css"
+              "node_modules/flatpickr/dist/flatpickr.min.css",
+              "node_modules/@fullcalendar/core/main.css"
             ],
-            "scripts": ["node_modules/jquery/dist/jquery.min.js"]
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "src/assets/js/moment.min.js",
+              "src/assets/js/vendor.bundle.base.js",
+              "src/assets/js/fullcalendar.min.js",
+              "src/assets/js/custom.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -70,10 +77,17 @@
             "karmaConfig": "./karma.conf.js",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
-            "scripts": ["node_modules/jquery/dist/jquery.min.js"],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "src/assets/js/moment.min.js",
+              "src/assets/js/vendor.bundle.base.js",
+              "src/assets/js/fullcalendar.min.js",
+              "src/assets/js/custom.js"
+            ],
             "styles": [
               "src/styles.scss",
-              "node_modules/flatpickr/dist/flatpickr.min.css"
+              "node_modules/flatpickr/dist/flatpickr.min.css",
+              "node_modules/@fullcalendar/core/main.css"
             ],
             "assets": [
               "src/assets",

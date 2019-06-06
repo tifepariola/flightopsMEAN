@@ -5,7 +5,7 @@ import { AdminRoutingModule } from './admin-routing.module';
 import {AdminComponent} from './admin.component';
 import {OnlyAdminUsersGuard} from './admin-user-guard';
 import { HeaderComponent } from './header/header.component';
-import { AngularOpenlayersModule } from "ngx-openlayers";
+import { AngularOpenlayersModule } from 'ngx-openlayers';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { ChatComponent } from './chat/chat.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -19,7 +19,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {BrowserModule} from '@angular/platform-browser';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { FileUploadModule } from "ng2-file-upload";
+import { FileUploadModule } from 'ng2-file-upload';
+import { FullCalendarModule } from '@fullcalendar/angular';
 import { CrewComponent } from './crew/crew.component';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
@@ -80,6 +81,7 @@ import { NewAircraftComponent } from './new-aircraft/new-aircraft.component';
     AngularFireDatabaseModule, // for database
     FlatpickrModule.forRoot(),
     FormsModule,
+    FullCalendarModule,
     ReactiveFormsModule,
     CalendarModule.forRoot({
       provide: DateAdapter,

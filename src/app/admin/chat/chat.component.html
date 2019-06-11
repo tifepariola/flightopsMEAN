@@ -1,93 +1,91 @@
-<div class="column is-4 is-hidden" id="chatCon">
-    <div class="panel" *ngIf="joinned; else joinroom">
-      <div class="panel-heading">
-        {{ msgData.room }}
-        <!-- <button type="button" class="button" (click)="logout()">
-          Leave Room
-        </button> -->
-      <button class="delete" aria-label="close" style="float: right;" (click)="hideChat()"></button>
-      </div>
-      <div class="panel-block">
-        <div #scrollMe style="height: 300px; width: 100%; overflow: auto;">
-          <ul class="chat">
-            <li *ngFor="let c of chats">
-              <div class="clearfix" *ngIf="c.email===msgData.email; else rightchat">
-                <div class="chat-body clearfix">
-                  <!-- <div class="header">
-                    <strong class="primary-font">{{ c.email }}</strong> <small class="pull-right text-muted">
-                      <span class="glyphicon glyphicon-time"></span>{{ c.updated_at | date: 'medium' }}</small>
-                  </div> -->
-                  <!-- <p style="text-align: right;">
-                    <small>{{ c.email }}</small>
-                  </p> -->
-                  <p style="text-align: right;">
-                    <span class="tag is-info is-medium">{{ c.message }}</span>
-                  </p>
-                  <p style="text-align: right;">
-                    <small>{{ c.updated_at | date: 'medium' }}</small>
-                  </p>
-                </div>
-              </div>
-              <ng-template #rightchat>
-                <div class="clearfix">
-                  <div class="chat-body clearfix">
-                    <!-- <div class="header">
-                      <small class=" text-muted"><span
-                          class="glyphicon glyphicon-time"></span>{{ c.updated_at | date: 'medium' }}</small>
-                      <strong class="pull-right primary-font">{{ c.email }}</strong>
-                    </div> -->
-                    <p>
-                      <small>{{ c.email }}</small>
-                    </p>
-                    <p>
-                      <span class="tag is-success is-medium">{{ c.message }}</span>
-                    </p>
-                    <p>
-                      <small>{{ c.updated_at | date: 'medium' }}</small>
-                    </p>
-                  </div>
-                </div>
-              </ng-template>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="panel-block">
-        <form (ngSubmit)="sendMessage()" #msgForm="ngForm" style="width: 100%">
-          <div class="field has-addons">
-            <div class="control is-expanded">
-              <input type="hidden" [(ngModel)]="msgData.room" name="room" />
-              <input type="hidden" [(ngModel)]="msgData.email" name="email" />
-              <input class="input" [(ngModel)]="msgData.message" name="message" type="text"
-                placeholder="Type your message here..." required="" />
-            </div>
-            <div class="control">
-              <button class="button is-info" [disabled]="!msgForm.form.valid">
-                Send
-              </button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-    <ng-template #joinroom>
-      <div class="panel panel-primary">
-        <div class="panel-body">
-          <h1>Select Chat Room</h1>
-          <form (ngSubmit)="joinRoom()" #joinForm="ngForm">
-            <div class="field">
-              <select class="select" [(ngModel)]="newUser.room" name="room" required="">
-                <option>Select Room</option>
-                <option>General</option>
-                <option>Admin</option>
-              </select>
-            </div>
-            <div class="field">
-              <button type="submit" class="button is-success" [disabled]="!joinForm.form.valid">Join</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </ng-template>
+<div class="notice_board operations_notice_board">
+  <div class="n_b_head">
+    <strong>Operations Notice Board</strong>
+    <!-- <span class="notice_count">5</span> -->
+    <a (click)="hideOpsChat()" class="n_b_closer">
+      <i class="flaticon-close"></i>
+      <i class="flaticon-arrow-down-sign-to-navigate"></i>
+    </a>
   </div>
-  <button class="button is-primary is-rounded is-medium" id="chatBtn" type="button" (click)="showChat()">Chat</button>
+  <div class="n_b_main">
+    <div *ngFor="let c of opsChats">
+      <div class="m_div m_sender" *ngIf="c.email!==user.email; else rightchat">
+        <div class="m_user_info d-flex">
+          <span>{{c.name}}</span>
+        </div>
+        <div class="m_body">{{c.message}}</div>
+        <div class="m_time">{{ c.updated_at | date: 'medium' }}</div>
+      </div>
+      <ng-template #rightchat>
+        <div class="m_div m_receiver">
+          <div class="m_body">{{ c.message }}</div>
+          <div class="m_time">{{ c.updated_at | date: 'medium' }}</div>
+        </div>
+      </ng-template>
+      <ng-template #movementCard>
+        <div class="m_body">
+          <b>EDDS</b> handling quote recieved.
+          <div class="m_o_destinations">EDDS <i class="flaticon-right-arrow"></i> EDLV</div>
+          <div class="text-center my-2">11/06/2019, 13:20:00</div>
+          Pickup at 12:30 from EDDS and drop at EDLV as soon as possible. Contains Explosives.Beware fire.<br>
+          <div class="text-center my-2">View Items <b>| $2495</b></div>
+          <div class="m_actions">
+            <a href="#" class="o_accept">Accept</a>
+            <a href="#" class="o_reject">Reject</a>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+  <div class="n_b_message_box">
+    <input type="text" placeholder="Add message here" class="message_input" [(ngModel)]="opsMsg">
+    <button type="button" (click)="sendOpsMessage()" class="send_msg"><i class="flaticon-sent-mail"></i></button>
+  </div>
+</div>
+<div class="notice_board crew_notice_board">
+  <div class="n_b_head">
+    <strong>Crew Notice Board</strong>
+    <!-- <span class="notice_count">7</span> -->
+    <a (click)="hideCrewChat()" class="n_b_closer">
+      <i class="flaticon-close"></i>
+      <i class="flaticon-arrow-down-sign-to-navigate"></i>
+    </a>
+  </div>
+  <div class="n_b_main">
+    <div *ngFor="let c of crewChats">
+      <div class="m_div m_sender" *ngIf="c.email!==user.email; else rightchat">
+        <div class="m_user_info d-flex">
+          <img src="../../../assets/images/user.png" alt="user">
+          <span>{{c.name}}</span>
+        </div>
+        <div class="m_body">{{c.message}}</div>
+        <div class="m_time">{{ c.updated_at | date: 'medium' }}</div>
+      </div>
+
+      <ng-template #rightchat>
+        <div class="m_div m_receiver">
+          <div class="m_body">{{ c.message }}</div>
+          <div class="m_time">{{ c.updated_at | date: 'medium' }}</div>
+        </div>
+      </ng-template>
+      <ng-template #movementCard>
+        <div class="m_body">
+          <b>EDDS</b> handling quote recieved.
+          <div class="m_o_destinations">EDDS <i class="flaticon-right-arrow"></i> EDLV</div>
+          <div class="text-center my-2">11/06/2019, 13:20:00</div>
+          Pickup at 12:30 from EDDS and drop at EDLV as soon as possible. Contains Explosives.Beware fire.<br>
+          <div class="text-center my-2">View Items <b>| $2495</b></div>
+          <div class="m_actions">
+            <a href="#" class="o_accept">Accept</a>
+            <a href="#" class="o_reject">Reject</a>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+  <div class="n_b_message_box">
+    <input type="text" placeholder="Add message here" class="message_input" [(ngModel)]="crewMsg">
+    <button type="button" (click)="sendCrewMessage()" class="send_msg"><i class="flaticon-sent-mail"></i></button>
+  </div>
+</div>

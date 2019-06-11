@@ -1,40 +1,45 @@
 <app-header></app-header>
-<div class="container">
-  <div class="columns">
-    <div class="column is-3">
-      <app-side-nav></app-side-nav>
-    </div>
-    <div class="column is-9">
-      <h3 class="title is-pulled-left">Handler Overview</h3>
-      <button class="button is-primary is-outlined is-pulled-right" routerLink="/admin/new-handler">Add Handler</button>
-      <table class="table is-fullwidth">
-        <thead>
-          <th></th>
-          <th>Name</th>
-          <th>ICAO</th>
-          <th>Primary Phone</th>
-          <th>Primary Email</th>
-        </thead>
-        <tbody>
-          <tr *ngFor="let handler of handlers">
-            <td>
-              <a routerLink="/admin/aircraft">
-                <img src="{{handler.logo}}" class="aircraft-img" alt="">
-              </a>
-            </td>
-            <td>
-              <a routerLink="/admin/aircraft">
-                {{handler.name}}
-              </a>
-            </td>
-            <td>{{handler.icao}}</td>
-            <td>{{handler.phone_primary}}</td>
-            <td>{{handler.email_primary}}</td>
-          </tr>
-        </tbody>
-      </table>
-      <app-chat></app-chat>
+<div class="container-fluid page-body-wrapper">
+  <app-side-nav></app-side-nav>
+  <!-- Main Content -->
+  <div class="main-panel">
+    <div class="content-wrapper">
 
+      <div class="page_header p_header_two d-flex">
+        <h4><strong>Airport Handlers</strong></h4>
+        <div class="ml-auto">
+          <a routerLink="/admin/new-handler" class="btn bg_blue">Add Handler</a>
+        </div>
+      </div>
+
+      <div class="block table_block">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="h_l_name tu">Name</th>
+                <th class="h_l_icao">ICAO</th>
+                <th class="h_l_phone">Local Phone</th>
+                <th class="h_l_email">Local Email</th>
+                <th class="h_l_type">Type</th>
+                <th class="h_l_item">Items</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let handler of handlers">
+                <td class="h_l_name tu">{{handler.name}}</td>
+                <td class="h_l_icao">{{handler.icao}}</td>
+                <td class="h_l_phone">{{handler.local_telephone}}</td>
+                <td class="h_l_email">{{handler.local_email}}</td>
+                <td class="h_l_type">{{handler.type}}</td>
+                <td class="h_l_item">{{handler.items}}</td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+<app-chat></app-chat>

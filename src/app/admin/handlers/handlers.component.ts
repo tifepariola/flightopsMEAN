@@ -21,10 +21,10 @@ export class HandlersComponent implements OnInit {
 
     $('#btn-add-aircraft').on('click', function () {
       $('#add-aircraft').addClass('is-active');
-    })
+    });
     $('.delete').on('click', function () {
       $('#add-aircraft').removeClass('is-active');
-    })
+    });
 
     this.getHandlers();
 
@@ -33,8 +33,8 @@ export class HandlersComponent implements OnInit {
   getHandlers(): void {
     this.adminService.getHandlers().subscribe(data => {
       this.handlers = data.data;
-      console.log('handlers ', this.handlers)
-    })
+      console.log('handlers ', this.handlers);
+    });
   }
 
 

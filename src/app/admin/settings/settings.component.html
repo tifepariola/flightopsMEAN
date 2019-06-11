@@ -1,77 +1,88 @@
 <app-header></app-header>
-<div class="container">
-  <div class="columns">
-    <div class="column is-3">
-      <app-side-nav></app-side-nav>
-    </div>
-    <div class="column is-9">
-      <h3 class="title is-pulled-left">Users Overview</h3>
-      <button class="button is-primary is-outlined is-pulled-right" id="btn-add-user">Add User</button>
-      <table class="table is-fullwidth">
-        <thead>
-          <th>ID</th>
-          <th>Fullname</th>
-          <th>Email Address</th>
-          <th>Date Created</th>
-          <th>Action</th>
-        </thead>
-        <tbody>
-          <tr *ngFor="let user of users">
-            <td>
-              <a routerLink="/admin/new-flight/{{user._id}}">
-                {{user._id}}
-              </a>
-            </td>
-            <td>
-              {{user.fullname}}
-            </td>
-            <td>
-              {{user.email}}
-            </td>
-            <td>{{user.createdAt}}</td>
-            <td>
-              <a class="is-link" (click)="getUser(user._id)">Edit</a> / 
-              <a class="is-danger" (click)="delete(user._id)">Delete</a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="columns">
-        <div class="column is-6" *ngIf="crewTemplate">
+<div class="container-fluid page-body-wrapper">
+  <app-side-nav></app-side-nav>
+  <!-- Main Content -->
+  <div class="main-panel">
+    <div class="content-wrapper">
 
-            <h3 class="title">Crew Mail Template</h3>
-
-            <div class="field">
-              <label class="label">Subject</label>
-              <div class="control">
-                <input type="input" placeholder="Type Subject Here..." name="crew_subject" [(ngModel)]="crewTemplate.subject" class="input">
-              </div>
-            </div>
-            <div class="field">
-              <label class="label">Message</label>
-              <div class="control">
-                <textarea placeholder="Type Message Here..." name="crew_message" [(ngModel)]="crewTemplate.message" class="textarea" (change)="handleCrewChange($event.target.value)" [(ngModel)]="crewTemplate.message"></textarea>
-              </div>
-            </div>
-            <button class="button is-success" (click)="saveCrew()">Save</button>
+      <div class="page_header p_header_two d-flex">
+        <h4><strong>Settings</strong></h4>
+        <div class="ml-auto">
+          <a routerLink="/admin/new-handler" class="btn bg_blue">Add User</a>
         </div>
-        <div class="column is-6" *ngIf="handlerTemplate">
+      </div>
 
-          <h3 class="title">Handler Mail Template</h3>
+      <div class="block table_block">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="u_l_ID">ID</th>
+                <th class="u_l_name">FULL Name</th>
+                <th class="u_l_email">Email Address</th>
+                <th class="u_l_date">Date Created</th>
+                <th class="u_l_actions">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of users">
+                <td class="u_l_ID">{{user._id}}</td>
+                <td class="u_l_name">{{user.fullname}}</td>
+                <td class="u_l_email">{{user.email}}</td>
+                <td class="u_l_date">{{user.createdAt}}</td>
+                <td class="u_l_actions">
+                  <div class="action_btns">
+                    <a (click)="getUser(user._id)" class="edit_btn"><i class="fa fa-edit"></i><span>Edit</span></a>
+                    <a (click)="delete(user._id)" class="delete_btn"><i class="fa fa-trash"></i><span>Delete</span></a>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="block mail_templates_block">
+        <div class="row">
 
-          <div class="field">
-            <label class="label">Subject</label>
-            <div class="control">
-              <input type="input" placeholder="Type Subject Here..." name="subject" [(ngModel)]="handlerTemplate.subject" class="input">
+          <div class="col-md-6" *ngIf="crewTemplate">
+            <div class="mail_template_div">
+              <h3>Crew Mail Template</h3>
+              <form>
+                <div class="form-group">
+                  <label>Subject</label>
+                  <input type="input" placeholder="Type Subject Here..." name="crew_subject"
+                    [(ngModel)]="crewTemplate.subject" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label>Message</label>
+                  <textarea placeholder="Type Message Here..." name="crew_message" [(ngModel)]="crewTemplate.message"
+                    class="form-control" (change)="handleCrewChange($event.target.value)"
+                    [(ngModel)]="crewTemplate.message"></textarea>
+                </div>
+                <button class="btn bg_blue" (click)="saveCrew()">Save</button>
+              </form>
             </div>
           </div>
-          <div class="field">
-            <label class="label">Message</label>
-            <div class="control">
-              <textarea placeholder="Type Message Here..." name="message" class="textarea" [(ngModel)]="handlerTemplate.message"></textarea>
+
+          <div class="col-md-6" *ngIf="handlerTemplate">
+            <div class="mail_template_div">
+              <h3>Handler Mail Template</h3>
+              <form>
+                <div class="form-group">
+                  <label>Subject</label>
+                  <input type="input" placeholder="Type Subject Here..." name="subject"
+                    [(ngModel)]="handlerTemplate.subject" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label>Message</label>
+                  <textarea placeholder="Type Message Here..." name="message" class="form-control"
+                    [(ngModel)]="handlerTemplate.message"></textarea>
+                </div>
+                <button class="btn bg_blue" (click)="saveHandler()">Save</button>
+              </form>
             </div>
           </div>
-          <button class="button is-success" (click)="saveHandler()">Save</button>
+
         </div>
       </div>
       <div class="modal" id="add-user">
@@ -116,8 +127,8 @@
           </section>
           <footer class="modal-card-foot">
             <button class="button is-success" (click)="register()" *ngIf="!update">Add</button>
-              <button class="button is-success" (click)="updateUser()" *ngIf="update">Update</button>
-              <button class="button" (click)="close()">Cancel</button>
+            <button class="button is-success" (click)="updateUser()" *ngIf="update">Update</button>
+            <button class="button" (click)="close()">Cancel</button>
           </footer>
         </div>
       </div>

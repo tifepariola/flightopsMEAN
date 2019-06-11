@@ -21,59 +21,67 @@ export class ChatComponent implements OnInit {
   msgData = { room: '', email: '', message: '' };
   socket = io('http://104.238.148.111:4000');
   chats: [];
+  crewChats: any;
+  opsChats: any;
+  opsMsg: any;
+  crewMsg: any;
 
   constructor(
     private authService: AuthService,
     private adminService: AdminService,
     private router: Router
-    ) { }
+  ) { }
 
   ngOnInit() {
 
     this.authService.me().subscribe(userL => {
       this.user = userL.user;
-      this.chats = [];
-      this.newUser.email = this.user.email;
-      this.newUser.room = 'General';
-      if (this.joinned !== true) {
-        this.joinRoom();
-      }
-      const user = JSON.parse(localStorage.getItem('user'));
-      if (user !== null) {
-        this.getChatByRoom(user.room);
-        this.msgData = { room: user.room, email: user.email, message: '' };
-        this.joinned = true;
+      this.opsChats = [];
+      this.crewChats = [];
+      if (this.user !== null) {
+        this.getOpsChat();
+        this.getCrewChat();
         this.scrollToBottom();
       }
       this.socket.on('new-message', function (data) {
         console.log('new message', data);
-        console.log('new message', JSON.parse(localStorage.getItem('user')));
-        data.message.email = this.user.email;
-      const user = JSON.parse(localStorage.getItem('user'));
-      if (data.message.room === JSON.parse(localStorage.getItem('user')).room) {
-          this.chats.push(data.message);
-          this.msgData = { room: user.room, email: user.email, message: '' };
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (data.message.data.room === 'operations') {
+          this.opsChats.push(data.message);
+          this.scrollToBottom();
+        } else {
+          this.crewChats.push(data.message);
           this.scrollToBottom();
         }
-        this.getChatByRoom(user.room);
       }.bind(this));
     });
-}
-
-  joinRoom() {
-    const date = new Date();
-    localStorage.setItem('user', JSON.stringify(this.newUser));
-    this.getChatByRoom(this.newUser.room);
-    this.msgData = { room: this.newUser.room, email: this.newUser.email, message: '' };
-    this.joinned = true;
-    this.socket.emit('save-message', { room: this.newUser.room, email: this.newUser.email, message: 'Join this room', updated_at: date });
   }
 
-  sendMessage() {
-    this.adminService.saveChat(this.msgData).subscribe(data => {
+
+  sendOpsMessage() {
+    const msgData = {
+      room: 'operations',
+      name: this.user.fullname,
+      email: this.user.email,
+      message: this.opsMsg
+    };
+    this.adminService.saveChat(msgData).subscribe(data => {
       console.log('savee ', data);
-      this.msgData.message = '';
       this.socket.emit('save-message', data);
+      this.opsMsg = '';
+    });
+  }
+  sendCrewMessage() {
+    const msgData = {
+      room: 'crew',
+      name: this.user.fullname,
+      email: this.user.email,
+      message: this.crewMsg
+    };
+    this.adminService.saveChat(msgData).subscribe(data => {
+      console.log('savee ', data);
+      this.socket.emit('save-message', data);
+      this.crewMsg = '';
     });
   }
   getChatByRoom(room) {
@@ -82,9 +90,23 @@ export class ChatComponent implements OnInit {
       console.log('chats ', this.chats);
     });
   }
-  hideChat(): void {
-    $('#chatCon').addClass('is-hidden');
-    $('#chatBtn').removeClass('is-hidden');
+  getOpsChat() {
+    this.adminService.getChatByRoom('operations').subscribe(data => {
+      this.opsChats = data.data;
+      console.log('chats ', this.opsChats);
+    });
+  }
+  getCrewChat() {
+    this.adminService.getChatByRoom('crew').subscribe(data => {
+      this.crewChats = data.data;
+      console.log('chats ', this.crewChats);
+    });
+  }
+  hideOpsChat(): void {
+    $('.operations_notice_board').toggleClass('down');
+  }
+  hideCrewChat(): void {
+    $('.crew_notice_board').toggleClass('down');
   }
   showChat(): void {
     $('#chatCon').removeClass('is-hidden');
